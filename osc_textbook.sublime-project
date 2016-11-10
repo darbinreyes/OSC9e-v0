@@ -6,6 +6,19 @@
             "path": "/usr/include"
         },
         {
+            "file_exclude_patterns":
+            [
+                "a.out",
+                "*.class",
+                "*.cmd",
+                "*.ko",
+                "*.mod.c",
+                "*.order",
+                "*.symvers",
+                "*.out",
+                "*.mod",
+                "*.o"
+            ],
             "follow_symlinks": true,
             "path": "/Users/darbinreyes/dev/private_dev/osc_textbook/OSC9e/"
         }
