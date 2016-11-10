@@ -1,0 +1,76 @@
+Module                  Size  Used by
+simple                 12420  0 
+vboxsf                 36594  1 
+cfg80211              350041  0 
+rfkill                 18387  2 cfg80211
+nfsd                  236959  2 
+auth_rpcgss            45765  1 nfsd
+oid_registry           12387  1 auth_rpcgss
+nfs_acl                12463  1 nfsd
+nfs                   168022  0 
+lockd                  73443  2 nfs,nfsd
+fscache                44782  1 nfs
+sunrpc                211341  6 nfs,nfsd,auth_rpcgss,lockd,nfs_acl
+joydev                 16847  0 
+snd_intel8x0           30521  4 
+snd_ac97_codec         96151  1 snd_intel8x0
+snd_pcm                78128  3 snd_ac97_codec,snd_intel8x0
+snd_timer              22010  2 snd_pcm
+snd                    55101  10 snd_ac97_codec,snd_intel8x0,snd_timer,snd_pcm
+soundcore              12890  1 snd
+ac97_bus               12462  1 snd_ac97_codec
+evdev                  17136  15 
+psmouse                93505  0 
+serio_raw              12737  0 
+crc32_pclmul           12809  0 
+aesni_intel            17934  0 
+aes_i586               16647  1 aesni_intel
+xts                    12583  1 aesni_intel
+lrw                    12645  1 aesni_intel
+gf128mul               12834  2 lrw,xts
+ablk_helper            12508  1 aesni_intel
+cryptd                 14124  1 ablk_helper
+pcspkr                 12531  0 
+ac                     12627  0 
+battery                13164  0 
+vboxguest             188233  6 vboxsf
+i2c_piix4              16688  0 
+video                  17763  0 
+processor              27590  0 
+i2c_core               36838  1 i2c_piix4
+button                 12824  0 
+thermal_sys            27122  2 video,processor
+fuse                   77496  3 
+parport_pc             26004  0 
+ppdev                  16686  0 
+lp                     12766  0 
+parport                35213  3 lp,ppdev,parport_pc
+autofs4                34865  2 
+ext4                  438464  1 
+crc16                  12327  1 ext4
+mbcache                17027  1 ext4
+jbd2                   72972  1 ext4
+hid_generic            12369  0 
+usbhid                 43759  0 
+hid                    81008  2 hid_generic,usbhid
+sg                     25573  0 
+sd_mod                 43684  3 
+crc_t10dif             12399  1 sd_mod
+sr_mod                 21568  0 
+cdrom                  46828  1 sr_mod
+crct10dif_generic      12517  1 
+crct10dif_common       12340  2 crct10dif_generic,crc_t10dif
+ata_generic            12450  0 
+crc32c_intel           12659  0 
+ata_piix               29371  0 
+ahci                   29134  2 
+libahci                22574  1 ahci
+ohci_pci               12704  0 
+ehci_pci               12464  0 
+ohci_hcd               42566  1 ohci_pci
+ehci_hcd               64933  1 ehci_pci
+libata                161908  4 ahci,libahci,ata_generic,ata_piix
+usbcore               171065  5 ohci_hcd,ohci_pci,ehci_hcd,ehci_pci,usbhid
+usb_common             12408  1 usbcore
+e1000                 112900  0 
+scsi_mod              164132  4 sg,libata,sd_mod,sr_mod
