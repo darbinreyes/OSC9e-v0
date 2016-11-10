@@ -8,3 +8,4 @@ a.out
 *.symvers
 *.out
 *.mod
+*.o
