@@ -1,0 +1,902 @@
+[    0.000000] Initializing cgroup subsys cpuset
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Initializing cgroup subsys cpuacct
+[    0.000000] Linux version 3.16.0-4-686-pae (debian-kernel@lists.debian.org) (gcc version 4.8.4 (Debian 4.8.4-1) ) #1 SMP Debian 3.16.7-ckt20-1+deb8u2 (2016-01-02)
+[    0.000000] e820: BIOS-provided physical RAM map:
+[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
+[    0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x000000002ffeffff] usable
+[    0.000000] BIOS-e820: [mem 0x000000002fff0000-0x000000002fffffff] ACPI data
+[    0.000000] BIOS-e820: [mem 0x00000000fec00000-0x00000000fec00fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fee00000-0x00000000fee00fff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+[    0.000000] NX (Execute Disable) protection: active
+[    0.000000] SMBIOS 2.5 present.
+[    0.000000] DMI: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[    0.000000] Hypervisor detected: KVM
+[    0.000000] e820: update [mem 0x00000000-0x00000fff] usable ==> reserved
+[    0.000000] e820: remove [mem 0x000a0000-0x000fffff] usable
+[    0.000000] e820: last_pfn = 0x2fff0 max_arch_pfn = 0x1000000
+[    0.000000] MTRR default type: uncachable
+[    0.000000] MTRR variable ranges disabled:
+[    0.000000] x86 PAT enabled: cpu 0, old 0x7040600070406, new 0x7010600070106
+[    0.000000] CPU MTRRs all blank - virtualized system.
+[    0.000000] found SMP MP-table at [mem 0x0009fff0-0x0009ffff] mapped at [c009fff0]
+[    0.000000] initial memory mapped: [mem 0x00000000-0x01bfffff]
+[    0.000000] Base memory trampoline at [c009b000] 9b000 size 16384
+[    0.000000] init_memory_mapping: [mem 0x00000000-0x000fffff]
+[    0.000000]  [mem 0x00000000-0x000fffff] page 4k
+[    0.000000] init_memory_mapping: [mem 0x2fc00000-0x2fdfffff]
+[    0.000000]  [mem 0x2fc00000-0x2fdfffff] page 2M
+[    0.000000] init_memory_mapping: [mem 0x2c000000-0x2fbfffff]
+[    0.000000]  [mem 0x2c000000-0x2fbfffff] page 2M
+[    0.000000] init_memory_mapping: [mem 0x00100000-0x2bffffff]
+[    0.000000]  [mem 0x00100000-0x001fffff] page 4k
+[    0.000000]  [mem 0x00200000-0x2bffffff] page 2M
+[    0.000000] init_memory_mapping: [mem 0x2fe00000-0x2ffeffff]
+[    0.000000]  [mem 0x2fe00000-0x2ffeffff] page 4k
+[    0.000000] BRK [0x0179c000, 0x0179cfff] PGTABLE
+[    0.000000] BRK [0x0179d000, 0x0179efff] PGTABLE
+[    0.000000] BRK [0x0179f000, 0x0179ffff] PGTABLE
+[    0.000000] BRK [0x017a0000, 0x017a0fff] PGTABLE
+[    0.000000] RAMDISK: [mem 0x2e832000-0x2f620fff]
+[    0.000000] ACPI: Early table checksum verification disabled
+[    0.000000] ACPI: RSDP 0x00000000000E0000 000024 (v02 VBOX  )
+[    0.000000] ACPI: XSDT 0x000000002FFF0030 00003C (v01 VBOX   VBOXXSDT 00000001 ASL  00000061)
+[    0.000000] ACPI: FACP 0x000000002FFF00F0 0000F4 (v04 VBOX   VBOXFACP 00000001 ASL  00000061)
+[    0.000000] ACPI: DSDT 0x000000002FFF0470 00210F (v01 VBOX   VBOXBIOS 00000002 INTL 20100528)
+[    0.000000] ACPI: FACS 0x000000002FFF0200 000040
+[    0.000000] ACPI: FACS 0x000000002FFF0200 000040
+[    0.000000] ACPI: APIC 0x000000002FFF0240 000054 (v02 VBOX   VBOXAPIC 00000001 ASL  00000061)
+[    0.000000] ACPI: SSDT 0x000000002FFF02A0 0001CC (v01 VBOX   VBOXCPUT 00000002 INTL 20100528)
+[    0.000000] ACPI: Local APIC address 0xfee00000
+[    0.000000] 0MB HIGHMEM available.
+[    0.000000] 767MB LOWMEM available.
+[    0.000000]   mapped low ram: 0 - 2fff0000
+[    0.000000]   low ram: 0 - 2fff0000
+[    0.000000] kvm-clock: Using msrs 4b564d01 and 4b564d00
+[    0.000000] kvm-clock: cpu 0, msr 0:2ffef001, primary cpu clock
+[    0.000000] BRK [0x017a1000, 0x017a1fff] PGTABLE
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x00001000-0x00ffffff]
+[    0.000000]   Normal   [mem 0x01000000-0x2ffeffff]
+[    0.000000]   HighMem  empty
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x00001000-0x0009efff]
+[    0.000000]   node   0: [mem 0x00100000-0x2ffeffff]
+[    0.000000] On node 0 totalpages: 196494
+[    0.000000] free_area_init_node: node 0, pgdat c165d180, node_mem_map ef9ef020
+[    0.000000]   DMA zone: 32 pages used for memmap
+[    0.000000]   DMA zone: 0 pages reserved
+[    0.000000]   DMA zone: 3998 pages, LIFO batch:0
+[    0.000000]   Normal zone: 1504 pages used for memmap
+[    0.000000]   Normal zone: 192496 pages, LIFO batch:31
+[    0.000000] Using APIC driver default
+[    0.000000] ACPI: PM-Timer IO Port: 0x4008
+[    0.000000] ACPI: Local APIC address 0xfee00000
+[    0.000000] ACPI: LAPIC (acpi_id[0x00] lapic_id[0x00] enabled)
+[    0.000000] ACPI: IOAPIC (id[0x01] address[0xfec00000] gsi_base[0])
+[    0.000000] IOAPIC[0]: apic_id 1, version 32, address 0xfec00000, GSI 0-23
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+[    0.000000] ACPI: IRQ0 used by override.
+[    0.000000] ACPI: IRQ2 used by override.
+[    0.000000] ACPI: IRQ9 used by override.
+[    0.000000] Using ACPI (MADT) for SMP configuration information
+[    0.000000] smpboot: Allowing 1 CPUs, 0 hotplug CPUs
+[    0.000000] nr_irqs_gsi: 40
+[    0.000000] PM: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+[    0.000000] PM: Registered nosave memory: [mem 0x000a0000-0x000effff]
+[    0.000000] PM: Registered nosave memory: [mem 0x000f0000-0x000fffff]
+[    0.000000] e820: [mem 0x30000000-0xfebfffff] available for PCI devices
+[    0.000000] Booting paravirtualized kernel on KVM
+[    0.000000] setup_percpu: NR_CPUS:32 nr_cpumask_bits:32 nr_cpu_ids:1 nr_node_ids:1
+[    0.000000] PERCPU: Embedded 14 pages/cpu @ef9db000 s34752 r0 d22592 u57344
+[    0.000000] pcpu-alloc: s34752 r0 d22592 u57344 alloc=14*4096
+[    0.000000] pcpu-alloc: [0] 0 
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 194958
+[    0.000000] Kernel command line: BOOT_IMAGE=/boot/vmlinuz-3.16.0-4-686-pae root=UUID=5f2e2232-4e47-4fe8-ae94-45ea749a5c92 ro quiet
+[    0.000000] PID hash table entries: 4096 (order: 2, 16384 bytes)
+[    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] Initializing CPU#0
+[    0.000000] xsave: enabled xstate_bv 0x7, cntxt size 0x340
+[    0.000000] Initializing HighMem for node 0 (00000000:00000000)
+[    0.000000] Memory: 756808K/785976K available (4608K kernel code, 522K rwdata, 1452K rodata, 656K init, 460K bss, 29168K reserved, 0K highmem)
+[    0.000000] virtual kernel memory layout:
+    fixmap  : 0xffd36000 - 0xfffff000   (2852 kB)
+    pkmap   : 0xff600000 - 0xff800000   (2048 kB)
+    vmalloc : 0xf07f0000 - 0xff5fe000   ( 238 MB)
+    lowmem  : 0xc0000000 - 0xefff0000   ( 767 MB)
+      .init : 0xc1671000 - 0xc1715000   ( 656 kB)
+      .data : 0xc148040c - 0xc166fb40   (1981 kB)
+      .text : 0xc1000000 - 0xc148040c   (4609 kB)
+[    0.000000] Checking if this processor honours the WP bit even in supervisor mode...Ok.
+[    0.000000] Hierarchical RCU implementation.
+[    0.000000] 	RCU dyntick-idle grace-period acceleration is enabled.
+[    0.000000] 	RCU restricting CPUs from NR_CPUS=32 to nr_cpu_ids=1.
+[    0.000000] RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=1
+[    0.000000] NR_IRQS:2304 nr_irqs:256 16
+[    0.000000] CPU 0 irqstacks, hard=ee406000 soft=ee408000
+[    0.000000] Console: colour VGA+ 80x25
+[    0.000000] console [tty0] enabled
+[    0.000000] tsc: Detected 2199.998 MHz processor
+[    4.559626] Calibrating delay loop (skipped) preset value.. 4399.99 BogoMIPS (lpj=8799992)
+[    4.559628] pid_max: default: 32768 minimum: 301
+[    4.559635] ACPI: Core revision 20140424
+[    4.560436] ACPI: All ACPI Tables successfully acquired
+[    4.560448] Security Framework initialized
+[    4.560452] AppArmor: AppArmor disabled by boot time parameter
+[    4.560453] Yama: disabled by default; enable with sysctl kernel.yama.*
+[    4.560460] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+[    4.560461] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+[    4.560581] Initializing cgroup subsys memory
+[    4.560584] Initializing cgroup subsys devices
+[    4.560587] Initializing cgroup subsys freezer
+[    4.560589] Initializing cgroup subsys net_cls
+[    4.560592] Initializing cgroup subsys blkio
+[    4.560594] Initializing cgroup subsys perf_event
+[    4.560595] Initializing cgroup subsys net_prio
+[    4.560654] CPU: Physical Processor ID: 0
+[    4.562422] mce: CPU supports 0 MCE banks
+[    4.562435] process: using mwait in idle threads
+[    4.562441] Last level iTLB entries: 4KB 64, 2MB 8, 4MB 8
+Last level dTLB entries: 4KB 64, 2MB 0, 4MB 0, 1GB 4
+tlb_flushall_shift: 6
+[    4.571571] Freeing SMP alternatives memory: 20K (c1715000 - c171a000)
+[    4.575133] ftrace: allocating 20810 entries in 41 pages
+[    4.598684] Enabling APIC mode:  Flat.  Using 1 I/O APICs
+[    4.599956] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+[    4.599958] smpboot: CPU0: Intel(R) Core(TM) i7-5650U CPU @ 2.20GHz (fam: 06, model: 3d, stepping: 04)
+[    4.699321] APIC calibration not consistent with PM-Timer: 97ms instead of 100ms
+[    4.699322] APIC delta adjusted to PM-Timer: 6316016 (6135952)
+[    4.699414] Performance Events: unsupported p6 CPU model 61 no PMU driver, software events only.
+[    4.700321] x86: Booted up 1 node, 1 CPUs
+[    4.700322] smpboot: Total of 1 processors activated (4399.99 BogoMIPS)
+[    4.700566] NMI watchdog: disabled (cpu0): hardware events not enabled
+[    4.700608] devtmpfs: initialized
+[    4.701245] pinctrl core: initialized pinctrl subsystem
+[    4.701288] NET: Registered protocol family 16
+[    4.701353] cpuidle: using governor ladder
+[    4.701356] cpuidle: using governor menu
+[    4.701395] ACPI: bus type PCI registered
+[    4.701396] acpiphp: ACPI Hot Plug PCI Controller Driver version: 0.5
+[    4.701498] PCI : PCI BIOS area is rw and x. Use pci=nobios if you want it NX.
+[    4.701499] PCI: PCI BIOS revision 2.10 entry at 0xfda26, last bus=0
+[    4.701500] PCI: Using configuration type 1 for base access
+[    4.701960] ACPI: Added _OSI(Module Device)
+[    4.701961] ACPI: Added _OSI(Processor Device)
+[    4.701962] ACPI: Added _OSI(3.0 _SCP Extensions)
+[    4.701962] ACPI: Added _OSI(Processor Aggregator Device)
+[    4.702402] ACPI: Executed 1 blocks of module-level executable AML code
+[    4.703770] ACPI: Interpreter enabled
+[    4.703778] ACPI Exception: AE_NOT_FOUND, While evaluating Sleep State [\_S1_] (20140424/hwxface-580)
+[    4.703781] ACPI Exception: AE_NOT_FOUND, While evaluating Sleep State [\_S2_] (20140424/hwxface-580)
+[    4.703782] ACPI Exception: AE_NOT_FOUND, While evaluating Sleep State [\_S3_] (20140424/hwxface-580)
+[    4.703784] ACPI Exception: AE_NOT_FOUND, While evaluating Sleep State [\_S4_] (20140424/hwxface-580)
+[    4.703787] ACPI: (supports S0 S5)
+[    4.703788] ACPI: Using IOAPIC for interrupt routing
+[    4.703887] PCI: Using host bridge windows from ACPI; if necessary, use "pci=nocrs" and report a bug
+[    4.706920] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[    4.706924] acpi PNP0A03:00: _OSC: OS supports [ASPM ClockPM Segments MSI]
+[    4.706927] acpi PNP0A03:00: _OSC failed (AE_NOT_FOUND); disabling ASPM
+[    4.706981] acpi PNP0A03:00: fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.
+[    4.707138] PCI host bridge to bus 0000:00
+[    4.707140] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    4.707141] pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7]
+[    4.707142] pci_bus 0000:00: root bus resource [io  0x0d00-0xffff]
+[    4.707144] pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff]
+[    4.707145] pci_bus 0000:00: root bus resource [mem 0x30000000-0xffdfffff]
+[    4.707176] pci 0000:00:00.0: [8086:1237] type 00 class 0x060000
+[    4.707584] pci 0000:00:01.0: [8086:7000] type 00 class 0x060100
+[    4.708077] pci 0000:00:01.1: [8086:7111] type 00 class 0x01018a
+[    4.708391] pci 0000:00:01.1: reg 0x20: [io  0xd000-0xd00f]
+[    4.708528] pci 0000:00:01.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+[    4.708529] pci 0000:00:01.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+[    4.708530] pci 0000:00:01.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+[    4.708531] pci 0000:00:01.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+[    4.708684] pci 0000:00:02.0: [80ee:beef] type 00 class 0x030000
+[    4.709326] pci 0000:00:02.0: reg 0x10: [mem 0xe0000000-0xe0ffffff pref]
+[    4.712278] pci 0000:00:03.0: [8086:100e] type 00 class 0x020000
+[    4.712661] pci 0000:00:03.0: reg 0x10: [mem 0xf0000000-0xf001ffff]
+[    4.713234] pci 0000:00:03.0: reg 0x18: [io  0xd010-0xd017]
+[    4.714744] pci 0000:00:04.0: [80ee:cafe] type 00 class 0x088000
+[    4.715087] pci 0000:00:04.0: reg 0x10: [io  0xd020-0xd03f]
+[    4.715381] pci 0000:00:04.0: reg 0x14: [mem 0xf0400000-0xf07fffff]
+[    4.715670] pci 0000:00:04.0: reg 0x18: [mem 0xf0800000-0xf0803fff pref]
+[    4.717018] pci 0000:00:05.0: [8086:2415] type 00 class 0x040100
+[    4.717096] pci 0000:00:05.0: reg 0x10: [io  0xd100-0xd1ff]
+[    4.717152] pci 0000:00:05.0: reg 0x14: [io  0xd200-0xd23f]
+[    4.717578] pci 0000:00:06.0: [106b:003f] type 00 class 0x0c0310
+[    4.717935] pci 0000:00:06.0: reg 0x10: [mem 0xf0804000-0xf0804fff]
+[    4.719828] pci 0000:00:07.0: [8086:7113] type 00 class 0x068000
+[    4.720203] pci 0000:00:07.0: quirk: [io  0x4000-0x403f] claimed by PIIX4 ACPI
+[    4.720212] pci 0000:00:07.0: quirk: [io  0x4100-0x410f] claimed by PIIX4 SMB
+[    4.720445] pci 0000:00:0d.0: [8086:2829] type 00 class 0x010601
+[    4.720826] pci 0000:00:0d.0: reg 0x10: [io  0xd240-0xd247]
+[    4.721412] pci 0000:00:0d.0: reg 0x18: [io  0xd250-0xd257]
+[    4.721989] pci 0000:00:0d.0: reg 0x20: [io  0xd260-0xd26f]
+[    4.722296] pci 0000:00:0d.0: reg 0x24: [mem 0xf0806000-0xf0807fff]
+[    4.723017] pci_bus 0000:00: on NUMA node 0
+[    4.723951] ACPI: PCI Interrupt Link [LNKA] (IRQs 5 9 10 *11)
+[    4.724095] ACPI: PCI Interrupt Link [LNKB] (IRQs 5 9 10 *11)
+[    4.724154] ACPI: PCI Interrupt Link [LNKC] (IRQs 5 9 *10 11)
+[    4.724212] ACPI: PCI Interrupt Link [LNKD] (IRQs 5 *9 10 11)
+[    4.724311] ACPI: Enabled 2 GPEs in block 00 to 07
+[    4.724432] vgaarb: setting as boot device: PCI:0000:00:02.0
+[    4.724434] vgaarb: device added: PCI:0000:00:02.0,decodes=io+mem,owns=io+mem,locks=none
+[    4.724435] vgaarb: loaded
+[    4.724436] vgaarb: bridge control possible 0000:00:02.0
+[    4.724480] PCI: Using ACPI for IRQ routing
+[    4.724481] PCI: pci_cache_line_size set to 64 bytes
+[    4.724623] e820: reserve RAM buffer [mem 0x0009fc00-0x0009ffff]
+[    4.724627] e820: reserve RAM buffer [mem 0x2fff0000-0x2fffffff]
+[    4.724740] Switched to clocksource kvm-clock
+[    4.728323] pnp: PnP ACPI init
+[    4.728330] ACPI: bus type PNP registered
+[    4.728378] pnp 00:00: Plug and Play ACPI device, IDs PNP0303 (active)
+[    4.728437] pnp 00:01: Plug and Play ACPI device, IDs PNP0f03 (active)
+[    4.729066] pnp: PnP ACPI: found 2 devices
+[    4.729068] ACPI: bus type PNP unregistered
+[    4.729072] PnPBIOS: Disabled by ACPI PNP
+[    4.764679] pci_bus 0000:00: resource 4 [io  0x0000-0x0cf7]
+[    4.764682] pci_bus 0000:00: resource 5 [io  0x0d00-0xffff]
+[    4.764683] pci_bus 0000:00: resource 6 [mem 0x000a0000-0x000bffff]
+[    4.764684] pci_bus 0000:00: resource 7 [mem 0x30000000-0xffdfffff]
+[    4.764704] NET: Registered protocol family 2
+[    4.764862] TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+[    4.764869] TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+[    4.764879] TCP: Hash tables configured (established 8192 bind 8192)
+[    4.764893] TCP: reno registered
+[    4.764894] UDP hash table entries: 512 (order: 2, 16384 bytes)
+[    4.764898] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+[    4.764922] NET: Registered protocol family 1
+[    4.764936] pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+[    4.764994] pci 0000:00:01.0: Activating ISA DMA hang workarounds
+[    4.765018] pci 0000:00:02.0: Video device with shadowed ROM
+[    4.765894] PCI: CLS 0 bytes, default 64
+[    4.765937] Unpacking initramfs...
+[    4.990161] Freeing initrd memory: 14268K (ee832000 - ef621000)
+[    4.990301] platform rtc_cmos: registered platform RTC device (no PNP device found)
+[    4.990343] RAPL PMU detected, hw unit 2^-0 Joules, API unit is 2^-32 Joules, 4 fixed counters 10737418240 ms ovfl timer
+[    4.990363] microcode: CPU0 sig=0x306d4, pf=0x40, revision=0x0
+[    4.990391] microcode: Microcode Update Driver: v2.00 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
+[    4.990516] futex hash table entries: 256 (order: 2, 16384 bytes)
+[    4.990531] audit: initializing netlink subsys (disabled)
+[    4.990541] audit: type=2000 audit(1478802759.188:1): initialized
+[    4.990710] HugeTLB registered 2 MB page size, pre-allocated 0 pages
+[    4.990719] zbud: loaded
+[    4.990758] VFS: Disk quotas dquot_6.5.2
+[    4.990765] Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    4.990797] msgmni has been set to 1506
+[    4.990932] alg: No test for stdrng (krng)
+[    4.990942] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 252)
+[    4.990964] io scheduler noop registered
+[    4.990966] io scheduler deadline registered
+[    4.990980] io scheduler cfq registered (default)
+[    4.991027] pci_hotplug: PCI Hot Plug PCI Core version: 0.5
+[    4.991037] pciehp: PCI Express Hot Plug Controller Driver version: 0.4
+[    4.991050] intel_idle: does not run on family 6 model 61
+[    4.991063] GHES: HEST is not enabled!
+[    4.991075] isapnp: Scanning for PnP cards...
+[    5.348687] isapnp: No Plug & Play device found
+[    5.348823] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    5.349452] Linux agpgart interface v0.103
+[    5.349739] i8042: PNP: PS/2 Controller [PNP0303:PS2K,PNP0f03:PS2M] at 0x60,0x64 irq 1,12
+[    5.350532] serio: i8042 KBD port at 0x60,0x64 irq 1
+[    5.350541] serio: i8042 AUX port at 0x60,0x64 irq 12
+[    5.350685] mousedev: PS/2 mouse device common for all mice
+[    5.351120] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input0
+[    5.351673] rtc_cmos rtc_cmos: rtc core: registered rtc_cmos as rtc0
+[    5.351777] rtc_cmos rtc_cmos: alarms up to one day, 114 bytes nvram
+[    5.351799] ledtrig-cpu: registered to indicate activity on CPUs
+[    5.352044] TCP: cubic registered
+[    5.352061] NET: Registered protocol family 10
+[    5.352330] mip6: Mobile IPv6
+[    5.352334] NET: Registered protocol family 17
+[    5.352342] mpls_gso: MPLS GSO support
+[    5.352471] Using IPI No-Shortcut mode
+[    5.352566] registered taskstats version 1
+[    5.353126] rtc_cmos rtc_cmos: setting system clock to 2016-11-10 18:32:33 UTC (1478802753)
+[    5.353180] PM: Hibernation image not present or could not be loaded.
+[    5.353365] Freeing unused kernel memory: 656K (c1671000 - c1715000)
+[    5.353410] Write protecting the kernel text: 4612k
+[    5.353445] Write protecting the kernel read-only data: 1456k
+[    5.353446] NX-protecting the kernel data: 3580k
+[    5.365635] systemd-udevd[53]: starting version 215
+[    5.365811] random: systemd-udevd urandom read with 0 bits of entropy available
+[    5.375322] SCSI subsystem initialized
+[    5.376686] e1000: Intel(R) PRO/1000 Network Driver - version 7.3.21-k8-NAPI
+[    5.376687] e1000: Copyright (c) 1999-2006 Intel Corporation.
+[    5.378069] ACPI: bus type USB registered
+[    5.378083] usbcore: registered new interface driver usbfs
+[    5.378089] usbcore: registered new interface driver hub
+[    5.378759] usbcore: registered new device driver usb
+[    5.379156] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    5.379393] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    5.379503] ehci-pci: EHCI PCI platform driver
+[    5.379610] ohci-pci: OHCI PCI platform driver
+[    5.384381] libata version 3.00 loaded.
+[    5.724806] e1000 0000:00:03.0 eth0: (PCI:33MHz:32-bit) 08:00:27:cd:15:16
+[    5.724811] e1000 0000:00:03.0 eth0: Intel(R) PRO/1000 Network Connection
+[    5.725206] ohci-pci 0000:00:06.0: OHCI PCI host controller
+[    5.725211] ohci-pci 0000:00:06.0: new USB bus registered, assigned bus number 1
+[    5.725255] ohci-pci 0000:00:06.0: irq 22, io mem 0xf0804000
+[    5.782650] usb usb1: New USB device found, idVendor=1d6b, idProduct=0001
+[    5.782655] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    5.782658] usb usb1: Product: OHCI PCI host controller
+[    5.782660] usb usb1: Manufacturer: Linux 3.16.0-4-686-pae ohci_hcd
+[    5.782663] usb usb1: SerialNumber: 0000:00:06.0
+[    5.782992] hub 1-0:1.0: USB hub found
+[    5.783016] hub 1-0:1.0: 12 ports detected
+[    5.783627] ahci 0000:00:0d.0: version 3.0
+[    5.784548] ahci 0000:00:0d.0: SSS flag set, parallel bus scan disabled
+[    5.784729] ahci 0000:00:0d.0: AHCI 0001.0100 32 slots 1 ports 3 Gbps 0x1 impl SATA mode
+[    5.784733] ahci 0000:00:0d.0: flags: 64bit ncq stag only ccc 
+[    5.785958] scsi0 : ahci
+[    5.786040] ata1: SATA max UDMA/133 abar m8192@0xf0806000 port 0xf0806100 irq 21
+[    5.786160] ata_piix 0000:00:01.1: version 2.13
+[    5.786947] scsi1 : ata_piix
+[    5.787057] scsi2 : ata_piix
+[    5.787102] ata2: PATA max UDMA/33 cmd 0x1f0 ctl 0x3f6 bmdma 0xd000 irq 14
+[    5.787104] ata3: PATA max UDMA/33 cmd 0x170 ctl 0x376 bmdma 0xd008 irq 15
+[    5.943142] ata3.00: ATAPI: VBOX CD-ROM, 1.0, max UDMA/133
+[    5.943719] ata3.00: configured for UDMA/33
+[    5.989285] tsc: Refined TSC clocksource calibration: 2198.662 MHz
+[    6.104870] ata1: SATA link up 3.0 Gbps (SStatus 123 SControl 300)
+[    6.105069] ata1.00: ATA-6: VBOX HARDDISK, 1.0, max UDMA/133
+[    6.105073] ata1.00: 16777216 sectors, multi 128: LBA48 NCQ (depth 31/32)
+[    6.105399] ata1.00: configured for UDMA/133
+[    6.105518] scsi 0:0:0:0: Direct-Access     ATA      VBOX HARDDISK    1.0  PQ: 0 ANSI: 5
+[    6.106078] scsi 2:0:0:0: CD-ROM            VBOX     CD-ROM           1.0  PQ: 0 ANSI: 5
+[    6.110248] sd 0:0:0:0: [sda] 16777216 512-byte logical blocks: (8.58 GB/8.00 GiB)
+[    6.110265] sd 0:0:0:0: [sda] Write Protect is off
+[    6.110267] sd 0:0:0:0: [sda] Mode Sense: 00 3a 00 00
+[    6.110273] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[    6.112780]  sda: sda1 sda2 < sda5 >
+[    6.113152] sd 0:0:0:0: [sda] Attached SCSI disk
+[    6.117484] sr0: scsi3-mmc drive: 32x/32x xa/form2 tray
+[    6.117486] cdrom: Uniform CD-ROM driver Revision: 3.20
+[    6.117568] sr 2:0:0:0: Attached scsi CD-ROM sr0
+[    6.118467] sd 0:0:0:0: Attached scsi generic sg0 type 0
+[    6.118506] sr 2:0:0:0: Attached scsi generic sg1 type 5
+[    6.189496] usb 1-1: new full-speed USB device number 2 using ohci-pci
+[    6.467226] usb 1-1: New USB device found, idVendor=80ee, idProduct=0021
+[    6.467231] usb 1-1: New USB device strings: Mfr=1, Product=3, SerialNumber=0
+[    6.467233] usb 1-1: Product: USB Tablet
+[    6.467235] usb 1-1: Manufacturer: VirtualBox
+[    6.472386] hidraw: raw HID events driver (C) Jiri Kosina
+[    6.482385] usbcore: registered new interface driver usbhid
+[    6.482388] usbhid: USB HID core driver
+[    6.487099] input: VirtualBox USB Tablet as /devices/pci0000:00/0000:00:06.0/usb1/1-1/1-1:1.0/0003:80EE:0021.0001/input/input2
+[    6.487236] hid-generic 0003:80EE:0021.0001: input,hidraw0: USB HID v1.10 Mouse [VirtualBox USB Tablet] on usb-0000:00:06.0-1/input0
+[    8.397598] floppy0: no floppy controllers found
+[    8.397655] work still pending
+[    8.407702] PM: Starting manual resume from disk
+[    8.407707] PM: Hibernation image partition 8:5 present
+[    8.407708] PM: Looking for hibernation image.
+[    8.410022] PM: Image not found (code -22)
+[    8.410025] PM: Hibernation image not present or could not be loaded.
+[    8.445934] random: nonblocking pool is initialized
+[    9.136842] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: (null)
+[   10.115215] systemd-udevd[146]: starting version 215
+[   10.241011] lp: driver loaded but no devices found
+[   10.259996] ppdev: user-space parallel port driver
+[   10.306566] fuse init (API version 7.23)
+[   10.484188] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input3
+[   10.484194] ACPI: Power Button [PWRF]
+[   10.484313] input: Sleep Button as /devices/LNXSYSTM:00/LNXSLPBN:00/input/input4
+[   10.484316] ACPI: Sleep Button [SLPF]
+[   10.494641] ACPI: AC Adapter [AC] (off-line)
+[   10.498395] ACPI: Video Device [GFX0] (multi-head: yes  rom: no  post: no)
+[   10.498468] input: Video Bus as /devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A03:00/LNXVIDEO:00/input/input5
+[   10.507378] ACPI: Battery Slot [BAT0] (battery present)
+[   10.644256] vgdrvHeartbeatInit: Setting up heartbeat to trigger every 2000 milliseconds
+[   10.644662] input: Unspecified device as /devices/pci0000:00/0000:00:04.0/input/input6
+[   10.645544] vboxguest: misc device minor 59, IRQ 20, I/O port d020, MMIO at 00000000f0400000 (size 0x400000)
+[   10.645546] vboxguest: Successfully loaded version 5.1.4 (interface 0x00010004)
+[   10.706798] alg: No test for crc32 (crc32-pclmul)
+[   10.710676] input: PC Speaker as /devices/platform/pcspkr/input/input7
+[   10.712258] intel_rapl: no valid rapl domains found in package 0
+[   10.731285] piix4_smbus 0000:00:07.0: SMBus Host Controller at 0x4100, revision 0
+[   10.837368] Adding 392188k swap on /dev/sda5.  Priority:-1 extents:1 across:392188k FS
+[   10.867534] snd_intel8x0 0000:00:05.0: disable (unknown or VT-d) VM optimization
+[   10.897521] EXT4-fs (sda1): re-mounted. Opts: errors=remount-ro
+[   10.931699] systemd-journald[138]: Received request to flush runtime journal from PID 1
+[   10.969186] psmouse serio1: alps: Unknown ALPS touchpad: E7=10 00 64, EC=10 00 64
+[   10.970520] input: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/serio1/input/input8
+[   11.304867] snd_intel8x0 0000:00:05.0: white list rate for 1028:0177 is 48000
+[   11.611170] RPC: Registered named UNIX socket transport module.
+[   11.611173] RPC: Registered udp transport module.
+[   11.611175] RPC: Registered tcp transport module.
+[   11.611176] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[   11.624220] FS-Cache: Loaded
+[   11.642729] FS-Cache: Netfs 'nfs' registered for caching
+[   11.669208] Installing knfsd (copyright (C) 1996 okir@monad.swb.de).
+[   12.142622] cfg80211: Calling CRDA to update world regulatory domain
+[   12.284186] cfg80211: World regulatory domain updated:
+[   12.284189] cfg80211:  DFS Master region: unset
+[   12.284190] cfg80211:   (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp), (dfs_cac_time)
+[   12.284191] cfg80211:   (2402000 KHz - 2472000 KHz @ 40000 KHz), (N/A, 2000 mBm), (N/A)
+[   12.284193] cfg80211:   (2457000 KHz - 2482000 KHz @ 40000 KHz), (N/A, 2000 mBm), (N/A)
+[   12.284193] cfg80211:   (2474000 KHz - 2494000 KHz @ 20000 KHz), (N/A, 2000 mBm), (N/A)
+[   12.284195] cfg80211:   (5170000 KHz - 5250000 KHz @ 80000 KHz, 160000 KHz AUTO), (N/A, 2000 mBm), (N/A)
+[   12.284196] cfg80211:   (5250000 KHz - 5330000 KHz @ 80000 KHz, 160000 KHz AUTO), (N/A, 2000 mBm), (0 s)
+[   12.284197] cfg80211:   (5490000 KHz - 5730000 KHz @ 160000 KHz), (N/A, 2000 mBm), (0 s)
+[   12.284198] cfg80211:   (5735000 KHz - 5835000 KHz @ 80000 KHz), (N/A, 2000 mBm), (N/A)
+[   12.284199] cfg80211:   (57240000 KHz - 63720000 KHz @ 2160000 KHz), (N/A, 0 mBm), (N/A)
+[   12.674276] e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
+[   12.691017] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+[   12.691030] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[   12.832903] vboxsf: Successfully loaded version 5.1.4 (interface 0x00010004)
+[   13.576901] floppy0: no floppy controllers found
+[   13.576926] work still pending
+[   13.947383] VBoxService 5.1.4 r110228 (verbosity: 0) linux.x86 (Aug 16 2016 19:48:12) release log
+00:00:00.000131 main     Log opened 2016-11-10T18:32:42.094184000Z
+[   13.947448] 00:00:00.000235 main     OS Product: Linux
+[   13.947480] 00:00:00.000272 main     OS Release: 3.16.0-4-686-pae
+[   13.947510] 00:00:00.000303 main     OS Version: #1 SMP Debian 3.16.7-ckt20-1+deb8u2 (2016-01-02)
+[   13.947550] 00:00:00.000333 main     Executable: /opt/VBoxGuestAdditions-5.1.4/sbin/VBoxService
+00:00:00.000335 main     Process ID: 908
+00:00:00.000336 main     Package type: LINUX_32BITS_GENERIC
+[   13.949791] 00:00:00.002571 main     5.1.4 r110228 started. Verbose level = 0
+[   13.976162] 00:00:00.028936 automount vbsvcAutoMountWorker: Shared folder 'sf_OSC_9e' was mounted to '/media/sf_sf_OSC_9e'
+[  271.025431] Loading Module
+[  416.530215] Removing Module
+[ 1966.098713] fuk u Loading Module
+[ 1966.098715] fuk u process for each Name = systemd. State = 1. PID = 1.!
+[ 1966.098717] fuk u process for each Name = kthreadd. State = 1. PID = 2.!
+[ 1966.098717] fuk u process for each Name = ksoftirqd/0. State = 1. PID = 3.!
+[ 1966.098718] fuk u process for each Name = kworker/0:0H. State = 1. PID = 5.!
+[ 1966.098719] fuk u process for each Name = kworker/u2:0. State = 1. PID = 6.!
+[ 1966.098720] fuk u process for each Name = rcu_sched. State = 1. PID = 7.!
+[ 1966.098721] fuk u process for each Name = rcu_bh. State = 1. PID = 8.!
+[ 1966.098722] fuk u process for each Name = migration/0. State = 1. PID = 9.!
+[ 1966.098723] fuk u process for each Name = watchdog/0. State = 1. PID = 10.!
+[ 1966.098724] fuk u process for each Name = khelper. State = 1. PID = 11.!
+[ 1966.098725] fuk u process for each Name = kdevtmpfs. State = 1. PID = 12.!
+[ 1966.098726] fuk u process for each Name = netns. State = 1. PID = 13.!
+[ 1966.098726] fuk u process for each Name = khungtaskd. State = 1. PID = 14.!
+[ 1966.098727] fuk u process for each Name = writeback. State = 1. PID = 15.!
+[ 1966.098728] fuk u process for each Name = ksmd. State = 1. PID = 16.!
+[ 1966.098729] fuk u process for each Name = khugepaged. State = 1. PID = 17.!
+[ 1966.098730] fuk u process for each Name = crypto. State = 1. PID = 18.!
+[ 1966.098731] fuk u process for each Name = kintegrityd. State = 1. PID = 19.!
+[ 1966.098732] fuk u process for each Name = bioset. State = 1. PID = 20.!
+[ 1966.098733] fuk u process for each Name = kblockd. State = 1. PID = 21.!
+[ 1966.098734] fuk u process for each Name = kswapd0. State = 1. PID = 23.!
+[ 1966.098735] fuk u process for each Name = fsnotify_mark. State = 1. PID = 24.!
+[ 1966.098736] fuk u process for each Name = kthrotld. State = 1. PID = 30.!
+[ 1966.098737] fuk u process for each Name = ipv6_addrconf. State = 1. PID = 31.!
+[ 1966.098738] fuk u process for each Name = deferwq. State = 1. PID = 32.!
+[ 1966.098739] fuk u process for each Name = khubd. State = 1. PID = 66.!
+[ 1966.098740] fuk u process for each Name = ata_sff. State = 1. PID = 67.!
+[ 1966.098740] fuk u process for each Name = scsi_eh_0. State = 1. PID = 69.!
+[ 1966.098741] fuk u process for each Name = scsi_tmf_0. State = 1. PID = 70.!
+[ 1966.098742] fuk u process for each Name = scsi_eh_1. State = 1. PID = 71.!
+[ 1966.098743] fuk u process for each Name = kworker/u2:2. State = 1. PID = 72.!
+[ 1966.098744] fuk u process for each Name = scsi_tmf_1. State = 1. PID = 73.!
+[ 1966.098745] fuk u process for each Name = scsi_eh_2. State = 1. PID = 74.!
+[ 1966.098746] fuk u process for each Name = scsi_tmf_2. State = 1. PID = 75.!
+[ 1966.098746] fuk u process for each Name = kworker/0:1H. State = 1. PID = 81.!
+[ 1966.098747] fuk u process for each Name = jbd2/sda1-8. State = 1. PID = 105.!
+[ 1966.098748] fuk u process for each Name = ext4-rsv-conver. State = 1. PID = 106.!
+[ 1966.098749] fuk u process for each Name = kauditd. State = 1. PID = 137.!
+[ 1966.098750] fuk u process for each Name = systemd-journal. State = 1. PID = 138.!
+[ 1966.098751] fuk u process for each Name = systemd-udevd. State = 0. PID = 146.!
+[ 1966.098752] fuk u process for each Name = iprt-VBoxWQueue. State = 1. PID = 184.!
+[ 1966.098753] fuk u process for each Name = kpsmoused. State = 1. PID = 227.!
+[ 1966.098753] fuk u process for each Name = systemd-timesyn. State = 1. PID = 251.!
+[ 1966.098754] fuk u process for each Name = rpcbind. State = 1. PID = 365.!
+[ 1966.098755] fuk u process for each Name = rpc.statd. State = 1. PID = 390.!
+[ 1966.098756] fuk u process for each Name = rpciod. State = 1. PID = 395.!
+[ 1966.098757] fuk u process for each Name = nfsiod. State = 1. PID = 397.!
+[ 1966.098758] fuk u process for each Name = rpc.idmapd. State = 1. PID = 404.!
+[ 1966.098759] fuk u process for each Name = accounts-daemon. State = 1. PID = 406.!
+[ 1966.098760] fuk u process for each Name = cron. State = 1. PID = 407.!
+[ 1966.098761] fuk u process for each Name = ModemManager. State = 1. PID = 408.!
+[ 1966.098762] fuk u process for each Name = NetworkManager. State = 1. PID = 410.!
+[ 1966.098763] fuk u process for each Name = sshd. State = 1. PID = 412.!
+[ 1966.098764] fuk u process for each Name = atd. State = 1. PID = 413.!
+[ 1966.098764] fuk u process for each Name = systemd-logind. State = 1. PID = 417.!
+[ 1966.098765] fuk u process for each Name = avahi-daemon. State = 1. PID = 424.!
+[ 1966.098766] fuk u process for each Name = dbus-daemon. State = 1. PID = 426.!
+[ 1966.098767] fuk u process for each Name = minissdpd. State = 1. PID = 445.!
+[ 1966.098768] fuk u process for each Name = avahi-daemon. State = 1. PID = 447.!
+[ 1966.098769] fuk u process for each Name = rsyslogd. State = 1. PID = 454.!
+[ 1966.098770] fuk u process for each Name = cfg80211. State = 1. PID = 460.!
+[ 1966.098771] fuk u process for each Name = acpid. State = 1. PID = 478.!
+[ 1966.098772] fuk u process for each Name = cupsd. State = 1. PID = 479.!
+[ 1966.098773] fuk u process for each Name = cups-browsed. State = 1. PID = 480.!
+[ 1966.098774] fuk u process for each Name = polkitd. State = 1. PID = 496.!
+[ 1966.098774] fuk u process for each Name = agetty. State = 1. PID = 497.!
+[ 1966.098775] fuk u process for each Name = gdm3. State = 1. PID = 520.!
+[ 1966.098776] fuk u process for each Name = Xorg. State = 1. PID = 534.!
+[ 1966.098777] fuk u process for each Name = dhclient. State = 1. PID = 586.!
+[ 1966.098778] fuk u process for each Name = exim4. State = 1. PID = 848.!
+[ 1966.098779] fuk u process for each Name = VBoxService. State = 1. PID = 914.!
+[ 1966.098780] fuk u process for each Name = systemd. State = 1. PID = 938.!
+[ 1966.098781] fuk u process for each Name = (sd-pam). State = 1. PID = 939.!
+[ 1966.098782] fuk u process for each Name = upowerd. State = 1. PID = 969.!
+[ 1966.098783] fuk u process for each Name = colord. State = 1. PID = 978.!
+[ 1966.098784] fuk u process for each Name = pulseaudio. State = 1. PID = 987.!
+[ 1966.098784] fuk u process for each Name = rtkit-daemon. State = 1. PID = 988.!
+[ 1966.098785] fuk u process for each Name = wpa_supplicant. State = 1. PID = 1017.!
+[ 1966.098786] fuk u process for each Name = packagekitd. State = 1. PID = 1020.!
+[ 1966.098787] fuk u process for each Name = gdm-session-wor. State = 1. PID = 1031.!
+[ 1966.098788] fuk u process for each Name = systemd. State = 1. PID = 1034.!
+[ 1966.098789] fuk u process for each Name = (sd-pam). State = 1. PID = 1035.!
+[ 1966.098790] fuk u process for each Name = gnome-keyring-d. State = 1. PID = 1039.!
+[ 1966.098791] fuk u process for each Name = x-session-manag. State = 1. PID = 1043.!
+[ 1966.098792] fuk u process for each Name = VBoxClient. State = 1. PID = 1085.!
+[ 1966.098793] fuk u process for each Name = VBoxClient. State = 1. PID = 1087.!
+[ 1966.098793] fuk u process for each Name = VBoxClient. State = 1. PID = 1095.!
+[ 1966.098794] fuk u process for each Name = VBoxClient. State = 1. PID = 1097.!
+[ 1966.098795] fuk u process for each Name = VBoxClient. State = 1. PID = 1101.!
+[ 1966.098796] fuk u process for each Name = VBoxClient. State = 1. PID = 1102.!
+[ 1966.098797] fuk u process for each Name = VBoxClient. State = 1. PID = 1105.!
+[ 1966.098798] fuk u process for each Name = VBoxClient. State = 1. PID = 1106.!
+[ 1966.098799] fuk u process for each Name = ssh-agent. State = 1. PID = 1116.!
+[ 1966.098799] fuk u process for each Name = dbus-launch. State = 1. PID = 1119.!
+[ 1966.098801] fuk u process for each Name = dbus-daemon. State = 1. PID = 1120.!
+[ 1966.098801] fuk u process for each Name = at-spi-bus-laun. State = 1. PID = 1123.!
+[ 1966.098802] fuk u process for each Name = dbus-daemon. State = 1. PID = 1127.!
+[ 1966.098803] fuk u process for each Name = at-spi2-registr. State = 1. PID = 1131.!
+[ 1966.098804] fuk u process for each Name = gnome-settings-. State = 1. PID = 1143.!
+[ 1966.098805] fuk u process for each Name = pulseaudio. State = 1. PID = 1158.!
+[ 1966.098806] fuk u process for each Name = gvfsd. State = 1. PID = 1163.!
+[ 1966.098807] fuk u process for each Name = gvfsd-fuse. State = 1. PID = 1169.!
+[ 1966.098808] fuk u process for each Name = start-pulseaudi. State = 1. PID = 1176.!
+[ 1966.098809] fuk u process for each Name = xprop. State = 1. PID = 1177.!
+[ 1966.098810] fuk u process for each Name = gvfs-udisks2-vo. State = 1. PID = 1181.!
+[ 1966.098811] fuk u process for each Name = udisksd. State = 1. PID = 1183.!
+[ 1966.098812] fuk u process for each Name = gvfs-goa-volume. State = 1. PID = 1194.!
+[ 1966.098813] fuk u process for each Name = goa-daemon. State = 1. PID = 1197.!
+[ 1966.098814] fuk u process for each Name = gvfs-gphoto2-vo. State = 1. PID = 1206.!
+[ 1966.098815] fuk u process for each Name = mission-control. State = 1. PID = 1207.!
+[ 1966.098816] fuk u process for each Name = gvfs-mtp-volume. State = 1. PID = 1211.!
+[ 1966.098817] fuk u process for each Name = gvfs-afc-volume. State = 1. PID = 1215.!
+[ 1966.098817] fuk u process for each Name = gnome-shell. State = 0. PID = 1220.!
+[ 1966.098818] fuk u process for each Name = geoclue. State = 1. PID = 1223.!
+[ 1966.098819] fuk u process for each Name = gsd-printer. State = 1. PID = 1229.!
+[ 1966.098820] fuk u process for each Name = gnome-shell-cal. State = 1. PID = 1257.!
+[ 1966.098821] fuk u process for each Name = evolution-sourc. State = 1. PID = 1261.!
+[ 1966.098822] fuk u process for each Name = evolution-alarm. State = 1. PID = 1271.!
+[ 1966.098823] fuk u process for each Name = nm-applet. State = 1. PID = 1272.!
+[ 1966.098824] fuk u process for each Name = tracker-miner-u. State = 1. PID = 1274.!
+[ 1966.098825] fuk u process for each Name = nautilus. State = 1. PID = 1284.!
+[ 1966.098826] fuk u process for each Name = tracker-store. State = 1. PID = 1289.!
+[ 1966.098827] fuk u process for each Name = tracker-extract. State = 1. PID = 1304.!
+[ 1966.098828] fuk u process for each Name = zeitgeist-datah. State = 1. PID = 1312.!
+[ 1966.098829] fuk u process for each Name = tracker-miner-f. State = 1. PID = 1315.!
+[ 1966.098830] fuk u process for each Name = evolution-calen. State = 1. PID = 1317.!
+[ 1966.098831] fuk u process for each Name = zeitgeist-daemo. State = 1. PID = 1321.!
+[ 1966.098832] fuk u process for each Name = tracker-miner-a. State = 1. PID = 1322.!
+[ 1966.098833] fuk u process for each Name = applet.py. State = 1. PID = 1324.!
+[ 1966.098834] fuk u process for each Name = gconfd-2. State = 1. PID = 1328.!
+[ 1966.098835] fuk u process for each Name = zeitgeist-fts. State = 1. PID = 1338.!
+[ 1966.098836] fuk u process for each Name = cat. State = 1. PID = 1353.!
+[ 1966.098836] fuk u process for each Name = gvfsd-trash. State = 1. PID = 1375.!
+[ 1966.098837] fuk u process for each Name = gvfsd-metadata. State = 1. PID = 1397.!
+[ 1966.098838] fuk u process for each Name = gvfsd-burn. State = 1. PID = 1413.!
+[ 1966.098839] fuk u process for each Name = gnome-terminal-. State = 1. PID = 1439.!
+[ 1966.098840] fuk u process for each Name = gnome-pty-helpe. State = 1. PID = 1442.!
+[ 1966.098841] fuk u process for each Name = bash. State = 1. PID = 1443.!
+[ 1966.098842] fuk u process for each Name = sudo. State = 1. PID = 1449.!
+[ 1966.098843] fuk u process for each Name = bash. State = 1. PID = 1450.!
+[ 1966.098844] fuk u process for each Name = kworker/0:0. State = 1. PID = 2110.!
+[ 1966.098845] fuk u process for each Name = kworker/0:1. State = 1. PID = 2113.!
+[ 1966.098846] fuk u process for each Name = gdm-session-wor. State = 1. PID = 2127.!
+[ 1966.098847] fuk u process for each Name = kworker/0:2. State = 1. PID = 2141.!
+[ 1966.098847] fuk u process for each Name = sudo. State = 1. PID = 2437.!
+[ 1966.098848] fuk u process for each Name = insmod. State = 0. PID = 2438.!
+[ 2026.616729] fuk u Removing Module
+[ 2264.064318] usb 1-1: USB disconnect, device number 2
+[ 2264.640852] usb 1-1: new full-speed USB device number 3 using ohci-pci
+[ 2264.909121] usb 1-1: New USB device found, idVendor=80ee, idProduct=0021
+[ 2264.909126] usb 1-1: New USB device strings: Mfr=1, Product=3, SerialNumber=0
+[ 2264.909129] usb 1-1: Product: USB Tablet
+[ 2264.909131] usb 1-1: Manufacturer: VirtualBox
+[ 2264.927645] input: VirtualBox USB Tablet as /devices/pci0000:00/0000:00:06.0/usb1/1-1/1-1:1.0/0003:80EE:0021.0002/input/input9
+[ 2264.930593] hid-generic 0003:80EE:0021.0002: input,hidraw0: USB HID v1.10 Mouse [VirtualBox USB Tablet] on usb-0000:00:06.0-1/input0
+[ 2265.555758] e1000: eth0 NIC Link is Down
+[ 2265.555818] e1000 0000:00:03.0 eth0: Reset adapter
+[ 2271.609522] e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
+[ 2271.610570] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[ 2354.644179] fuk u part 2 Loading Module
+[ 2354.644182] fuk u part 2 dfs
+[ 2354.644183] fuk u  part 2 dfs Name = swapper/0. State = 0. PID = 0.
+[ 2354.644183] fuk u part 2 dfs
+[ 2354.644184] fuk u  part 2 dfs Name = systemd. State = 1. PID = 1.
+[ 2354.644185] fuk u part 2 dfs
+[ 2354.644186] fuk u  part 2 dfs Name = systemd-journal. State = 1. PID = 138.
+[ 2354.644186] fuk u part 2 dfs
+[ 2354.644187] fuk u  part 2 dfs Name = systemd-udevd. State = 0. PID = 146.
+[ 2354.644188] fuk u part 2 dfs
+[ 2354.644189] fuk u  part 2 dfs Name = systemd-timesyn. State = 1. PID = 251.
+[ 2354.644189] fuk u part 2 dfs
+[ 2354.644190] fuk u  part 2 dfs Name = rpcbind. State = 1. PID = 365.
+[ 2354.644191] fuk u part 2 dfs
+[ 2354.644191] fuk u  part 2 dfs Name = rpc.statd. State = 1. PID = 390.
+[ 2354.644192] fuk u part 2 dfs
+[ 2354.644193] fuk u  part 2 dfs Name = rpc.idmapd. State = 1. PID = 404.
+[ 2354.644193] fuk u part 2 dfs
+[ 2354.644194] fuk u  part 2 dfs Name = accounts-daemon. State = 1. PID = 406.
+[ 2354.644195] fuk u part 2 dfs
+[ 2354.644195] fuk u  part 2 dfs Name = cron. State = 1. PID = 407.
+[ 2354.644196] fuk u part 2 dfs
+[ 2354.644197] fuk u  part 2 dfs Name = ModemManager. State = 1. PID = 408.
+[ 2354.644197] fuk u part 2 dfs
+[ 2354.644198] fuk u  part 2 dfs Name = NetworkManager. State = 1. PID = 410.
+[ 2354.644199] fuk u part 2 dfs
+[ 2354.644200] fuk u  part 2 dfs Name = dhclient. State = 1. PID = 2478.
+[ 2354.644200] fuk u part 2 dfs
+[ 2354.644201] fuk u  part 2 dfs Name = sshd. State = 1. PID = 412.
+[ 2354.644201] fuk u part 2 dfs
+[ 2354.644202] fuk u  part 2 dfs Name = atd. State = 1. PID = 413.
+[ 2354.644203] fuk u part 2 dfs
+[ 2354.644204] fuk u  part 2 dfs Name = systemd-logind. State = 1. PID = 417.
+[ 2354.644204] fuk u part 2 dfs
+[ 2354.644205] fuk u  part 2 dfs Name = avahi-daemon. State = 1. PID = 424.
+[ 2354.644206] fuk u part 2 dfs
+[ 2354.644206] fuk u  part 2 dfs Name = avahi-daemon. State = 1. PID = 447.
+[ 2354.644207] fuk u part 2 dfs
+[ 2354.644208] fuk u  part 2 dfs Name = dbus-daemon. State = 1. PID = 426.
+[ 2354.644208] fuk u part 2 dfs
+[ 2354.644209] fuk u  part 2 dfs Name = minissdpd. State = 1. PID = 445.
+[ 2354.644210] fuk u part 2 dfs
+[ 2354.644211] fuk u  part 2 dfs Name = rsyslogd. State = 1. PID = 454.
+[ 2354.644211] fuk u part 2 dfs
+[ 2354.644212] fuk u  part 2 dfs Name = acpid. State = 1. PID = 478.
+[ 2354.644212] fuk u part 2 dfs
+[ 2354.644213] fuk u  part 2 dfs Name = cupsd. State = 1. PID = 479.
+[ 2354.644214] fuk u part 2 dfs
+[ 2354.644215] fuk u  part 2 dfs Name = cups-browsed. State = 1. PID = 480.
+[ 2354.644215] fuk u part 2 dfs
+[ 2354.644216] fuk u  part 2 dfs Name = polkitd. State = 1. PID = 496.
+[ 2354.644216] fuk u part 2 dfs
+[ 2354.644218] fuk u  part 2 dfs Name = agetty. State = 1. PID = 497.
+[ 2354.644218] fuk u part 2 dfs
+[ 2354.644219] fuk u  part 2 dfs Name = gdm3. State = 1. PID = 520.
+[ 2354.644220] fuk u part 2 dfs
+[ 2354.644220] fuk u  part 2 dfs Name = Xorg. State = 1. PID = 534.
+[ 2354.644221] fuk u part 2 dfs
+[ 2354.644222] fuk u  part 2 dfs Name = gdm-session-wor. State = 1. PID = 1031.
+[ 2354.644222] fuk u part 2 dfs
+[ 2354.644223] fuk u  part 2 dfs Name = x-session-manag. State = 1. PID = 1043.
+[ 2354.644224] fuk u part 2 dfs
+[ 2354.644225] fuk u  part 2 dfs Name = ssh-agent. State = 1. PID = 1116.
+[ 2354.644225] fuk u part 2 dfs
+[ 2354.644226] fuk u  part 2 dfs Name = gnome-settings-. State = 1. PID = 1143.
+[ 2354.644226] fuk u part 2 dfs
+[ 2354.644227] fuk u  part 2 dfs Name = gnome-shell. State = 0. PID = 1220.
+[ 2354.644228] fuk u part 2 dfs
+[ 2354.644228] fuk u  part 2 dfs Name = evolution-alarm. State = 1. PID = 1271.
+[ 2354.644229] fuk u part 2 dfs
+[ 2354.644230] fuk u  part 2 dfs Name = nm-applet. State = 1. PID = 1272.
+[ 2354.644230] fuk u part 2 dfs
+[ 2354.644231] fuk u  part 2 dfs Name = tracker-miner-u. State = 1. PID = 1274.
+[ 2354.644232] fuk u part 2 dfs
+[ 2354.644233] fuk u  part 2 dfs Name = nautilus. State = 1. PID = 1284.
+[ 2354.644233] fuk u part 2 dfs
+[ 2354.644234] fuk u  part 2 dfs Name = tracker-extract. State = 1. PID = 1304.
+[ 2354.644235] fuk u part 2 dfs
+[ 2354.644235] fuk u  part 2 dfs Name = zeitgeist-datah. State = 1. PID = 1312.
+[ 2354.644236] fuk u part 2 dfs
+[ 2354.644237] fuk u  part 2 dfs Name = tracker-miner-f. State = 1. PID = 1315.
+[ 2354.644237] fuk u part 2 dfs
+[ 2354.644238] fuk u  part 2 dfs Name = tracker-miner-a. State = 1. PID = 1322.
+[ 2354.644239] fuk u part 2 dfs
+[ 2354.644240] fuk u  part 2 dfs Name = applet.py. State = 1. PID = 1324.
+[ 2354.644240] fuk u part 2 dfs
+[ 2354.644241] fuk u  part 2 dfs Name = gdm-session-wor. State = 1. PID = 2127.
+[ 2354.644242] fuk u part 2 dfs
+[ 2354.644243] fuk u  part 2 dfs Name = exim4. State = 1. PID = 848.
+[ 2354.644243] fuk u part 2 dfs
+[ 2354.644244] fuk u  part 2 dfs Name = VBoxService. State = 1. PID = 914.
+[ 2354.644245] fuk u part 2 dfs
+[ 2354.644245] fuk u  part 2 dfs Name = systemd. State = 1. PID = 938.
+[ 2354.644246] fuk u part 2 dfs
+[ 2354.644247] fuk u  part 2 dfs Name = (sd-pam). State = 1. PID = 939.
+[ 2354.644248] fuk u part 2 dfs
+[ 2354.644248] fuk u  part 2 dfs Name = upowerd. State = 1. PID = 969.
+[ 2354.644249] fuk u part 2 dfs
+[ 2354.644250] fuk u  part 2 dfs Name = colord. State = 1. PID = 978.
+[ 2354.644250] fuk u part 2 dfs
+[ 2354.644251] fuk u  part 2 dfs Name = rtkit-daemon. State = 1. PID = 988.
+[ 2354.644252] fuk u part 2 dfs
+[ 2354.644252] fuk u  part 2 dfs Name = pulseaudio. State = 1. PID = 987.
+[ 2354.644253] fuk u part 2 dfs
+[ 2354.644254] fuk u  part 2 dfs Name = wpa_supplicant. State = 1. PID = 1017.
+[ 2354.644254] fuk u part 2 dfs
+[ 2354.644255] fuk u  part 2 dfs Name = packagekitd. State = 1. PID = 1020.
+[ 2354.644256] fuk u part 2 dfs
+[ 2354.644257] fuk u  part 2 dfs Name = systemd. State = 1. PID = 1034.
+[ 2354.644257] fuk u part 2 dfs
+[ 2354.644258] fuk u  part 2 dfs Name = (sd-pam). State = 1. PID = 1035.
+[ 2354.644258] fuk u part 2 dfs
+[ 2354.644259] fuk u  part 2 dfs Name = gnome-keyring-d. State = 1. PID = 1039.
+[ 2354.644260] fuk u part 2 dfs
+[ 2354.644261] fuk u  part 2 dfs Name = VBoxClient. State = 1. PID = 1085.
+[ 2354.644261] fuk u part 2 dfs
+[ 2354.644262] fuk u  part 2 dfs Name = VBoxClient. State = 1. PID = 1087.
+[ 2354.644262] fuk u part 2 dfs
+[ 2354.644263] fuk u  part 2 dfs Name = VBoxClient. State = 1. PID = 1095.
+[ 2354.644264] fuk u part 2 dfs
+[ 2354.644264] fuk u  part 2 dfs Name = VBoxClient. State = 1. PID = 1097.
+[ 2354.644265] fuk u part 2 dfs
+[ 2354.644266] fuk u  part 2 dfs Name = VBoxClient. State = 1. PID = 1101.
+[ 2354.644266] fuk u part 2 dfs
+[ 2354.644267] fuk u  part 2 dfs Name = VBoxClient. State = 1. PID = 1102.
+[ 2354.644268] fuk u part 2 dfs
+[ 2354.644268] fuk u  part 2 dfs Name = VBoxClient. State = 1. PID = 1105.
+[ 2354.644269] fuk u part 2 dfs
+[ 2354.644270] fuk u  part 2 dfs Name = VBoxClient. State = 1. PID = 1106.
+[ 2354.644270] fuk u part 2 dfs
+[ 2354.644271] fuk u  part 2 dfs Name = dbus-daemon. State = 1. PID = 1120.
+[ 2354.644272] fuk u part 2 dfs
+[ 2354.644272] fuk u  part 2 dfs Name = dbus-launch. State = 1. PID = 1119.
+[ 2354.644273] fuk u part 2 dfs
+[ 2354.644274] fuk u  part 2 dfs Name = at-spi-bus-laun. State = 1. PID = 1123.
+[ 2354.644274] fuk u part 2 dfs
+[ 2354.644275] fuk u  part 2 dfs Name = dbus-daemon. State = 1. PID = 1127.
+[ 2354.644276] fuk u part 2 dfs
+[ 2354.644276] fuk u  part 2 dfs Name = at-spi2-registr. State = 1. PID = 1131.
+[ 2354.644277] fuk u part 2 dfs
+[ 2354.644278] fuk u  part 2 dfs Name = pulseaudio. State = 1. PID = 1158.
+[ 2354.644278] fuk u part 2 dfs
+[ 2354.644279] fuk u  part 2 dfs Name = gvfsd. State = 1. PID = 1163.
+[ 2354.644280] fuk u part 2 dfs
+[ 2354.644282] fuk u  part 2 dfs Name = gvfsd-fuse. State = 1. PID = 1169.
+[ 2354.644282] fuk u part 2 dfs
+[ 2354.644283] fuk u  part 2 dfs Name = start-pulseaudi. State = 1. PID = 1176.
+[ 2354.644284] fuk u part 2 dfs
+[ 2354.644284] fuk u  part 2 dfs Name = xprop. State = 1. PID = 1177.
+[ 2354.644285] fuk u part 2 dfs
+[ 2354.644286] fuk u  part 2 dfs Name = udisksd. State = 1. PID = 1183.
+[ 2354.644286] fuk u part 2 dfs
+[ 2354.644287] fuk u  part 2 dfs Name = gvfs-udisks2-vo. State = 1. PID = 1181.
+[ 2354.644288] fuk u part 2 dfs
+[ 2354.644289] fuk u  part 2 dfs Name = goa-daemon. State = 1. PID = 1197.
+[ 2354.644289] fuk u part 2 dfs
+[ 2354.644290] fuk u  part 2 dfs Name = gvfs-goa-volume. State = 1. PID = 1194.
+[ 2354.644290] fuk u part 2 dfs
+[ 2354.644291] fuk u  part 2 dfs Name = gvfs-gphoto2-vo. State = 1. PID = 1206.
+[ 2354.644292] fuk u part 2 dfs
+[ 2354.644293] fuk u  part 2 dfs Name = gvfs-mtp-volume. State = 1. PID = 1211.
+[ 2354.644293] fuk u part 2 dfs
+[ 2354.644294] fuk u  part 2 dfs Name = gvfs-afc-volume. State = 1. PID = 1215.
+[ 2354.644295] fuk u part 2 dfs
+[ 2354.644295] fuk u  part 2 dfs Name = geoclue. State = 1. PID = 1223.
+[ 2354.644296] fuk u part 2 dfs
+[ 2354.644297] fuk u  part 2 dfs Name = gsd-printer. State = 1. PID = 1229.
+[ 2354.644297] fuk u part 2 dfs
+[ 2354.644298] fuk u  part 2 dfs Name = mission-control. State = 1. PID = 1207.
+[ 2354.644299] fuk u part 2 dfs
+[ 2354.644300] fuk u  part 2 dfs Name = evolution-sourc. State = 1. PID = 1261.
+[ 2354.644300] fuk u part 2 dfs
+[ 2354.644301] fuk u  part 2 dfs Name = gnome-shell-cal. State = 1. PID = 1257.
+[ 2354.644301] fuk u part 2 dfs
+[ 2354.644302] fuk u  part 2 dfs Name = gconfd-2. State = 1. PID = 1328.
+[ 2354.644303] fuk u part 2 dfs
+[ 2354.644304] fuk u  part 2 dfs Name = zeitgeist-daemo. State = 1. PID = 1321.
+[ 2354.644304] fuk u part 2 dfs
+[ 2354.644305] fuk u  part 2 dfs Name = zeitgeist-fts. State = 1. PID = 1338.
+[ 2354.644306] fuk u part 2 dfs
+[ 2354.644307] fuk u  part 2 dfs Name = cat. State = 1. PID = 1353.
+[ 2354.644307] fuk u part 2 dfs
+[ 2354.644308] fuk u  part 2 dfs Name = tracker-store. State = 1. PID = 1289.
+[ 2354.644308] fuk u part 2 dfs
+[ 2354.644309] fuk u  part 2 dfs Name = gvfsd-trash. State = 1. PID = 1375.
+[ 2354.644310] fuk u part 2 dfs
+[ 2354.644311] fuk u  part 2 dfs Name = evolution-calen. State = 1. PID = 1317.
+[ 2354.644311] fuk u part 2 dfs
+[ 2354.644312] fuk u  part 2 dfs Name = gvfsd-metadata. State = 1. PID = 1397.
+[ 2354.644313] fuk u part 2 dfs
+[ 2354.644314] fuk u  part 2 dfs Name = gvfsd-burn. State = 1. PID = 1413.
+[ 2354.644314] fuk u part 2 dfs
+[ 2354.644315] fuk u  part 2 dfs Name = gnome-terminal-. State = 1. PID = 1439.
+[ 2354.644315] fuk u part 2 dfs
+[ 2354.644316] fuk u  part 2 dfs Name = gnome-pty-helpe. State = 1. PID = 1442.
+[ 2354.644317] fuk u part 2 dfs
+[ 2354.644318] fuk u  part 2 dfs Name = bash. State = 1. PID = 1443.
+[ 2354.644318] fuk u part 2 dfs
+[ 2354.644319] fuk u  part 2 dfs Name = sudo. State = 1. PID = 1449.
+[ 2354.644320] fuk u part 2 dfs
+[ 2354.644321] fuk u  part 2 dfs Name = bash. State = 1. PID = 1450.
+[ 2354.644321] fuk u part 2 dfs
+[ 2354.644322] fuk u  part 2 dfs Name = sudo. State = 1. PID = 2870.
+[ 2354.644323] fuk u part 2 dfs
+[ 2354.644323] fuk u  part 2 dfs Name = insmod. State = 0. PID = 2871.
+[ 2354.644324] fuk u part 2 dfs
+[ 2354.644325] fuk u  part 2 dfs Name = kthreadd. State = 1. PID = 2.
+[ 2354.644325] fuk u part 2 dfs
+[ 2354.644326] fuk u  part 2 dfs Name = ksoftirqd/0. State = 1. PID = 3.
+[ 2354.644326] fuk u part 2 dfs
+[ 2354.644327] fuk u  part 2 dfs Name = kworker/0:0H. State = 1. PID = 5.
+[ 2354.644328] fuk u part 2 dfs
+[ 2354.644328] fuk u  part 2 dfs Name = kworker/u2:0. State = 1. PID = 6.
+[ 2354.644329] fuk u part 2 dfs
+[ 2354.644330] fuk u  part 2 dfs Name = rcu_sched. State = 1. PID = 7.
+[ 2354.644330] fuk u part 2 dfs
+[ 2354.644331] fuk u  part 2 dfs Name = rcu_bh. State = 1. PID = 8.
+[ 2354.644331] fuk u part 2 dfs
+[ 2354.644332] fuk u  part 2 dfs Name = migration/0. State = 1. PID = 9.
+[ 2354.644333] fuk u part 2 dfs
+[ 2354.644334] fuk u  part 2 dfs Name = watchdog/0. State = 1. PID = 10.
+[ 2354.644334] fuk u part 2 dfs
+[ 2354.644335] fuk u  part 2 dfs Name = khelper. State = 1. PID = 11.
+[ 2354.644335] fuk u part 2 dfs
+[ 2354.644336] fuk u  part 2 dfs Name = kdevtmpfs. State = 1. PID = 12.
+[ 2354.644337] fuk u part 2 dfs
+[ 2354.644337] fuk u  part 2 dfs Name = netns. State = 1. PID = 13.
+[ 2354.644338] fuk u part 2 dfs
+[ 2354.644339] fuk u  part 2 dfs Name = khungtaskd. State = 1. PID = 14.
+[ 2354.644339] fuk u part 2 dfs
+[ 2354.644340] fuk u  part 2 dfs Name = writeback. State = 1. PID = 15.
+[ 2354.644340] fuk u part 2 dfs
+[ 2354.644341] fuk u  part 2 dfs Name = ksmd. State = 1. PID = 16.
+[ 2354.644342] fuk u part 2 dfs
+[ 2354.644343] fuk u  part 2 dfs Name = khugepaged. State = 1. PID = 17.
+[ 2354.644344] fuk u part 2 dfs
+[ 2354.644345] fuk u  part 2 dfs Name = crypto. State = 1. PID = 18.
+[ 2354.644345] fuk u part 2 dfs
+[ 2354.644346] fuk u  part 2 dfs Name = kintegrityd. State = 1. PID = 19.
+[ 2354.644346] fuk u part 2 dfs
+[ 2354.644347] fuk u  part 2 dfs Name = bioset. State = 1. PID = 20.
+[ 2354.644348] fuk u part 2 dfs
+[ 2354.644349] fuk u  part 2 dfs Name = kblockd. State = 1. PID = 21.
+[ 2354.644349] fuk u part 2 dfs
+[ 2354.644350] fuk u  part 2 dfs Name = kswapd0. State = 1. PID = 23.
+[ 2354.644350] fuk u part 2 dfs
+[ 2354.644351] fuk u  part 2 dfs Name = fsnotify_mark. State = 1. PID = 24.
+[ 2354.644352] fuk u part 2 dfs
+[ 2354.644353] fuk u  part 2 dfs Name = kthrotld. State = 1. PID = 30.
+[ 2354.644353] fuk u part 2 dfs
+[ 2354.644354] fuk u  part 2 dfs Name = ipv6_addrconf. State = 1. PID = 31.
+[ 2354.644354] fuk u part 2 dfs
+[ 2354.644355] fuk u  part 2 dfs Name = deferwq. State = 1. PID = 32.
+[ 2354.644356] fuk u part 2 dfs
+[ 2354.644357] fuk u  part 2 dfs Name = khubd. State = 1. PID = 66.
+[ 2354.644357] fuk u part 2 dfs
+[ 2354.644358] fuk u  part 2 dfs Name = ata_sff. State = 1. PID = 67.
+[ 2354.644358] fuk u part 2 dfs
+[ 2354.644359] fuk u  part 2 dfs Name = scsi_eh_0. State = 1. PID = 69.
+[ 2354.644360] fuk u part 2 dfs
+[ 2354.644360] fuk u  part 2 dfs Name = scsi_tmf_0. State = 1. PID = 70.
+[ 2354.644361] fuk u part 2 dfs
+[ 2354.644362] fuk u  part 2 dfs Name = scsi_eh_1. State = 1. PID = 71.
+[ 2354.644362] fuk u part 2 dfs
+[ 2354.644363] fuk u  part 2 dfs Name = kworker/u2:2. State = 1. PID = 72.
+[ 2354.644364] fuk u part 2 dfs
+[ 2354.644364] fuk u  part 2 dfs Name = scsi_tmf_1. State = 1. PID = 73.
+[ 2354.644365] fuk u part 2 dfs
+[ 2354.644366] fuk u  part 2 dfs Name = scsi_eh_2. State = 1. PID = 74.
+[ 2354.644366] fuk u part 2 dfs
+[ 2354.644367] fuk u  part 2 dfs Name = scsi_tmf_2. State = 1. PID = 75.
+[ 2354.644367] fuk u part 2 dfs
+[ 2354.644368] fuk u  part 2 dfs Name = kworker/0:1H. State = 1. PID = 81.
+[ 2354.644369] fuk u part 2 dfs
+[ 2354.644369] fuk u  part 2 dfs Name = jbd2/sda1-8. State = 1. PID = 105.
+[ 2354.644370] fuk u part 2 dfs
+[ 2354.644371] fuk u  part 2 dfs Name = ext4-rsv-conver. State = 1. PID = 106.
+[ 2354.644371] fuk u part 2 dfs
+[ 2354.644372] fuk u  part 2 dfs Name = kauditd. State = 1. PID = 137.
+[ 2354.644373] fuk u part 2 dfs
+[ 2354.644373] fuk u  part 2 dfs Name = iprt-VBoxWQueue. State = 1. PID = 184.
+[ 2354.644374] fuk u part 2 dfs
+[ 2354.644375] fuk u  part 2 dfs Name = kpsmoused. State = 1. PID = 227.
+[ 2354.644375] fuk u part 2 dfs
+[ 2354.644376] fuk u  part 2 dfs Name = rpciod. State = 1. PID = 395.
+[ 2354.644377] fuk u part 2 dfs
+[ 2354.644377] fuk u  part 2 dfs Name = nfsiod. State = 1. PID = 397.
+[ 2354.644378] fuk u part 2 dfs
+[ 2354.644379] fuk u  part 2 dfs Name = cfg80211. State = 1. PID = 460.
+[ 2354.644379] fuk u part 2 dfs
+[ 2354.644380] fuk u  part 2 dfs Name = kworker/0:1. State = 1. PID = 2113.
+[ 2354.644380] fuk u part 2 dfs
+[ 2354.644381] fuk u  part 2 dfs Name = kworker/0:2. State = 1. PID = 2141.
+[ 2354.644382] fuk u part 2 dfs
+[ 2354.644383] fuk u  part 2 dfs Name = kworker/0:0. State = 1. PID = 2447.
