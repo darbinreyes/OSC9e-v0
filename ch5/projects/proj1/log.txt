@@ -1,0 +1,1239 @@
+Creating TA thread...
+Student 0: Creating thread...
+Student 1: Creating thread...
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+TA: Napping...
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 1 seconds.
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 2 seconds.
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+#1: I acquired the TA lock, yay!
+#1: Sitting down in TA's office.
+TA: Hey #1, how can I help? Please sit down.
+TA: #1, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #1, now I can help you.
+TA: Teaching student #1.
+#-1: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#0: Shit, the TA busy with another student.
+#0: I'll try again later.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #1. Yah bitch...
+TA: Napping...
+#1: Leaving TA's office.
+#1: I released TA lock. Peace out.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 3 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if you want to live.
+#0: sleeping 1 seconds.
+#0: Done sleeping.
+#0: Fuk. I need the TA's help on this shit.
+#0: I acquired the TA lock, yay!
+#0: Sitting down in TA's office.
+TA: Hey #0, how can I help? Please sit down.
+TA: #0, I said please sit down! Sitting yet? (0 == 0)?.
+TA: #0, now I can help you.
+TA: Teaching student #0.
+#-1: sleeping 1 seconds.
+#1: Done sleeping.
+#1: Fuk. I need the TA's help on this shit.
+Resource temporarily unavailable
+#1: Shit, the TA busy with another student.
+#1: I'll try again later.
+#1: I'll be back...My CPU is a neural net processor. A learning computer.
+#1: Programming...Come with me if you want to live.
+#1: sleeping 2 seconds.
+#-1: Done sleeping.
+TA: Get the fuck out, #0. Yah bitch...
+TA: Napping...
+#0: Leaving TA's office.
+#0: I released TA lock. Peace out.
+#0: I'll be back...My CPU is a neural net processor. A learning computer.
+#0: Programming...Come with me if y
