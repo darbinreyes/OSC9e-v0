@@ -314,6 +314,7 @@ void acquire_TA(int student_id) {
   }
 
   printf("#%d: I acquired the TA lock, yay!\n", student_id);
+  fprintf(stderr, "#%d: got TA lock.\n", student_id); // pipe who's getting the TAs time to stderr so its easy to see.
   /// Ask for TA's help.
   student_with_TA = student_id;
 
