@@ -121,6 +121,34 @@ static sem_t TA_help_request_sem; // ONLY STUDENTS CAN SIGNAL. ONLY TA CAN WAIT.
 
 /**
 
+  The index/"Student ID" of student that is currently with the TA.
+  Each student thread is uniquely identified by an integer from
+  0 to N-1, where N = the total number of student threads.
+  A value of -1 indicates that no student is currently with the TA.
+
+  Purpose: Provides a mechanism for the TA to set a student's state from
+  "with TA" to "programming" once that students time with the TA is up.
+  Also, provides very basic test to check that all students get a chance
+  with the TA by printing the student's ID when he gets time with the TA (i.e.
+  acquires the TA lock).
+
+  Initialized to -1. -1 indicates that no student is currently with the TA.
+
+**/
+static int student_with_TA; // written to by Students, read by TA. TA SHOULD NEVE WRITE TO THIS.
+
+/*******************Waiting Chairs Related Definitions ********************/
+/**
+
+  TODO: comments.
+
+  Provides m. ex. access to the state of the waiting chairs outside the TA's office.
+
+**/
+static sem_t TA_chairs_lock_sem; // ONLY USED BY STUDENTS.
+
+/**
+
   The current number of FREE/available chairs outside of the TA's office.
 
   Purpose: *When the TA is busy*, the chairs effectively provide a finite length
@@ -138,25 +166,17 @@ static sem_t TA_help_request_sem; // ONLY STUDENTS CAN SIGNAL. ONLY TA CAN WAIT.
   0 means no chairs are free/available. 1 means that one chair is available etc.
 
 **/
-static int free_chairs_count;
-
+static int free_chairs_count; // READ/WRITE FOR STUDENTS. READ ONLY FOR TA.GUARDED BY TA_chairs_lock_sem FOR BOTH READS AND WRITES.
+static int next_chair_index; // Circular chair index. Ensures FIFO access to the TA.
+static char chair_in_use[NUM_TA_CHAIRS];  // if chair_in_use[i] == 0, the chair is free. else, in use. the corresponding sem. is TA_wait_chair_sem[i] TODO:
 /**
 
-  The index/"Student ID" of student that is currently with the TA.
-  Each student thread is uniquely identified by an integer from
-  0 to N-1, where N = the total number of student threads.
-  A value of -1 indicates that no student is currently with the TA.
+  TODO: comments.
 
-  Purpose: Provides a mechanism for the TA to set a student's state from
-  "with TA" to "programming" once that students time with the TA is up.
-  Also, provides very basic test to check that all students get a chance
-  with the TA by printing the student's ID when he gets time with the TA (i.e.
-  acquires the TA lock).
-
-  Initialized to -1. -1 indicates that no student is currently with the TA.
-
+  Chairs for a student to wait for the TA outside his office. next_chair_index points the semaphore to be signal by the TA next.
 **/
-static int student_with_TA; // written to by Students, read by TA. TA SHOULD NEVE WRITE TO THIS.
+static sem_t TA_wait_chair_sem[NUM_TA_CHAIRS]; // ONLY STUDENTS WAIT IN THESE SEM.S. ONLY THE TA SIGNALS THEM.
+
 
 /**
   Initialize this program's state:
@@ -174,8 +194,6 @@ void init_state(void) {
   for(i = 0; i < NUM_STUDENTS; i++) {
     Students[i++] = PROGRAMMING;
   }
-
-  free_chairs_count = NUM_TA_CHAIRS;
 
   /* init. semaphores */
 
@@ -197,6 +215,24 @@ void init_state(void) {
     assert(0);
   }
 
+  free_chairs_count = NUM_TA_CHAIRS;
+
+  next_chair_index = 0;
+
+  // init. value = 1.
+  if (sem_init(&TA_chairs_lock_sem, 0, 1) == -1) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  for(i = 0; i < NUM_TA_CHAIRS; i++) {
+    // init. value = 0.
+    if (sem_init(&TA_wait_chair_sem[i], 0, 0) == -1) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  }
+
 }
 
 /**
@@ -206,6 +242,7 @@ void init_state(void) {
 
 **/
 void cleanup_state(void) {
+  int i;
 
   if (sem_destroy(&TA_lock_sem) != 0) {
     printf("%s\n", strerror(errno));
@@ -221,6 +258,20 @@ void cleanup_state(void) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
+
+  if (sem_destroy(&TA_chairs_lock_sem) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  for(i = 0; i < NUM_TA_CHAIRS; i++) {
+    // init. value = 0.
+    if (sem_destroy(&TA_wait_chair_sem[i]) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  }
+
 }
 
 /**
@@ -298,6 +349,25 @@ void rand_sleep(int student_id, int max) { // student_id==-1 means TA thread is 
 
 }
 
+void test_TA_chairs(int student_id) {
+  assert(pthread_self() != TA_tid);
+
+  if (sem_wait(&TA_chairs_lock_sem) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  printf("#%d: Is a chair available? (%d > 0?)\n", student_id, free_chairs_count);
+  // TODO: if available, then what? // in words: sit in the chair and wait. dec. free chair count.
+////
+
+///
+  // release chairs lock.
+  if (sem_post(&TA_chairs_lock_sem) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+}
 /**
 
   Student only function.
