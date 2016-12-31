@@ -22,10 +22,11 @@
 #include <stdlib.h>     
 #include <pthread.h>    
 #include <string.h>     
-#include <semaphore.h>  
+#include <semaphore.h>
 #include <assert.h>
 
-
+#define MAX_STUDENT_PROG_TIME 7 /// Maximum number of time units a student will spend programming.
+#define MAX_WITH_TA_TIME 3 /// Maximum number of time units the TA will spend with a student before kicking him out of his office.
 
 /**
  Student and TA state definitions.
@@ -264,7 +265,7 @@ int main(void)
 
 /**
 
-  Sleep for a random number of seconds.
+  Sleep for a random amount of time.
 
 **/
 void rand_sleep(int student_id, int max) { // student_id==-1 means TA thread is the caller.
@@ -272,11 +273,29 @@ void rand_sleep(int student_id, int max) { // student_id==-1 means TA thread is 
 
   assert(student_id >= -1 && max > 0);
 
+#ifndef SLEEP_TIME_DISABLED
 
+  // sleep rand. amnt. of time.
   t = rand() % max + 1;
-  printf("#%d: sleeping %d seconds.\n", student_id, t);
-  sleep(t);
+  #ifdef MICRO_SECONDS_TIME_UNITS
+    printf("#%d: sleeping %d usecs.\n", student_id, t);
+    usleep(t);
+  #else
+    printf("#%d: sleeping %d secs.\n", student_id, t);
+    sleep(t); // default
+  #endif
   printf("#%d: Done sleeping.\n", student_id);
+
+#else // sleep calls disabled.
+
+  static char no_sleep;
+  if(!no_sleep) {
+    no_sleep = 1;
+    printf("#%d: Sleeping disabled.\n", student_id);
+  }
+
+#endif
+
 }
 
 /**
@@ -381,7 +400,7 @@ void *Student_thread_func(void *param)
 
     // Spend some time programming.
     printf("#%d: Programming...Come with me if you want to live.\n", student_id);
-    rand_sleep(student_id, 3);
+    rand_sleep(student_id, MAX_STUDENT_PROG_TIME);
     // Try getting some help from the TA
     printf("#%d: Fuk. I need the TA's help on this shit.\n", student_id);
     acquire_TA(student_id);
@@ -474,7 +493,7 @@ void *TA_thread_func(void *param)
     TA_get_next_student();
     printf("TA: Teaching student #%d.\n", student_with_TA);
     // Help the student for a rand. amnt time, then kick him out.
-    rand_sleep(-1, 3);
+    rand_sleep(-1, MAX_WITH_TA_TIME);
     TA_kick_out_student ();
     // TODO: Instead of going back to napping unconditionally. Instead, check if a student is waiting for help first, and help him. If no one is waiting, then nap.
   } while(1);
