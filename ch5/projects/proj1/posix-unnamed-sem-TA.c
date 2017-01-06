@@ -168,8 +168,9 @@ static sem_t TA_chairs_lock_sem; // ONLY USED BY STUDENTS.
 **/
 static int free_chairs_count; // READ/WRITE FOR STUDENTS. READ ONLY FOR TA.GUARDED BY TA_chairs_lock_sem FOR BOTH READS AND WRITES.
 static int next_chair_index; // Circular chair index. Ensures FIFO access to the TA.
+
 // TODO/divide-and-conquer-idea: Intermediate problem Simplification: start with one chair, so you don't need to deal with the chair indexes. just get it working with a single chair.
-static char chair_in_use[NUM_TA_CHAIRS];  // if chair_in_use[i] == 0, the chair is free. else, in use. the corresponding sem. is TA_wait_chair_sem[i] TODO:
+static char chair_in_use[NUM_TA_CHAIRS];  // if chair_in_use[i] == -1, the chair is free. else, in use. the corresponding sem. is TA_wait_chair_sem[i] TODO:
 /**
 
   TODO: comments.
@@ -232,6 +233,7 @@ void init_state(void) {
       printf("%s\n", strerror(errno));
       assert(0);
     }
+    chair_in_use[i] = -1; // chairs all free.
   }
 
 }
@@ -464,8 +466,11 @@ static int get_student_id(void) {
 
 **/
 static void acquire_chair(int student_id) {
+  int free_chair_index;
 
   assert(pthread_self() != TA_tid);
+
+  free_chair_index = -1; // if != -1, after release of TA_chairs_lock_sem, then the student successfully got a chair, else, no chairs available, he must come back later.
 
   if (sem_wait(&TA_chairs_lock_sem) != 0) {
     printf("%s\n", strerror(errno));
@@ -478,20 +483,27 @@ static void acquire_chair(int student_id) {
   // else if char is available
   // then dec. free chairs count.
 
+  if (free_chairs_count > 0) {
+    // Acquire a chair to sit in and wait for time with the TA.
+    free_chairs_count--;
+    free_chair_index = 0; // TODO: get_next_free_chair_index()
+    assert(chair_in_use[free_chair_index] == -1);
+    chair_in_use[free_chair_index] = student_id;
+  }
+
   // release chairs lock.
   if (sem_post(&TA_chairs_lock_sem) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
 
-static sem_t TA_chairs_lock_sem; // ONLY USED BY STUDENTS.
-
-static int free_chairs_count; // READ/WRITE FOR STUDENTS. READ ONLY FOR TA.GUARDED BY TA_chairs_lock_sem FOR BOTH READS AND WRITES.
-static int next_chair_index; // Circular chair index. Ensures FIFO access to the TA.
-static char chair_in_use[NUM_TA_CHAIRS];  // if chair_in_use[i] == 0, the chair is free. else, in use. the corresponding sem. is TA_wait_chair_sem[i] TODO:
-
-static sem_t TA_wait_chair_sem[NUM_TA_CHAIRS]; // ONLY STUDENTS WAIT IN THESE SEM.S. ONLY THE TA SIGNALS THEM.
-
+  if(free_chair_index != -1) {
+    if (sem_wait(&TA_wait_chair_sem[free_chair_index]) != 0) {
+      printf("%s\n", strerror(errno));
+      printf("#%d:\n", student_id);
+      assert(0);
+    }
+  }
 }
 
 /**
