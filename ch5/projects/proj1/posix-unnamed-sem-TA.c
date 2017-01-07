@@ -462,6 +462,34 @@ static int get_student_id(void) {
 
 /**
 
+  Used by a student to release a chair because the TA's attention has called him
+  into the office for his turn.
+
+**/
+static void release_chair(int student_id, int released_chair_index) {
+
+  assert(pthread_self() != TA_tid);
+
+  // acquire chairs lock.
+  if (sem_wait(&TA_chairs_lock_sem) != 0) {
+    printf("%s\n", strerror(errno));
+    printf("#%d:\n", student_id);
+    assert(0);
+  }
+
+  free_chairs_count++; // An additional chair is available now.
+  assert(chair_in_use[released_chair_index] != -1); // If we are releasing this char, then it should currently be marked as in use.
+  chair_in_use[released_chair_index] = -1; // Mark chair as free.
+
+  // release chairs lock.
+  if (sem_post(&TA_chairs_lock_sem) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+}
+
+/**
+
   Used by a student to acquire a chair and wait for the TA's attention.
 
 **/
@@ -472,6 +500,7 @@ static void acquire_chair(int student_id) {
 
   free_chair_index = -1; // if != -1, after release of TA_chairs_lock_sem, then the student successfully got a chair, else, no chairs available, he must come back later.
 
+  // acquire chairs lock.
   if (sem_wait(&TA_chairs_lock_sem) != 0) {
     printf("%s\n", strerror(errno));
     printf("#%d:\n", student_id);
@@ -503,7 +532,21 @@ static void acquire_chair(int student_id) {
       printf("#%d:\n", student_id);
       assert(0);
     }
+    release_chair(student_id, free_chair_index);
   }
+  /*
+   NEXT: how should we release the chair?
+   -We should have the student poke the TA before sitting to wait.
+      -Just like with the chair in the office, we should have the TA wait till
+      the student is in the chair. Once he sees the student waiting in the chair,
+      he signals the chair. After that, it he proceeds as if there are no chairs
+      i.e. he goes into the office and sits down in the office chair to get help
+      from the TA.
+
+      -Once that happens the chair should be freed for another student to use.
+
+   -What happens if we just let the student wait until the TA checks the chairs?
+  */
 }
 
 /**
@@ -517,12 +560,13 @@ void *Student_thread_func(void *param)
 
   do {
 
-    // Spend some time programming.
+
     printf("#%d: Programming...Come with me if you want to live.\n", student_id);
-    rand_sleep(student_id, MAX_STUDENT_PROG_TIME);
-    // Try getting some help from the TA
+    rand_sleep(student_id, MAX_STUDENT_PROG_TIME); // Spend some time programming.
+
     printf("#%d: Fuk. I need the TA's help on this shit.\n", student_id);
-    acquire_TA(student_id);
+    acquire_TA(student_id); // Try getting some help from the TA
+
     printf("#%d: I'll be back...My CPU is a neural net processor. A learning computer.\n", student_id);
   } while(1);
 
@@ -530,11 +574,13 @@ void *Student_thread_func(void *param)
 }
 
 /**
-  Help next student.
+
+  A student has acquired the TA lock and awakened the TA. This function
+  Changes student's state to "with TA" and then waits for the student to sit
+  down in his office.
 
   This function should only be called by the TA thread.
 
-  -Changes students state to "with TA"
 **/
 static void TA_get_next_student (void) {
   int s_val;
@@ -542,13 +588,17 @@ static void TA_get_next_student (void) {
   assert(pthread_self() == TA_tid);
 
   printf("TA: Hey #%d, how can I help? Please sit down.\n", student_with_TA);
-  assert(student_with_TA != -1);
-  assert(Students[student_with_TA] != WITH_TA); // state of student requesting help should be prog. or waiting for TA.
+  assert(student_with_TA != -1); // -1 means no one is with the TA
+
+  // State of student requesting help should be programming or waiting for TA if the TA is calling him into the office.
+  assert(Students[student_with_TA] != WITH_TA);
   Students[student_with_TA] = WITH_TA;
 
 
   // Ensure the student is sitting down in the office chair before proceeding to help him.
-  // FYI: s_val==0 means at least 1 thread is waiting in the sem., otherwise, no thread is waiting, and the current value if the sem. is returned, which is a non-negative integer by the classical def.
+  // FYI: s_val==0 means at least 1 thread is waiting in the sem., otherwise,
+  // no thread is waiting, and the current value if the sem. is returned,
+  // which is a non-negative integer by the classical def.
   do {
     if(sem_getvalue(&TA_office_sem, &s_val) != 0) {
       printf("%s\n", strerror(errno));
@@ -562,12 +612,13 @@ static void TA_get_next_student (void) {
 
 /**
 
-  TA: Politely inform the student that he must leave your office now. // fairness-improvement-idea-only kick out the student if someone else is waiting.
+  TA: Politely inform the student that he must leave your office now.
+  // Thoughts: fairness-improvement-idea: Only kick out the student if someone else is waiting.
 
-  This function is private to the TA. i.e. Only the TA only invokes this function. **
+  Only the TA only invokes this function. **
 
-  -Set student's state to Programming.
-  -signal()/sem_post() the TA office chair semaphore. This tells the student
+  Set student's state to Programming.
+  Signal()/sem_post() the TA office chair semaphore. This tells the student
   that he is being kicked out of the TA office chair by waking/unblocking the
   student's thread.
 
@@ -576,7 +627,7 @@ static void TA_kick_out_student (void) {
   assert(pthread_self() == TA_tid);
   printf("TA: Get the fuck out, #%d. Yah bitch...\n", student_with_TA);
   assert(Students[student_with_TA] == WITH_TA);
-  // Student is done with TA, go back to programming.
+  // The must go back to programming.
   Students[student_with_TA] = PROGRAMMING;
   // Signal the student that his time is up and must leave the TA office char.
   if (sem_post(&TA_office_sem) != 0) {
@@ -588,7 +639,7 @@ static void TA_kick_out_student (void) {
 static void TA_take_nap(void) {
   assert(pthread_self() == TA_tid);
 
-  if (sem_wait(&TA_help_request_sem) != 0) {
+  if (sem_wait(&TA_help_request_sem) != 0) { // This is where the TA naps.
     printf("%s\n", strerror(errno));
     assert(0);
   }
@@ -611,8 +662,7 @@ void *TA_thread_func(void *param)
     // Awakened by a student. Let him in the office.
     TA_get_next_student();
     printf("TA: Teaching student #%d.\n", student_with_TA);
-    // Help the student for a rand. amnt time, then kick him out.
-    rand_sleep(-1, MAX_WITH_TA_TIME);
+    rand_sleep(-1, MAX_WITH_TA_TIME); // Help the student for a rand. amount of time, then kick him out. -1 identifies the TA.
     TA_kick_out_student ();
     // TODO: Instead of going back to napping unconditionally. Instead, check if a student is waiting for help first, and help him. If no one is waiting, then nap.
   } while(1);
