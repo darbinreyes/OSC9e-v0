@@ -32,7 +32,7 @@
  Student and TA state definitions.
 **/
 #define NUM_STUDENTS 2
-#define NUM_TA_CHAIRS 1
+#define NUM_TA_CHAIRS 2
 
 typedef enum {
   PROGRAMMING,
@@ -167,7 +167,8 @@ static sem_t TA_chairs_lock_sem; // ONLY USED BY STUDENTS.
 
 **/
 static int free_chairs_count; // READ/WRITE FOR STUDENTS. READ ONLY FOR TA.GUARDED BY TA_chairs_lock_sem FOR BOTH READS AND WRITES.
-static int next_chair_index; // Circular chair index. Ensures FIFO access to the TA.
+static int head_chair_index; // Head. If a student one or more students are waiting in a chair, then this index points to the chair in which the next student to get his turn with the TA. Circular chair index. Ensures FIFO access to the TA.
+static int tail_chair_index; // Tail. If one or more chairs are available, then this index points to the chair that the student looking to acquire a chair should sit in. Circular chair index. Ensures FIFO access to the TA.
 
 // TODO/divide-and-conquer-idea: Intermediate problem Simplification: start with one chair, so you don't need to deal with the chair indexes. just get it working with a single chair.
 static char chair_in_use[NUM_TA_CHAIRS];  // if chair_in_use[i] == -1, the chair is free. else, in use. the corresponding sem. is TA_wait_chair_sem[i] TODO:
@@ -175,7 +176,7 @@ static char chair_in_use[NUM_TA_CHAIRS];  // if chair_in_use[i] == -1, the chair
 
   TODO: comments.
 
-  Chairs for a student to wait for the TA outside his office. next_chair_index points the semaphore to be signal by the TA next.
+  Chairs for a student to wait for the TA outside his office. head_chair_index points the semaphore to be signal by the TA next.
 **/
 static sem_t TA_wait_chair_sem[NUM_TA_CHAIRS]; // ONLY STUDENTS WAIT IN THESE SEM.S. ONLY THE TA SIGNALS THEM.
 
@@ -219,7 +220,8 @@ void init_state(void) {
 
   free_chairs_count = NUM_TA_CHAIRS;
 
-  next_chair_index = 0;
+  head_chair_index = 0;
+  tail_chair_index = 0;
 
   // init. value = 1.
   if (sem_init(&TA_chairs_lock_sem, 0, 1) == -1) {
@@ -390,7 +392,6 @@ void acquire_TA(int student_id) {
   /// Ask for TA's help.
   student_with_TA = student_id;
 
-  #if 0
   /**
    For now, a student can only access the TA by waiting in a chair outside, even
    if he is currently napping.
@@ -399,7 +400,6 @@ void acquire_TA(int student_id) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
-  #endif
 
   printf("#%d: Sitting down in TA's office.\n", student_id);
   if (sem_wait(&TA_office_chair_sem) != 0) { // First wait marks chair as in use.
@@ -478,6 +478,9 @@ static void release_chair(int student_id, int released_chair_index) {
   printf("#%d: Releasing chair %d.\n", student_id, released_chair_index);
 
   assert(Students[student_id] == WAITING_FOR_TA);
+  head_chair_index++;
+  head_chair_index = head_chair_index % NUM_TA_CHAIRS; // When a student releases a chair, its like a removal from the front of the chair queue.
+  printf("#%d: head_chair_index = %d.\n", student_id, head_chair_index);
   free_chairs_count++; // An additional chair is available now.
   assert(chair_in_use[released_chair_index] != -1); // If we are releasing this char, then it should currently be marked as in use.
   chair_in_use[released_chair_index] = -1; // Mark chair as free.
@@ -508,7 +511,7 @@ static void acquire_chair(int student_id) {
     assert(0);
   }
 
-  printf("#%d: Is there a chair for me to wait in? Num. free chairs = %d.\n", student_id, free_chairs_count);
+  printf("#%d: Is there a chair for me to wait in? Num. free chairs = %d. tail index = %d.\n", student_id, free_chairs_count, tail_chair_index);
 
   // Chair stuff.
   // If chair is not available, then come back later.
@@ -518,7 +521,9 @@ static void acquire_chair(int student_id) {
   if (free_chairs_count > 0) {
     // Acquire a chair to sit in and wait for time with the TA.
     free_chairs_count--;
-    free_chair_index = 0; // TODO: get_next_free_chair_index()
+    free_chair_index = tail_chair_index++; // new students land at the tail of the queue.
+    tail_chair_index = tail_chair_index % NUM_TA_CHAIRS; // update tail of queue.
+    printf("#%d: tail_chair_index = %d.\n", student_id, tail_chair_index);
     assert(chair_in_use[free_chair_index] == -1);
     chair_in_use[free_chair_index] = student_id;
     Students[student_id] = WAITING_FOR_TA;
@@ -620,19 +625,21 @@ static void check_for_waiting_students(void) {
 
   assert(pthread_self() == TA_tid);
 
-  printf("TA: Checking for students waiting outside on chair %d.\n", next_chair_index);
+  printf("TA: Checking for students waiting outside on chair %d.\n", head_chair_index);
+
+  assert(free_chairs_count < NUM_TA_CHAIRS);
 
   do {
-    if(sem_getvalue(&TA_wait_chair_sem[next_chair_index], &s_val) != 0) {
+    if(sem_getvalue(&TA_wait_chair_sem[head_chair_index], &s_val) != 0) {
       printf("%s\n", strerror(errno));
       assert(0);
     }
     printf("TA: Is a student waiting and sitting yet? (s_val == %d == 0)?.\n", s_val);
   } while (s_val != 0); // TODO-improvement: Is there a better way? Based on the prints , the TA loops allot here.This is essentially busy waiting.
 
-  printf("TA: Calling in next student in chair %d.\n", next_chair_index);
+  printf("TA: Calling in next student in chair %d.\n", head_chair_index);
 
-  if (sem_post(&TA_wait_chair_sem[next_chair_index]) != 0) {
+  if (sem_post(&TA_wait_chair_sem[head_chair_index]) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
@@ -655,6 +662,14 @@ static void TA_get_next_student (void) {
 
   printf("TA: Hey, how can I help? Please sit down.\n");
 
+  assert(student_with_TA != -1);
+
+  // State of student requesting help should be programming or waiting for TA if the TA is calling him into the office.
+  assert(Students[student_with_TA] != WITH_TA);
+  Students[student_with_TA] = WITH_TA;
+
+  printf("TA: #%d, now I can help you.\n", student_with_TA);
+
   /**
 
   **/
@@ -670,13 +685,6 @@ static void TA_get_next_student (void) {
     printf("TA: I said please sit down! Sitting yet? (s_val == %d == 0)?.\n", s_val);
   } while (s_val != 0);
 
-  assert(student_with_TA >= 0);
-
-  // State of student requesting help should be programming or waiting for TA if the TA is calling him into the office.
-  assert(Students[student_with_TA] != WITH_TA);
-  Students[student_with_TA] = WITH_TA;
-
-  printf("TA: #%d, now I can help you.\n", student_with_TA);
 }
 
 /**
@@ -730,6 +738,7 @@ void *TA_thread_func(void *param)
     printf("TA: A student woke me up. Fukin mofos.\n");
     // Wait for the student to be sitting down out side, the signal()/sem_post() the chair.
     check_for_waiting_students();
+    TA_take_nap(); // wait for student to tell TA he is sitting down in the office chairs.
     // Awakened by a student. Let him in the office and wait for him to sit down.
     TA_get_next_student();
     printf("TA: Teaching student #%d.\n", student_with_TA);
