@@ -31,8 +31,8 @@
 /**
  Student and TA state definitions.
 **/
-#define NUM_STUDENTS 1
-#define NUM_TA_CHAIRS 2
+#define NUM_STUDENTS  2
+#define NUM_TA_CHAIRS 1
 
 typedef enum {
   PROGRAMMING,
@@ -230,8 +230,8 @@ void init_state(void) {
   }
 
   for(i = 0; i < NUM_TA_CHAIRS; i++) {
-    // init. value = 1.
-    if (sem_init(&TA_wait_chair_sem[i], 0, 1) == -1) {
+    // init. value = 0.
+    if (sem_init(&TA_wait_chair_sem[i], 0, 0) == -1) {
       printf("%s\n", strerror(errno));
       assert(0);
     }
@@ -383,6 +383,14 @@ void acquire_TA(int student_id) {
     return; // Sorry... Yah bitch.
   }
 
+  if(Ta == NAPPING) {
+    printf("#%d: Found TA napping!\n", student_id);
+    if (sem_post(&TA_help_request_sem) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  }
+
   printf("#%d: I acquired the TA lock, yay!\n", student_id);
   fprintf(stderr, "#%d: got TA lock.\n", student_id);
 
@@ -494,7 +502,7 @@ static void acquire_chair(int student_id) {
     assert(0);
   }
 
-  printf("#%d: Is there a chair for me to wait in? Num. free chairs = %d. tail index = %d.\n", student_id, free_chairs_count, tail_chair_index);
+  printf("#%d: Is there a chair for me to wait in? Num. free chairs = %d.\n", student_id, free_chairs_count);
 
   // Chair stuff.
   // If chair is not available, then come back later.
@@ -503,11 +511,11 @@ static void acquire_chair(int student_id) {
 
   if (free_chairs_count > 0) {
     // Acquire a chair to sit in and wait for time with the TA.
-    fprintf(stderr, "#%d: A:tail_chair_index = %d.\n", student_id, tail_chair_index);
+    fprintf(stderr, "#%d: B:tail_chair_index = %d.\n", student_id, tail_chair_index);
     free_chairs_count--;
     free_chair_index = tail_chair_index++; // new students land at the tail of the queue.
     tail_chair_index = tail_chair_index % NUM_TA_CHAIRS; // update tail of queue.
-    fprintf(stderr, "#%d: B:tail_chair_index = %d.\n", student_id, tail_chair_index);
+    fprintf(stderr, "#%d: A:tail_chair_index = %d.\n", student_id, tail_chair_index);
     assert(chair_in_use[free_chair_index] == -1);
     chair_in_use[free_chair_index] = student_id;
     Students[student_id] = WAITING_FOR_TA;
@@ -535,20 +543,9 @@ static void acquire_chair(int student_id) {
       This is where students sit and wait for time with the TA. The TA signals the
       chairs to inform a student its his turn to get help from the TA.
     **/
-    if (sem_wait(&TA_wait_chair_sem[free_chair_index]) != 0) { // first wait indicates chair is in use.
+    if (sem_wait(&TA_wait_chair_sem[free_chair_index]) != 0) {
       printf("%s\n", strerror(errno));
       printf("#%d:\n", student_id);
-      assert(0);
-    }
-
-    if (sem_wait(&TA_wait_chair_sem[free_chair_index]) != 0) { // second wait blocks student until TA signals.
-      printf("%s\n", strerror(errno));
-      printf("#%d:\n", student_id);
-      assert(0);
-    }
-
-    if (sem_post(&TA_wait_chair_sem[free_chair_index]) != 0) { // Additional sem_post() after the TA's raises the sem. value back to 1.
-      printf("%s\n", strerror(errno));
       assert(0);
     }
 
@@ -605,25 +602,35 @@ void *Student_thread_func(void *param)
 
 **/
 static void check_for_waiting_students(void) {
-  int s_val;
 
   assert(pthread_self() == TA_tid);
+// TODO: use chair state lock ?
+  // acquire chairs lock.
+  if (sem_wait(&TA_chairs_lock_sem) != 0) {
+    printf("%s\n", strerror(errno));
+    printf("#%d:\n", -1);
+    assert(0);
+  }
 
-  printf("TA: Checking for students waiting outside on chair %d.\n", head_chair_index);
 
-  assert(free_chairs_count < NUM_TA_CHAIRS);
+  if(free_chairs_count < NUM_TA_CHAIRS) {
+    printf("TA: Calling in next student in chair %d.\n", head_chair_index);
 
-  do {
-    if(sem_getvalue(&TA_wait_chair_sem[head_chair_index], &s_val) != 0) {
+    if (sem_wait(&TA_help_request_sem) != 0) { // This is where the TA naps.
       printf("%s\n", strerror(errno));
       assert(0);
     }
-    printf("TA: Is a student waiting and sitting yet? (s_val == %d == 0)?.\n", s_val);
-  } while (s_val != 0); // TODO-improvement: Is there a better way? Based on the prints , the TA loops allot here.This is essentially busy waiting.
 
-  printf("TA: Calling in next student in chair %d.\n", head_chair_index);
+    if (sem_post(&TA_wait_chair_sem[head_chair_index]) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  } else {
+    printf("TA: No students waiting: free_chairs_count = %d.\n", free_chairs_count);
+  }
 
-  if (sem_post(&TA_wait_chair_sem[head_chair_index]) != 0) {
+  // release chairs lock.
+  if (sem_post(&TA_chairs_lock_sem) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
@@ -640,7 +647,6 @@ static void check_for_waiting_students(void) {
 
 **/
 static void TA_get_next_student (void) {
-  int s_val;
 
   assert(pthread_self() == TA_tid);
 
@@ -688,11 +694,12 @@ static void TA_kick_out_student (void) {
 
 static void TA_take_nap(void) {
   assert(pthread_self() == TA_tid);
-
+  Ta = NAPPING;
   if (sem_wait(&TA_help_request_sem) != 0) { // This is where the TA naps.
     printf("%s\n", strerror(errno));
     assert(0);
   }
+  Ta = TEACHING;
 }
 /**
 
