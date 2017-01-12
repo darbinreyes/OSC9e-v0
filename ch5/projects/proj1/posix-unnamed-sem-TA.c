@@ -105,21 +105,24 @@ static sem_t TA_office_chair_sem; // ONLY STUDENTS CAN WAIT. ONLY TA CAN SIGNAL.
   that he wants help, or to wake up the TA if he is currently napping.
 
   Usage: TA thread wait()'s on this semaphore when no students are requesting
-  his help. Student thread looking for the TA's helpsignal()/post()'s this
+  his help. Student thread looking for the TA's help signal()/post()'s this
   semaphore to wake the TA if he is currently napping. If the TA isn't napping
   then the TA must have just kicked out a student from his office to let the
   next student in. The next student signal()/post()'s this semaphore to inform
   the TA of his student_ID before he may enter the office and sit in the office
   chair. // NOTE: I this allows the TA thread to be the only one in control of
   state changes from PROGRAMMING to WITH TA. Seems safer to me in terms of
+
   correctness.
+  // ONLY STUDENTS CAN SIGNAL. ONLY TA CAN WAIT.
 
   Initialized to 0.
 
 **/
-static sem_t TA_help_request_sem; // ONLY STUDENTS CAN SIGNAL. ONLY TA CAN WAIT.
-static sem_t TA_help_request_sem1;
-static sem_t TA_help_request_sem2;
+static sem_t TA_help_request_sem;  // TA naps inside this sem.
+static sem_t TA_help_request_sem1; // Wait for student to sit outside. Students signal this sem. after changing their state to WAITING_FOR_TA
+static sem_t TA_help_request_sem2; // Wait for student to set Student_with_TA. Students signal this sem. after releasing the TA lock.
+static sem_t TA_help_request_sem3; // Students signal this sem. after releasing the TA lock.
 
 /**
 
@@ -227,6 +230,12 @@ void init_state(void) {
     assert(0);
   }
 
+  // init to 0.
+  if (sem_init(&TA_help_request_sem3, 0, 0) == -1) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
   free_chairs_count = NUM_TA_CHAIRS;
 
   // init. value = NUM_TA_CHAIRS.
@@ -273,6 +282,11 @@ void cleanup_state(void) {
   }
 
   if (sem_destroy(&TA_help_request_sem2) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  if (sem_destroy(&TA_help_request_sem3) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
@@ -424,7 +438,7 @@ void acquire_TA(int student_id) {
   }
 
   printf("#%d: I released TA lock. Peace out.\n", student_id);
-  if (sem_post(&TA_help_request_sem) != 0) { // Tell TA you released him. So he can help next student.
+  if (sem_post(&TA_help_request_sem3) != 0) { // Tell TA you released him. So he can help next student.
     printf("%s\n", strerror(errno));
     assert(0);
   }
@@ -590,7 +604,7 @@ static void TA_help_next_student (void) {
 
   printf("TA: Waiting for student to release me.\n");
 
-  if (sem_wait(&TA_help_request_sem) != 0) { // Wait for student to release TA lock.
+  if (sem_wait(&TA_help_request_sem3) != 0) { // Wait for student to release TA lock.
     printf("%s\n", strerror(errno));
     assert(0);
   }
