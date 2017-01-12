@@ -472,7 +472,8 @@ static void acquire_chair(int student_id) {
   }
 
   printf("#%d: I got a chair. Num. free chairs = %d.\n", student_id, free_chairs_count);
-
+  fprintf(stderr, "#%d: I got a chair.\n", student_id);
+  assert(free_chairs_count >= 0);
   if (sem_post(&TA_help_request_sem) != 0) { // Tell TA ur waiting, so don't take a nap.
     printf("%s\n", strerror(errno));
     assert(0);
