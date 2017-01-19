@@ -65,6 +65,21 @@ NEXT:
 
 **/
 
+//#include <unistd.h>
+//#include <sys/types.h>
+//#include <errno.h>
+//#include <stdio.h>
+//#include <stdlib.h>
+#include <pthread.h>
+//#include <string.h>
+//#include <semaphore.h>
+//#include <assert.h>
+
+// my includes
+#include <assert.h>
+#include <stdlib.h> // rand()
+#include <stdio.h> // printf
+
 // Philosopher thread declarations.
 #define NUM_PHILOSOPHERS  5
 
@@ -72,7 +87,7 @@ static pthread_t      Philosopher_tid[NUM_PHILOSOPHERS]; /* The Student thread(s
 static pthread_attr_t Philosopher_attr[NUM_PHILOSOPHERS]; /* Set of attributes for the thread */
 
 typedef enum {
-  THIKING,
+  THINKING,
   HUNGRY,
   EATING
 } PHILOSOPHER_STATE;
@@ -156,6 +171,41 @@ static void pickup_forks(int philosopher_number) {
 static void return_forks(int philosopher_number) {
   // TODO
   return;
+}
+
+/**
+
+  Sleep for a random amount of time.
+
+**/
+void rand_sleep(int philosopher_number, int max) {
+  int t;
+
+  assert(philosopher_number >= 0 && max > 0);
+
+#ifndef SLEEP_TIME_DISABLED
+
+  // sleep rand. amnt. of time.
+  t = rand() % max + 1;
+  #ifdef MICRO_SECONDS_TIME_UNITS
+    printf("#%d: sleeping %d usecs.\n", philosopher_number, t);
+    usleep(t);
+  #else
+    printf("#%d: sleeping %d secs.\n", philosopher_number, t);
+    sleep(t); // default
+  #endif
+  printf("#%d: Done sleeping.\n", philosopher_number);
+
+#else // sleep calls disabled.
+
+  static char no_sleep;
+  if(!no_sleep) {
+    no_sleep = 1;
+    printf("#%d: Sleeping disabled.\n", philosopher_number);
+  }
+
+#endif
+
 }
 
 /**
