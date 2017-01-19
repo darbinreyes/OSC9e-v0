@@ -54,11 +54,89 @@ It is important to note that the call to pthread cond signal() does not
 release the mutex lock. It is the subsequent call to pthread mutex unlock()
 that releases the mutex. Once the mutex lock is released, the signaled thread
 becomes the owner of the mutex lock and returns control from the call to
-pthread cond wait().
+pthread cond. wait().
 
 """ """
+NEXT:
+1) Add thread creation code. Test with prints.
+2) Add state definitions.
+3) Add mutex and cond. var init. Test with prints.
+4) Start translating Galvin's monitor solution.
 
 **/
+
+// Philosopher thread declarations.
+#define NUM_PHILOSOPHERS  5
+
+static pthread_t      Philosopher_tid[NUM_PHILOSOPHERS]; /* The Student thread(s) identifier */
+static pthread_attr_t Philosopher_attr[NUM_PHILOSOPHERS]; /* Set of attributes for the thread */
+
+typedef enum {
+  THIKING,
+  HUNGRY,
+  EATING
+} PHILOSOPHER_STATE;
+
+static PHILOSOPHER_STATE PhilosopherState[NUM_PHILOSOPHERS];
+
+void *Philosopher_thread_func(void *param);
+
+/**
+
+  Cleanup this program's state before terminating.
+
+**/
+static void cleanup_state(void) {
+
+}
+
+/**
+
+  Initialize this program's state:
+  -Philosophers thinking.
+  -mutex and condition var. initializations.
+
+**/
+static void init_state(void) {
+  int i = 0;
+
+  // P's thinking.
+  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
+    PhilosopherState[i] = THINKING;
+  }
+
+}
+
+/**
+
+  main.
+
+**/
+int main(void)
+{
+  int i;
+
+  printf("I am main...\n");
+
+  init_state();
+
+  // Create and start the Philosopher thread(s)
+  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
+    printf("Philosopher %d: Creating thread...\n", i);
+    pthread_attr_init(&Philosopher_attr[i]);
+    pthread_create(&Philosopher_tid[i], &Philosopher_attr[i], Philosopher_thread_func, NULL);
+  }
+
+  // Wait for each Philosopher thread to exit
+  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
+    pthread_join(Philosopher_tid[i], NULL);
+  }
+
+  cleanup_state();
+
+  return 0;
+}
+
 
 /**
 
@@ -78,4 +156,39 @@ static void pickup_forks(int philosopher_number) {
 static void return_forks(int philosopher_number) {
   // TODO
   return;
+}
+
+/**
+
+  Assign a unique integer to each philosopher thread in the range of 0 to N-1,
+  where N == Number of philosophers. The assignment is based to the thread's ID.
+
+**/
+static int get_philosopher_num(void) {
+  int i = 0;
+  pthread_t tid;
+
+  tid = pthread_self();
+
+  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
+    if(Philosopher_tid[i] == tid) {
+      return i;
+    }
+  }
+
+  assert(0);
+}
+
+void *Philosopher_thread_func(void *param) {
+  int philosopher_number = get_philosopher_num();
+
+  printf("#%d: Hello, I am a philosopher.\n", philosopher_number);
+
+  do {
+
+    // TODO:
+
+  } while(1);
+
+  pthread_exit(0); // der-Q: is this necessary, or is returning from here the same ? Suspect necessary of want to return a specific return status.
 }
