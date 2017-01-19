@@ -188,7 +188,7 @@ static void init_state(void) {
   Ta = NAPPING;
 
   for(i = 0; i < NUM_STUDENTS; i++) {
-    Students[i++] = PROGRAMMING;
+    Students[i] = PROGRAMMING;
   }
 
   /* init. semaphores */
