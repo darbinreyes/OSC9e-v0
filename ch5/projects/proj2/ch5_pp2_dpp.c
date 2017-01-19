@@ -81,6 +81,7 @@ NEXT:
 #include <stdio.h> // printf
 
 // Philosopher thread declarations.
+#define MAX_SLEEP_TIME    3
 #define NUM_PHILOSOPHERS  5
 
 static pthread_t      Philosopher_tid[NUM_PHILOSOPHERS]; /* The Student thread(s) identifier */
@@ -93,6 +94,10 @@ typedef enum {
 } PHILOSOPHER_STATE;
 
 static PHILOSOPHER_STATE PhilosopherState[NUM_PHILOSOPHERS];
+
+// mutex and condition var. definitions
+pthread_mutex_t mutex;
+pthread_cond_t  cond_var;
 
 void *Philosopher_thread_func(void *param);
 
@@ -120,6 +125,8 @@ static void init_state(void) {
     PhilosopherState[i] = THINKING;
   }
 
+  pthread_mutex_init(&mutex, NULL);
+  pthread_cond_init(&cond_var, NULL);
 }
 
 /**
@@ -237,6 +244,7 @@ void *Philosopher_thread_func(void *param) {
   do {
 
     // TODO:
+    rand_sleep(philosopher_number, MAX_SLEEP_TIME);
 
   } while(1);
 
