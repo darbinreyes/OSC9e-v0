@@ -132,7 +132,7 @@ DESCRIPTION
 
 //#include <unistd.h>
 //#include <sys/types.h>
-//#include <errno.h>
+#include <errno.h> // errno
 //#include <stdio.h>
 //#include <stdlib.h>
 #include <pthread.h>
@@ -163,6 +163,9 @@ static PHILOSOPHER_STATE PhilosopherState[NUM_PHILOSOPHERS];
 // mutex and condition var. definitions
 pthread_mutex_t mutex;
 pthread_cond_t  cond_var;
+// From Galvin's DDP monitor solution. mutex and condition var. definitions
+pthread_mutex_t self_mutex[NUM_PHILOSOPHERS];
+pthread_cond_t  self_cond_var[NUM_PHILOSOPHERS];
 
 void *Philosopher_thread_func(void *param);
 
@@ -172,6 +175,8 @@ void *Philosopher_thread_func(void *param);
 
 **/
 static void cleanup_state(void) {
+  int i;
+
   if(pthread_mutex_destroy(&mutex) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
@@ -180,6 +185,18 @@ static void cleanup_state(void) {
   if(pthread_cond_destroy(&cond_var) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
+  }
+
+  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
+    if(pthread_mutex_destroy(&self_mutex[i]) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+
+    if(pthread_cond_destroy(&self_cond_var[i]) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
   }
 }
 
@@ -193,10 +210,7 @@ static void cleanup_state(void) {
 static void init_state(void) {
   int i = 0;
 
-  // P's thinking.
-  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
-    PhilosopherState[i] = THINKING;
-  }
+
 
   if(pthread_mutex_init(&mutex, NULL) != 0) {
     printf("%s\n", strerror(errno));
@@ -208,6 +222,19 @@ static void init_state(void) {
     assert(0);
   }
 
+  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
+      PhilosopherState[i] = THINKING; // P's thinking.
+
+      if(pthread_mutex_init(&self_mutex[i], NULL) != 0) {
+        printf("%s\n", strerror(errno));
+        assert(0);
+      }
+
+      if (pthread_cond_init(&self_cond_var[i], NULL) != 0) {
+        printf("%s\n", strerror(errno));
+        assert(0);
+      }
+  }
 }
 
 /**
