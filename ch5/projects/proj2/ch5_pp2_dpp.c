@@ -267,6 +267,65 @@ int main(void)
   return 0;
 }
 
+static int left_neighbor(int philosopher_number) {
+  int l = (philosopher_number + 4) % 5;
+
+  printf("Philosopher %d: Left neighbor = %d.\n", philosopher_number, l);
+
+  return l;
+}
+
+static int right_neighbor(int philosopher_number) {
+  int r = (philosopher_number + 1) % 5;
+
+  printf("Philosopher %d: Right neighbor = %d.\n", philosopher_number, r);
+
+  return r;
+}
+
+static void test(int philosopher_number) {
+  // If I am hungry and both my neighbors are not eating, then I may start eating.
+
+  // main lock
+  if(pthread_mutex_lock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  if(   PhilosopherState[left_neighbor(philosopher_number)] != EATING
+    &&  PhilosopherState[right_neighbor(philosopher_number)] != EATING
+    &&  PhilosopherState[philosopher_number] == HUNGRY
+    ) {
+
+    // Not sure about this. This is direct translation of Galvin. May need adjustment
+
+    // lock
+    if(pthread_mutex_lock(&self_mutex[philosopher_number]) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+
+    // update cond.
+    PhilosopherState[philosopher_number] = EATING;
+
+    // cond. var. signal.
+    if (pthread_cond_signal(&self_cond_var[philosopher_number]) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+    // unlock
+    if(pthread_mutex_unlock(&self_mutex[philosopher_number]) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  }
+
+  // main unlock
+  if(pthread_mutex_unlock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+}
 
 /**
 
