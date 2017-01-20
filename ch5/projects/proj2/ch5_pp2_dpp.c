@@ -58,10 +58,75 @@ pthread cond. wait().
 
 """ """
 NEXT:
-1) Add thread creation code. Test with prints.
-2) Add state definitions.
-3) Add mutex and cond. var init. Test with prints.
-4) Start translating Galvin's monitor solution.
+x1) Add thread creation code. Test with prints.
+x2) Add state definitions.
+x3) Add mutex and cond. var init. Test with prints.
+NEXT: 4) Start translating Galvin's monitor solution.
+Q: what is the diff. between the cond. var. def. by Galvin vs. the Pthreads def?
+-one obvious difference is that a mutex is associated with the cond. var. explicitly instead
+of hidden within the cond. var. implementation. NEXT: read man page for cond. var.
+
+ The pthread_cond_init() function creates a new condition variable, with
+     attributes specified with attr.  If attr is NULL the default attributes
+     are used.
+
+int
+     pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *mutex);
+
+
+The pthread_cond_wait() function atomically blocks the current thread
+     waiting on the condition variable specified by cond, and releases the
+     mutex specified by mutex.  The waiting thread unblocks only after another
+     thread calls pthread_cond_signal(3), or pthread_cond_broadcast(3) with
+     the same condition variable, and the current thread reacquires the lock
+     on mutex.
+
+
+     int
+     pthread_cond_signal(pthread_cond_t *cond);
+
+
+ The pthread_cond_signal() function unblocks one thread waiting for the
+     condition variable cond.
+
+SEE ALSO
+     pthread_cond_broadcast(3), pthread_cond_destroy(3), pthread_cond_init(3),
+     pthread_cond_timedwait(3), pthread_cond_wait(3)
+
+The pthread_cond_init() function creates a new condition variable, with
+     attributes specified with attr.  If attr is NULL the default attributes
+     are used.
+########## mutex man pages
+
+ int
+     pthread_mutex_init(pthread_mutex_t *mutex,
+         const pthread_mutexattr_t *attr);
+
+DESCRIPTION
+     The pthread_mutex_init() function creates a new mutex, with attributes
+     specified with attr.  If attr is NULL the default attributes are used.
+ int
+     pthread_mutex_destroy(pthread_mutex_t *mutex);
+
+DESCRIPTION
+     The pthread_mutex_destroy() function frees the resources allocated for
+     mutex.
+
+ int
+     pthread_mutex_lock(pthread_mutex_t *mutex);
+
+DESCRIPTION
+     The pthread_mutex_lock() function locks mutex.  If the mutex is already
+     locked, the calling thread will block until the mutex becomes available.
+  int
+     pthread_mutex_unlock(pthread_mutex_t *mutex);
+
+DESCRIPTION
+     If the current thread holds the lock on mutex, then the
+     pthread_mutex_unlock() function unlocks mutex.
+
+     Calling pthread_mutex_unlock() with a mutex that the calling thread does
+     not hold will result in undefined behavior.
 
 **/
 
@@ -107,7 +172,15 @@ void *Philosopher_thread_func(void *param);
 
 **/
 static void cleanup_state(void) {
+  if(pthread_mutex_destroy(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
 
+  if(pthread_cond_destroy(&cond_var) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
 }
 
 /**
@@ -125,8 +198,16 @@ static void init_state(void) {
     PhilosopherState[i] = THINKING;
   }
 
-  pthread_mutex_init(&mutex, NULL);
-  pthread_cond_init(&cond_var, NULL);
+  if(pthread_mutex_init(&mutex, NULL) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  if (pthread_cond_init(&cond_var, NULL) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
 }
 
 /**
