@@ -289,10 +289,10 @@ static void test(int philosopher_number) {
   printf("test(%d). IN.\n", philosopher_number);
 
   // main lock
-  if(pthread_mutex_lock(&mutex) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
+  // if(pthread_mutex_lock(&mutex) != 0) {
+  //   printf("%s\n", strerror(errno));
+  //   assert(0);
+  // }
 
   printf("test(%d). Got lock.\n", philosopher_number);
 
@@ -330,10 +330,10 @@ static void test(int philosopher_number) {
   printf("test(%d). OUT.\n", philosopher_number);
 
   // main unlock
-  if(pthread_mutex_unlock(&mutex) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
+  // if(pthread_mutex_unlock(&mutex) != 0) {
+  //   printf("%s\n", strerror(errno));
+  //   assert(0);
+  // }
 }
 
 /**
@@ -396,6 +396,8 @@ static void pickup_forks(int philosopher_number) {
 
 **/
 static void return_forks(int philosopher_number) {
+  printf("#%d: return_forks. IN.\n", philosopher_number);
+
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
     printf("%s\n", strerror(errno));
@@ -405,6 +407,9 @@ static void return_forks(int philosopher_number) {
   printf("#%d: Done eating. Telling my neighbors I'm going back to thinking.\n", philosopher_number);
 
   PhilosopherState[philosopher_number] = THINKING;
+
+  printf("#%d: I just set my state to thinking.\n", philosopher_number);
+
   test(left_neighbor(philosopher_number));
   test(right_neighbor(philosopher_number));
   // TODO
@@ -414,6 +419,9 @@ static void return_forks(int philosopher_number) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
+
+  printf("#%d: return_forks. OUT.\n", philosopher_number);
+
   return;
 }
 
