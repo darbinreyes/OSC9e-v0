@@ -286,11 +286,15 @@ static int right_neighbor(int philosopher_number) {
 static void test(int philosopher_number) {
   // If I am hungry and both my neighbors are not eating, then I may start eating.
 
+  printf("test(%d). IN.\n", philosopher_number);
+
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
+
+  printf("test(%d). Got lock.\n", philosopher_number);
 
   if(   PhilosopherState[left_neighbor(philosopher_number)] != EATING
     &&  PhilosopherState[right_neighbor(philosopher_number)] != EATING
@@ -298,12 +302,15 @@ static void test(int philosopher_number) {
     ) {
 
     // Not sure about this. This is direct translation of Galvin. May need adjustment
+    printf("test(%d). Chopsticks available.\n", philosopher_number);
 
     // lock
     if(pthread_mutex_lock(&self_mutex[philosopher_number]) != 0) {
       printf("%s\n", strerror(errno));
       assert(0);
     }
+
+    printf("test(%d). Chopsticks available. Got lock.\n", philosopher_number);
 
     // update cond.
     PhilosopherState[philosopher_number] = EATING;
@@ -319,6 +326,8 @@ static void test(int philosopher_number) {
       assert(0);
     }
   }
+
+  printf("test(%d). OUT.\n", philosopher_number);
 
   // main unlock
   if(pthread_mutex_unlock(&mutex) != 0) {
@@ -339,6 +348,7 @@ static void pickup_forks(int philosopher_number) {
     assert(0);
   }
   // TODO
+  printf("#%d: I so hungry.\n", philosopher_number);
 
   // I'm hungry.
   PhilosopherState[philosopher_number] = HUNGRY;
@@ -354,7 +364,7 @@ static void pickup_forks(int philosopher_number) {
   }
 
   while (PhilosopherState[philosopher_number] != EATING) {
-
+    printf("#%d:  Waiting to eat...\n", philosopher_number);
     // self cond. var. wait.
     if (pthread_cond_wait(&self_cond_var[philosopher_number], &self_mutex[philosopher_number]) != 0) {
       printf("%s\n", strerror(errno));
@@ -362,6 +372,8 @@ static void pickup_forks(int philosopher_number) {
     }
 
   }
+
+  printf("#%d: I can eat now!\n", philosopher_number);
 
   // self unlock
   if(pthread_mutex_unlock(&self_mutex[philosopher_number]) != 0) {
@@ -389,6 +401,12 @@ static void return_forks(int philosopher_number) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
+
+  printf("#%d: Done eating. Telling my neighbors I'm going back to thinking.\n", philosopher_number);
+
+  PhilosopherState[philosopher_number] = THINKING;
+  test(left_neighbor(philosopher_number));
+  test(right_neighbor(philosopher_number));
   // TODO
 
   // main unlock
@@ -463,7 +481,15 @@ void *Philosopher_thread_func(void *param) {
   do {
 
     // TODO:
-    rand_sleep(philosopher_number, MAX_SLEEP_TIME);
+    printf("#%d: Thinking...\n", philosopher_number);
+
+    rand_sleep(philosopher_number, MAX_SLEEP_TIME); // Think.
+
+    pickup_forks(philosopher_number);
+
+    rand_sleep(philosopher_number, MAX_SLEEP_TIME); // Eat.
+
+    return_forks(philosopher_number);
 
   } while(1);
 
