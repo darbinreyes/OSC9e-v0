@@ -333,7 +333,48 @@ static void test(int philosopher_number) {
 
 **/
 static void pickup_forks(int philosopher_number) {
+  // main lock
+  if(pthread_mutex_lock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
   // TODO
+
+  // I'm hungry.
+  PhilosopherState[philosopher_number] = HUNGRY;
+  // May I eat now?
+  test(philosopher_number);
+
+  // If I can't eat now, then I'll wait for my turn. One of my neighbors will tell me when its my turn.
+
+  // self lock
+  if(pthread_mutex_lock(&self_mutex[philosopher_number]) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  while (PhilosopherState[philosopher_number] != EATING) {
+
+    // self cond. var. wait.
+    if (pthread_cond_wait(&self_cond_var[philosopher_number], &self_mutex[philosopher_number]) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+
+  }
+
+  // self unlock
+  if(pthread_mutex_unlock(&self_mutex[philosopher_number]) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  // main unlock
+  if(pthread_mutex_unlock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
   return;
 }
 
@@ -343,7 +384,18 @@ static void pickup_forks(int philosopher_number) {
 
 **/
 static void return_forks(int philosopher_number) {
+  // main lock
+  if(pthread_mutex_lock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
   // TODO
+
+  // main unlock
+  if(pthread_mutex_unlock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
   return;
 }
 
