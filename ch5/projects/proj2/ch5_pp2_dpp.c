@@ -342,6 +342,8 @@ static void test(int philosopher_number) {
 
 **/
 static void pickup_forks(int philosopher_number) {
+  int i;
+
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
     printf("%s\n", strerror(errno));
@@ -357,16 +359,10 @@ static void pickup_forks(int philosopher_number) {
 
   // If I can't eat now, then I'll wait for my turn. One of my neighbors will tell me when its my turn.
 
-  // self lock
-  if(pthread_mutex_lock(&self_mutex[philosopher_number]) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
   while (PhilosopherState[philosopher_number] != EATING) {
     printf("#%d:  Waiting to eat...\n", philosopher_number);
     // self cond. var. wait.
-    if (pthread_cond_wait(&self_cond_var[philosopher_number], &self_mutex[philosopher_number]) != 0) {
+    if (pthread_cond_wait(&self_cond_var[philosopher_number], &mutex) != 0) {
       printf("%s\n", strerror(errno));
       assert(0);
     }
@@ -375,11 +371,11 @@ static void pickup_forks(int philosopher_number) {
 
   printf("#%d: I can eat now!\n", philosopher_number);
 
-  // self unlock
-  if(pthread_mutex_unlock(&self_mutex[philosopher_number]) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
+  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
+      printf("[%d]", PhilosopherState[i]);
   }
+  printf("\n");
+  assert(PhilosopherState[left_neighbor(philosopher_number)] != EATING && PhilosopherState[right_neighbor(philosopher_number)] != EATING);
 
   // main unlock
   if(pthread_mutex_unlock(&mutex) != 0) {
@@ -496,6 +492,7 @@ void *Philosopher_thread_func(void *param) {
     pickup_forks(philosopher_number);
 
     rand_sleep(philosopher_number, MAX_SLEEP_TIME); // Eat.
+    assert(PhilosopherState[left_neighbor(philosopher_number)] != EATING && PhilosopherState[right_neighbor(philosopher_number)] != EATING);
 
     return_forks(philosopher_number);
 
