@@ -283,16 +283,24 @@ static int right_neighbor(int philosopher_number) {
   return r;
 }
 
-static void test(int philosopher_number) {
-  // If I am hungry and both my neighbors are not eating, then I may start eating.
+static void print_philosopher_state(void) {
+  int i;
 
+  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
+      printf("[%d]", PhilosopherState[i]);
+  }
+  printf("\n");
+
+}
+
+static void test(int philosopher_number) {
+  // Use case 1: If I am hungry and both my neighbors are not eating, then I may start eating.
+  // Use case 2: I am done eating now, let me inform my neighbors that I'm done eating in case they are hungry.
   printf("test(%d). IN.\n", philosopher_number);
 
-  // main lock
-  // if(pthread_mutex_lock(&mutex) != 0) {
-  //   printf("%s\n", strerror(errno));
-  //   assert(0);
-  // }
+  // Since this function is not called directly by a P thread. We don't need to
+  // acquire the main mutex since it has already been acquired by the calling P
+  // thread via pickup*() or return*().
 
   printf("test(%d). Got lock.\n", philosopher_number);
 
@@ -304,7 +312,7 @@ static void test(int philosopher_number) {
     // Not sure about this. This is direct translation of Galvin. May need adjustment
     printf("test(%d). Chopsticks available.\n", philosopher_number);
 
-    // lock
+    // self lock // each self mutex ensures mutually exclusive access to the P state array.
     if(pthread_mutex_lock(&self_mutex[philosopher_number]) != 0) {
       printf("%s\n", strerror(errno));
       assert(0);
@@ -312,15 +320,15 @@ static void test(int philosopher_number) {
 
     printf("test(%d). Chopsticks available. Got lock.\n", philosopher_number);
 
-    // update cond.
+    // self update cond.
     PhilosopherState[philosopher_number] = EATING;
 
-    // cond. var. signal.
+    // self cond. var. signal.
     if (pthread_cond_signal(&self_cond_var[philosopher_number]) != 0) {
       printf("%s\n", strerror(errno));
       assert(0);
     }
-    // unlock
+    // self unlock
     if(pthread_mutex_unlock(&self_mutex[philosopher_number]) != 0) {
       printf("%s\n", strerror(errno));
       assert(0);
@@ -328,12 +336,6 @@ static void test(int philosopher_number) {
   }
 
   printf("test(%d). OUT.\n", philosopher_number);
-
-  // main unlock
-  // if(pthread_mutex_unlock(&mutex) != 0) {
-  //   printf("%s\n", strerror(errno));
-  //   assert(0);
-  // }
 }
 
 /**
@@ -342,7 +344,6 @@ static void test(int philosopher_number) {
 
 **/
 static void pickup_forks(int philosopher_number) {
-  int i;
 
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
@@ -370,11 +371,7 @@ static void pickup_forks(int philosopher_number) {
   }
 
   printf("#%d: I can eat now!\n", philosopher_number);
-
-  for(i = 0; i < NUM_PHILOSOPHERS; i++) {
-      printf("[%d]", PhilosopherState[i]);
-  }
-  printf("\n");
+  print_philosopher_state();
   assert(PhilosopherState[left_neighbor(philosopher_number)] != EATING && PhilosopherState[right_neighbor(philosopher_number)] != EATING);
 
   // main unlock
@@ -406,7 +403,7 @@ static void return_forks(int philosopher_number) {
 
   printf("#%d: I just set my state to thinking.\n", philosopher_number);
 
-  test(left_neighbor(philosopher_number));
+  test(left_neighbor(philosopher_number)); // der-NOTE: I suspect alternating these calls should fix the starvation possibility. First Lets see if we can observe starvation by counting the number of times each P gets to eat.
   test(right_neighbor(philosopher_number));
   // TODO
 
@@ -479,6 +476,7 @@ static int get_philosopher_num(void) {
 
 void *Philosopher_thread_func(void *param) {
   int philosopher_number = get_philosopher_num();
+  int eating_count = 0;
 
   printf("#%d: Hello, I am a philosopher.\n", philosopher_number);
 
@@ -486,12 +484,20 @@ void *Philosopher_thread_func(void *param) {
 
     // TODO:
     printf("#%d: Thinking...\n", philosopher_number);
-
     rand_sleep(philosopher_number, MAX_SLEEP_TIME); // Think.
 
+    printf("#%d: Hungry...\n", philosopher_number);
     pickup_forks(philosopher_number);
 
+    // assert state neighbors not eating.
+    assert(PhilosopherState[left_neighbor(philosopher_number)] != EATING && PhilosopherState[right_neighbor(philosopher_number)] != EATING);
+
+    eating_count++;
+    printf("#%d: Eating... count = %d.\n", philosopher_number, eating_count);
+    fprintf(stderr, "#%d: Eating... count = %d.\n", philosopher_number, eating_count);
     rand_sleep(philosopher_number, MAX_SLEEP_TIME); // Eat.
+
+    // assert state neighbors not eating.
     assert(PhilosopherState[left_neighbor(philosopher_number)] != EATING && PhilosopherState[right_neighbor(philosopher_number)] != EATING);
 
     return_forks(philosopher_number);
