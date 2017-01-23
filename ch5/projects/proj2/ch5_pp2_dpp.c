@@ -313,10 +313,10 @@ static void test(int philosopher_number) {
     printf("test(%d). Chopsticks available.\n", philosopher_number);
 
     // self lock // each self mutex ensures mutually exclusive access to the P state array.
-    if(pthread_mutex_lock(&self_mutex[philosopher_number]) != 0) {
-      printf("%s\n", strerror(errno));
-      assert(0);
-    }
+    // if(pthread_mutex_lock(&self_mutex[philosopher_number]) != 0) { // der-NOTE: do i really need this? Seems like main mutex is sufficient. RESULT OF REMOVING: No asserts.
+    //   printf("%s\n", strerror(errno));
+    //   assert(0);
+    // }
 
     printf("test(%d). Chopsticks available. Got lock.\n", philosopher_number);
 
@@ -329,10 +329,10 @@ static void test(int philosopher_number) {
       assert(0);
     }
     // self unlock
-    if(pthread_mutex_unlock(&self_mutex[philosopher_number]) != 0) {
-      printf("%s\n", strerror(errno));
-      assert(0);
-    }
+    // if(pthread_mutex_unlock(&self_mutex[philosopher_number]) != 0) {
+    //   printf("%s\n", strerror(errno));
+    //   assert(0);
+    // }
   }
 
   printf("test(%d). OUT.\n", philosopher_number);
