@@ -388,8 +388,10 @@ static void pickup_forks(int philosopher_number) {
   Invoked by a P when finished eating.
 
 **/
-static void return_forks(int philosopher_number) {
+static void return_forks(int philosopher_number, unsigned int eat_count) {
   printf("#%d: return_forks. IN.\n", philosopher_number);
+
+  assert(eat_count > 0);
 
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
@@ -402,9 +404,14 @@ static void return_forks(int philosopher_number) {
   PhilosopherState[philosopher_number] = THINKING;
 
   printf("#%d: I just set my state to thinking.\n", philosopher_number);
-
-  test(left_neighbor(philosopher_number)); // der-NOTE: I suspect alternating these calls should fix the starvation possibility. First Lets see if we can observe starvation by counting the number of times each P gets to eat.
-  test(right_neighbor(philosopher_number));
+  if(eat_count % 2 == 0) { // even L then R neighbor.
+    // der-NOTE: I suspect alternating these calls should fix the starvation possibility. First Lets see if we can observe starvation by counting the number of times each P gets to eat.
+    test(left_neighbor(philosopher_number));
+    test(right_neighbor(philosopher_number));
+  } else { // Odd R then L neighbor.
+    test(right_neighbor(philosopher_number));
+    test(left_neighbor(philosopher_number));
+  }
   // TODO
 
   // main unlock
@@ -500,7 +507,7 @@ void *Philosopher_thread_func(void *param) {
     // assert state neighbors not eating.
     assert(PhilosopherState[left_neighbor(philosopher_number)] != EATING && PhilosopherState[right_neighbor(philosopher_number)] != EATING);
 
-    return_forks(philosopher_number);
+    return_forks(philosopher_number, eating_count);
 
   } while(1);
 
