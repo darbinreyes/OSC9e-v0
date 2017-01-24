@@ -64,42 +64,82 @@ void *consumer(void *param) {
   }
 }
 
+###### My Misc. Notes:
+
+der-FYI:
+"""
+IMPLEMENTATION NOTES
+     The atoi() and atoi_l() functions are *****thread-safe***** and async-cancel-safe.
+"""
+
 **/
 
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h> // rand(), malloc(), free().
 
-int sum; /* this data is shared by the thread(s) */
 
-void *runner(void *param); /* the thread */
+
+
+#define DEFAULT_MAIN_SLEEP_TIME 5
+#define DEFAULT_NUM_PRODUCER_THREADS 5
+#define DEFAULT_NUM_CONSUMER_THREADS 5
+
+// Thread definitions.
+static pthread_attr_t Thrd_attr; // Attribute struct common to all threads.
+static pthread_t      *Producer_tid;
+static pthread_t      *Consumer_tid;
+
+void *Producer_thread_func(void *param);
+void *Consumer_thread_func(void *param);
 
 int main(int argc, char *argv[])
 {
-pthread_t tid; /* the thread identifier */
-pthread_attr_t attr; /* set of attributes for the thread */
+  pthread_t tid; /* the thread identifier */
+  pthread_attr_t attr; /* set of attributes for the thread */
+  int main_sleep_time, num_producer_threads, num_consumer_threads;
+  /*** START: Get args ***/
+  if(argc == 1) {
+    // My spec: No args means use default values.
+    main_sleep_time = DEFAULT_MAIN_SLEEP_TIME;
+    num_producer_threads = DEFAULT_NUM_PRODUCER_THREADS;
+    num_consumer_threads = DEFAULT_NUM_CONSUMER_THREADS;
+  } else if (argc != 4) {
+    fprintf(stderr,"usage: a.out <main_sleep_time.integer value> <num_producer_threads.integer value> <num_consumer_threads.integer value>\n");
+    /*exit(1);*/
+    return -1;
+  }
 
-if (argc != 2) {
-  fprintf(stderr,"usage: a.out <integer value>\n");
-  /*exit(1);*/
-  return -1;
-}
+  if ((main_sleep_time = atoi(argv[1])) < 0) {
+    fprintf(stderr,"Argument %d must be non-negative\n", atoi(argv[1]));
+    /*exit(1);*/
+    return -1;
+  }
+  if ((num_producer_threads = atoi(argv[2])) < 0) {
+    fprintf(stderr,"Argument %d must be non-negative\n", atoi(argv[2]));
+    /*exit(1);*/
+    return -1;
+  }
 
-if (atoi(argv[1]) < 0) {
-  fprintf(stderr,"Argument %d must be non-negative\n",atoi(argv[1]));
-  /*exit(1);*/
-  return -1;
-}
+  if ((num_consumer_threads = atoi(argv[3])) < 0) {
+    fprintf(stderr,"Argument %d must be non-negative\n", atoi(argv[3]));
+    /*exit(1);*/
+    return -1;
+  }
 
-/* get the default attributes */
-pthread_attr_init(&attr);
+  printf("main_sleep_time = %d. num_producer_threads = %d. num_consumer_threads = %d.\n", main_sleep_time, num_producer_threads, num_consumer_threads);
+  /*** END: Get args ***/
 
-/* create the thread */
-pthread_create(&tid,&attr,runner,argv[1]);
+  /* get the default attributes */
+  pthread_attr_init(&attr);
 
-/* now wait for the thread to exit */
-pthread_join(tid,NULL);
+  /* create the thread */
+  pthread_create(&tid,&attr,runner,argv[1]);
 
-printf("sum = %d\n",sum);
+  /* now wait for the thread to exit */
+  pthread_join(tid,NULL);
+
+  printf("sum = %d\n",sum);
 }
 
 /**
