@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
   }
 
   // Sleep for rand time.
-  rand_sleep(-1, main_sleep_time, 0); // TODO: force threads to terminate
+  rand_sleep(-1, main_sleep_time, 0); // TODO: force threads to terminate.s
 
 
   /* Now wait for all the threads to exit */
