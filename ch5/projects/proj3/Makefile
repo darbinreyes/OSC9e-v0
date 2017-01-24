@@ -1,16 +1,16 @@
 
 all:
-	gcc -lpthread ch5_pp2_dpp.c
+	gcc -lpthread ch5_pp3_pcp.c
 	# make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 
 build:
-	gcc -lpthread ch5_pp2_dpp.c
+	gcc -lpthread ch5_pp3_pcp.c
 
 buildnosleep:
-	gcc -lpthread ch5_pp2_dpp.c -DSLEEP_TIME_DISABLED
+	gcc -lpthread ch5_pp3_pcp.c -DSLEEP_TIME_DISABLED
 
 buildusecs:
-	gcc -lpthread ch5_pp2_dpp.c -DMICRO_SECONDS_TIME_UNITS
+	gcc -lpthread ch5_pp3_pcp.c -DMICRO_SECONDS_TIME_UNITS
 
 clean:
 	rm a.out

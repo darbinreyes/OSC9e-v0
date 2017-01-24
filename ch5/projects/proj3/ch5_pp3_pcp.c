@@ -79,7 +79,7 @@ IMPLEMENTATION NOTES
 #include <stdlib.h> // rand(), malloc(), free().
 #include <semaphore.h> // sem_t
 #include <errno.h> // errno
-
+#include <assert.h>
 #include "buffer.h"
 
 #define DEFAULT_MAIN_SLEEP_TIME 5
@@ -94,7 +94,7 @@ static pthread_t      *Consumer_tid;
 
 void *Producer_thread_func(void *param);
 void *Consumer_thread_func(void *param);
-void rand_sleep(int caller_id, int max);
+void rand_sleep(int caller_id, int max, char use_rand);
 
 // Given shared data btw P/C threads.
 int n; // My spec. : num items currently in the buffer.
@@ -128,7 +128,7 @@ void cleanup_state (void) {
   }
 }
 // Init. program state.
-void init_state(int num_producer_threads, int num_consumer_threads,int buff_size) {
+void init_state(int num_producer_threads, int num_consumer_threads, int buff_size) {
   assert(buff_size > 0);
   assert(num_producer_threads > 0);
   assert(num_consumer_threads > 0);
@@ -145,13 +145,13 @@ void init_state(int num_producer_threads, int num_consumer_threads,int buff_size
   assert(Consumer_tid != NULL);
 
   // Create an "unnamed" semaphore, flags = 0, init. value = buff_size.
-  if (sem_init(&full_sem, 0, buff_size) == -1) {
+  if (sem_init(&full_sem, 0, 0) == -1) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
 
   // Create an "unnamed" semaphore, flags = 0, init. value = 0.
-  if (sem_init(&empty_sem, 0, 0) == -1) {
+  if (sem_init(&empty_sem, 0, buff_size) == -1) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
@@ -180,21 +180,23 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  if ((main_sleep_time = atoi(argv[1])) <= 0) {
-    fprintf(stderr,"Argument %d must be > 0.\n", atoi(argv[1]));
-    /*exit(1);*/
-    return -1;
-  }
-  if ((num_producer_threads = atoi(argv[2])) <= 0) {
-    fprintf(stderr,"Argument %d must be > 0.\n", atoi(argv[2]));
-    /*exit(1);*/
-    return -1;
-  }
+  if (argc == 4) {
+    if ((main_sleep_time = atoi(argv[1])) <= 0) {
+      fprintf(stderr,"Argument %d must be > 0.\n", atoi(argv[1]));
+      /*exit(1);*/
+      return -1;
+    }
+    if ((num_producer_threads = atoi(argv[2])) <= 0) {
+      fprintf(stderr,"Argument %d must be > 0.\n", atoi(argv[2]));
+      /*exit(1);*/
+      return -1;
+    }
 
-  if ((num_consumer_threads = atoi(argv[3])) <= 0) {
-    fprintf(stderr,"Argument %d must be > 0.\n", atoi(argv[3]));
-    /*exit(1);*/
-    return -1;
+    if ((num_consumer_threads = atoi(argv[3])) <= 0) {
+      fprintf(stderr,"Argument %d must be > 0.\n", atoi(argv[3]));
+      /*exit(1);*/
+      return -1;
+    }
   }
 
   printf("main_sleep_time = %d. num_producer_threads = %d. num_consumer_threads = %d.\n", main_sleep_time, num_producer_threads, num_consumer_threads);
@@ -216,19 +218,18 @@ int main(int argc, char *argv[])
   }
 
   // Sleep for rand time.
-  rand_sleep(-1, main_sleep_time);
+  rand_sleep(-1, main_sleep_time, 0); // TODO: force threads to terminate
 
 
   /* Now wait for all the threads to exit */
   for(i = 0; i < num_producer_threads; i++) {
-    pthread_join(&Producer_tid[i], NULL);
+    pthread_join(Producer_tid[i], NULL);
   }
   for(i = 0; i < num_consumer_threads; i++) {
-    pthread_join(&Consumer_tid[i], NULL);
+    pthread_join(Consumer_tid[i], NULL);
   }
 
-  cleanup_state(void);
-
+  cleanup_state();
 }
 
 /**
@@ -236,7 +237,7 @@ int main(int argc, char *argv[])
   Sleep for a random amount of time.
 
 **/
-void rand_sleep(int caller_id, int max) {
+void rand_sleep(int caller_id, int max, char use_rand) {
   int t;
 
   assert(caller_id >= -1 && max > 0);
@@ -244,7 +245,11 @@ void rand_sleep(int caller_id, int max) {
 #ifndef SLEEP_TIME_DISABLED
 
   // sleep rand. amnt. of time.
-  t = rand() % max + 1;
+  if(use_rand)
+    t = rand() % max + 1;
+  else
+    t = max;
+
   #ifdef MICRO_SECONDS_TIME_UNITS
     printf("#%d: sleeping %d usecs.\n", caller_id, t);
     usleep(t);
@@ -267,7 +272,7 @@ void rand_sleep(int caller_id, int max) {
 }
 
 int insert_item(buffer_item item) {
-  int result;
+  int result = 0;
 
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
@@ -275,21 +280,25 @@ int insert_item(buffer_item item) {
     assert(0);
   }
 
-  if (sem_wait(&empty_sem) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
+  if(n < BUFFER_SIZE) {
+    if (sem_wait(&empty_sem) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
 
-  assert(n <= BUFFER_SIZE);
+    // assert(n <= BUFFER_SIZE);
 
-  buffer[tail_index] = item; // New items arrive at the tail of the queue.
-  tail_index++;
-  tail_index %= BUFFER_SIZE;
-  n++;
+    buffer[tail_index] = item; // New items arrive at the tail of the queue.
+    tail_index++;
+    tail_index %= BUFFER_SIZE;
+    n++;
 
-  if (sem_post(&full_sem) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
+    if (sem_post(&full_sem) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  } else { // n >= BUFFER_SIZE
+    result = -1;
   }
 
   //  insert item into buffer
@@ -301,11 +310,11 @@ int insert_item(buffer_item item) {
     assert(0);
   }
 
-  return 0; // TODO:
+  return result;
 }
 
 int remove_item(buffer_item *item) {
-  int result;
+  int result = 0;
 
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
@@ -313,22 +322,28 @@ int remove_item(buffer_item *item) {
     assert(0);
   }
 
-  if (sem_wait(&full_sem) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
+  if(n > 0) {
+    if (sem_wait(&full_sem) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+
+    //assert(n > 0);
+
+    *item = buffer[head_index]; // Items are removed from the head of the queue.
+    head_index++;
+    head_index %= BUFFER_SIZE;
+    n--;
+
+    if (sem_post(&empty_sem) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  } else { // n == 0
+    printf("Nothing for you to consume right now, bitch. Come back lata.\n");
+    result = -1;
   }
 
-  assert(n > 0);
-
-  *item = buffer[head_index]; // Items are removed from the head of the queue.
-  head_index++;
-  head_index %= BUFFER_SIZE;
-  n--;
-
-  if (sem_post(&empty_sem) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
   //  remove an object from buffer
   //  placing it in item
   //  return 0 if successful, otherwise
@@ -339,7 +354,7 @@ int remove_item(buffer_item *item) {
     assert(0);
   }
 
-  return 0; // TODO:
+  return result;
 }
 
 
@@ -349,14 +364,21 @@ int remove_item(buffer_item *item) {
 void *Producer_thread_func(void *param)
 {
   buffer_item dp;
+  //char was_full = 0;
+
   do {
-   rand_sleep(0, MAX_PC_SLEEP_TIME);
+   rand_sleep(0, MAX_PC_SLEEP_TIME, 1);
+
    dp = rand();
-   printf("I produce shit. %d.\n", dp);
+   printf("I produced this: %d.\n", dp);
+
    if(insert_item(dp)) {
-    assert(0);
+    // assert(0);
+     printf("No space to produce.\n");
+   } else {
+     printf("I produced that.\n"); // TODO: save the item until there's space ?
    }
-   printf("I produced.\n");
+
   } while (1); // TODO: exit when main tells u to.
 
   pthread_exit(0);
@@ -370,12 +392,14 @@ void *Consumer_thread_func(void *param)
   buffer_item dc;
 
   do {
-    rand_sleep(0, MAX_PC_SLEEP_TIME);
+    rand_sleep(1, MAX_PC_SLEEP_TIME, 1);
     printf("I consume shit.\n");
     if(remove_item(&dc)) {
-      assert(0);
+      // assert(0);
+      printf("NADA to consume.\n");
+    } else {
+      printf("I consumed. %d.\n", dc);
     }
-    printf("I consumed. %d.\n", dc);
 
   } while (1);
 
