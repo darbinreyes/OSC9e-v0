@@ -1,21 +1,70 @@
 /**
- * A pthread program illustrating how to
- * create a simple thread and some of the pthread API
- * This program implements the summation function where
- * the summation operation is run as a separate thread.
- *
- * Most Unix/Linux/OS X users
- * gcc thrd.c -lpthread
- *
- * Solaris users must enter
- * gcc thrd.c -lpthreads
- *
- * Figure 4.9
- *
- * @author Gagne, Galvin, Silberschatz
- * Operating System Concepts  - Ninth Edition
- * Copyright John Wiley & Sons - 2013
- */
+### Given main outline
+include "buffer.h"
+int main(int argc, char *argv[]) { // 1. Get command line arguments argv[1],argv[2],argv[3] //
+// 2. Initialize buffer //
+// 3. Create producer thread(s) //
+// 4. Create consumer thread(s) //
+// 5. Sleep //
+// 6. Exit //
+}
+
+### Given buffer header.
+// buffer.h //
+
+typedef int buffer item;
+#define BUFFER SIZE 5
+
+### Given buffer outline
+
+#include "buffer.h"
+
+// the buffer //
+buffer item buffer[BUFFER SIZE];
+
+int insert item(buffer item item) {
+  //  insert item into buffer
+  //  return 0 if successful, otherwise
+  //  return -1 indicating an error condition
+}
+
+int remove item(buffer item *item) {
+  //  remove an object from buffer
+  //  placing it in item
+  //  return 0 if successful, otherwise
+  //  return -1 indicating an error condition /
+}
+
+### Given P/C thread outline
+
+#include <stdlib.h> // required for rand() //
+#include "buffer.h"
+
+void *producer(void *param) {
+  buffer item item;
+  while (true) { // sleep for a random period of time //
+    sleep(...);
+    // generate a random number //
+    item = rand();
+    if (insert item(item))
+      fprintf("report error condition");
+    else
+      printf("producer produced %d\n",item);
+  }
+}
+
+void *consumer(void *param) {
+  buffer item item;
+  while (true) { // sleep for a random period of time //
+    sleep(...);
+    if (remove item(&item))
+      fprintf("report error condition");
+    else
+      printf("consumer consumed %d\n",item);
+  }
+}
+
+**/
 
 #include <pthread.h>
 #include <stdio.h>
