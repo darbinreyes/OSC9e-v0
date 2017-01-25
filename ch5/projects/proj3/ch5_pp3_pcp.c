@@ -147,13 +147,13 @@ void init_state(int num_producer_threads, int num_consumer_threads, int buff_siz
   Consumer_tid = malloc(sizeof(pthread_t)*num_consumer_threads);
   assert(Consumer_tid != NULL);
 
-  // Create an "unnamed" semaphore, flags = 0, init. value = buff_size.
+  // Create an "unnamed" semaphore, flags = 0, init. value = 0.
   if (sem_init(&full_sem, 0, 0) == -1) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
 
-  // Create an "unnamed" semaphore, flags = 0, init. value = 0.
+  // Create an "unnamed" semaphore, flags = 0, init. value = buff_size.
   if (sem_init(&empty_sem, 0, buff_size) == -1) {
     printf("%s\n", strerror(errno));
     assert(0);
