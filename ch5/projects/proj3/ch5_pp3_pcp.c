@@ -365,20 +365,25 @@ int remove_item(buffer_item *item) {
 void *Producer_thread_func(void *param)
 {
   buffer_item dp;
-  //char was_full = 0;
+  int result = 0;
 
   do {
-   rand_sleep(0, MAX_PC_SLEEP_TIME, 1);
+    rand_sleep(0, MAX_PC_SLEEP_TIME, 1);
 
-   dp = rand();
-   printf("I produced this: %d.\n", dp);
+    if(!result) {
+     dp = rand();
+     printf("Producer: I produced this: %d.\n", dp);
+    } else { // If the last insert failed, retry inserting the same item.
+     printf("Producer: retrying this: %d.\n", dp);
+    }
 
-   if(insert_item(dp)) {
+
+    if(result = insert_item(dp)) {
     // assert(0);
-     printf("No space to produce.\n");
-   } else {
-     printf("I produced that.\n"); // TODO: save the item until there's space ?
-   }
+     printf("Producer: No space to produce.\n");
+    } else {
+     printf("Producer: I produced that.\n"); // TODO: save the item until there's space ?
+    }
 
   } while (is_main_sleeping); // TODO: exit when main tells u to.
 
@@ -391,15 +396,16 @@ void *Producer_thread_func(void *param)
 void *Consumer_thread_func(void *param)
 {
   buffer_item dc;
+  int result = 0;
 
   do {
     rand_sleep(1, MAX_PC_SLEEP_TIME, 1);
-    printf("I consume shit.\n");
-    if(remove_item(&dc)) {
+
+    if(result = remove_item(&dc)) {
       // assert(0);
-      printf("NADA to consume.\n");
+      printf("Consumer: NADA to consume.\n");
     } else {
-      printf("I consumed. %d.\n", dc);
+      printf("Consumer: I consumed. %d.\n", dc);
     }
 
   } while (is_main_sleeping);
