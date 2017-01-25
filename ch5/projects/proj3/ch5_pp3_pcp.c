@@ -102,7 +102,7 @@ static sem_t full_sem;
 static sem_t empty_sem;
 pthread_mutex_t mutex;
 // the buffer
-buffer_item buffer[BUFFER_SIZE];
+static buffer_item buffer[BUFFER_SIZE];
 static int head_index;
 static int tail_index;
 
@@ -274,12 +274,18 @@ void rand_sleep(int caller_id, int max, char use_rand) {
 
 int insert_item(buffer_item item) {
   int result = 0;
+  int i;
 
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
+
+  for(i = 0; i < BUFFER_SIZE; i++)
+    printf("[%d]", buffer[i]);
+
+  printf(" insert_item: n = %d.\n", n);
 
   if(n < BUFFER_SIZE) {
     if (sem_wait(&empty_sem) != 0) {
@@ -316,12 +322,18 @@ int insert_item(buffer_item item) {
 
 int remove_item(buffer_item *item) {
   int result = 0;
+  int i;
 
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
+
+  for(i = 0; i < BUFFER_SIZE; i++)
+    printf("[%d]", buffer[i]);
+
+  printf(" remove_item: n = %d.\n", n);
 
   if(n > 0) {
     if (sem_wait(&full_sem) != 0) {
@@ -332,6 +344,7 @@ int remove_item(buffer_item *item) {
     //assert(n > 0);
 
     *item = buffer[head_index]; // Items are removed from the head of the queue.
+    buffer[head_index] = -1; // mark removed item slot.
     head_index++;
     head_index %= BUFFER_SIZE;
     n--;
