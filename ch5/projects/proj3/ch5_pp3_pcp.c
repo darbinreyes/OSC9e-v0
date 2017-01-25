@@ -103,14 +103,16 @@ static sem_t empty_sem;
 pthread_mutex_t mutex;
 // the buffer
 buffer_item buffer[BUFFER_SIZE];
-int head_index;
-int tail_index;
+static int head_index;
+static int tail_index;
+
+static char is_main_sleeping; // Signals threads to terminate once main() is done sleeping/wakesup. 1 = is sleeping. 0 = main is awake, threads should exit.
 
 void cleanup_state (void) {
   assert(Producer_tid != NULL);
   free(Producer_tid);
   assert(Consumer_tid != NULL);
-  free(Producer_tid);
+  free(Consumer_tid);
 
   if (sem_destroy(&full_sem) != 0) {
     printf("%s\n", strerror(errno));
@@ -133,6 +135,7 @@ void init_state(int num_producer_threads, int num_consumer_threads, int buff_siz
   assert(num_producer_threads > 0);
   assert(num_consumer_threads > 0);
 
+  is_main_sleeping = 1;
   head_index = 0;
   tail_index = 0;
   n = 0;
@@ -174,13 +177,7 @@ int main(int argc, char *argv[])
     main_sleep_time = DEFAULT_MAIN_SLEEP_TIME;
     num_producer_threads = DEFAULT_NUM_PRODUCER_THREADS;
     num_consumer_threads = DEFAULT_NUM_CONSUMER_THREADS;
-  } else if (argc != 4) {
-    fprintf(stderr,"usage: a.out <main_sleep_time.integer value> <num_producer_threads.integer value> <num_consumer_threads.integer value>\n");
-    /*exit(1);*/
-    return -1;
-  }
-
-  if (argc == 4) {
+  } else if (argc == 4) {
     if ((main_sleep_time = atoi(argv[1])) <= 0) {
       fprintf(stderr,"Argument %d must be > 0.\n", atoi(argv[1]));
       /*exit(1);*/
@@ -197,6 +194,10 @@ int main(int argc, char *argv[])
       /*exit(1);*/
       return -1;
     }
+  } else  {
+    fprintf(stderr,"usage: a.out <main_sleep_time.integer value> <num_producer_threads.integer value> <num_consumer_threads.integer value>\n");
+    /*exit(1);*/
+    return -1;
   }
 
   printf("main_sleep_time = %d. num_producer_threads = %d. num_consumer_threads = %d.\n", main_sleep_time, num_producer_threads, num_consumer_threads);
@@ -218,8 +219,8 @@ int main(int argc, char *argv[])
   }
 
   // Sleep for rand time.
-  rand_sleep(-1, main_sleep_time, 0); // TODO: force threads to terminate.s
-
+  rand_sleep(-1, main_sleep_time, 0);
+  is_main_sleeping = 0;
 
   /* Now wait for all the threads to exit */
   for(i = 0; i < num_producer_threads; i++) {
@@ -379,7 +380,7 @@ void *Producer_thread_func(void *param)
      printf("I produced that.\n"); // TODO: save the item until there's space ?
    }
 
-  } while (1); // TODO: exit when main tells u to.
+  } while (is_main_sleeping); // TODO: exit when main tells u to.
 
   pthread_exit(0);
 }
@@ -401,7 +402,7 @@ void *Consumer_thread_func(void *param)
       printf("I consumed. %d.\n", dc);
     }
 
-  } while (1);
+  } while (is_main_sleeping);
 
   pthread_exit(0);
 }
