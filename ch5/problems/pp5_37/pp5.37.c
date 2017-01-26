@@ -29,10 +29,13 @@ static int available_resources = MAX_RESOURCES;
 
 // sem. to control resource access. Assuming the SW license scenario.
 static sem_t available_resources_sem;
+static sem_t not_available_resources_sem; // Opposite of available_resources_sem. Similar to the producer consumer buffer use case.
 static pthread_mutex_t mutex; // Ensures mutually ex. access to available_resources shared int var.
+// Part c problem implementation.
+static sem_t user_req_pending_sem; // Init. to 1. wait on entry to dec_count(). post/signal() on exit from dec_count(). Threads who could not get their count due to sufficient resources are blocked in this semaphore while waiting for their turn to get resources.
 
 // Thread definitions.
-#define NUM_LICENSE_USER_THREADS 2
+#define NUM_LICENSE_USER_THREADS 7
 static pthread_t      License_user_tid[NUM_LICENSE_USER_THREADS];
 void *Licence_user_thread_func(void *param);
 
@@ -45,6 +48,11 @@ void cleanup_state (void) {
   }
 
   if (sem_destroy(&available_resources_sem) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  if (sem_destroy(&user_req_pending_sem) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
@@ -62,6 +70,11 @@ void init_state(void) {
 
   // Create an "unnamed" semaphore, flags = 0, init. value = MAX_RESOURCES.
   if (sem_init(&available_resources_sem, 0, MAX_RESOURCES) == -1) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  if (sem_init(&user_req_pending_sem, 0, 1) == -1) {
     printf("%s\n", strerror(errno));
     assert(0);
   }
@@ -100,12 +113,20 @@ int decrease_count(int count) {
   int i;
   int result;
 
-  // for(i = 0; i < count; i++) {
-  //   if (sem_wait(&available_resources_sem) != 0) {
-  //     printf("%s\n", strerror(errno));
-  //     assert(0);
-  //   }
-  // }
+  if (sem_wait(&user_req_pending_sem) != 0) { // Only 1 thread can be active below this block at a time.
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  // der-NOTE/TODO: I suspect there is a simpler way to achieve the same effect....
+
+  for(i = 0; i < count; i++) { // Wait until there are enough resources to satisfy your req.
+    printf("decrease_count: sem_wait() i = %d. count = %d.\n", i, count);
+    if (sem_wait(&available_resources_sem) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  }
 
   // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
@@ -115,11 +136,12 @@ int decrease_count(int count) {
 
   printf("decrease_count: available_resources = %d.\n", available_resources);
 
+  assert(available_resources <= MAX_RESOURCES);
+
   if (available_resources < count) {
     printf("Insuff. resources for %d. Returning later.\n", count);
     result = -1; // Silly, you were leaving the mutex lock b/c of this return.
-  }
-  else {
+  } else {
     available_resources -= count;
     result = 0;
   }
@@ -128,6 +150,13 @@ int decrease_count(int count) {
   if(pthread_mutex_unlock(&mutex) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
+  }
+
+  if(result == 0) { // Indicate that you successfully got your request. Let the next thread get his chance.
+    if (sem_post(&user_req_pending_sem) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
   }
 
   return result;
@@ -143,6 +172,8 @@ int increase_count(int count) {
     assert(0);
   }
 
+  assert(available_resources <= MAX_RESOURCES);
+
   printf("increase_count: available_resources = %d.\n", available_resources);
 
   available_resources += count;
@@ -154,12 +185,13 @@ int increase_count(int count) {
   }
 
 
-  // for(i = 0; i < count; i++) {
-  //   if (sem_post(&available_resources_sem) != 0) {
-  //     printf("%s\n", strerror(errno));
-  //     assert(0);
-  //   }
-  // }
+  for(i = 0; i < count; i++) { // Update available_resources_sem sem.
+    printf("increase_count: sem_post() i = %d. count = %d.\n", i, count);
+    if (sem_post(&available_resources_sem) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  }
 
   return 0;
 }
