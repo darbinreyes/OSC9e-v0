@@ -8,50 +8,50 @@
 
 """ From the book """
 
-Condition variables in Pthreads use the pthread cond t data type and
-are initialized using the pthread cond init() function. The following code
+Condition variables in Pthreads use the pthread_cond_t data type and
+are initialized using the pthread_cond_init() function. The following code
 creates and initializes a condition variable as well as its associated mutex lock:
 
-pthread mutex t mutex;
-pthread cond t cond var;
-pthread mutex init(&mutex,NULL);
-pthread cond init(&cond var,NULL);
+pthread_mutex_t mutex;
+pthread_cond_t cond_var;
+pthread_mutex_init(&mutex,NULL);
+pthread_cond_init(&cond_var,NULL);
 
 
-The pthread cond wait() function is used for waiting on a condition
+The pthread_cond_wait() function is used for waiting on a condition
 variable. The following code illustrates how a thread can wait for the condition
 a == b to become true using a Pthread condition variable:
 
 
-pthread mutex lock(&mutex);
+pthread_mutex_lock(&mutex);
 while (a != b)
-  pthread cond wait(&mutex, &cond var);
-pthread mutex unlock(&mutex);
+  pthread_cond_wait(&mutex, &cond var);
+pthread_mutex_unlock(&mutex);
 
 
 The mutex lock associated with the condition variable must be locked
-before the pthread cond wait() function is called, since it is used to protect
+before the pthread_cond_wait() function is called, since it is used to protect
 the data in the conditional clause from a possible race condition. Once this
 lock is acquired, the thread can check the condition. If the condition is not true,
-the thread then invokes pthread cond wait(), passing the mutex lock and
-the condition variable as parameters. Calling pthread cond wait() releases
+the thread then invokes pthread_cond_wait(), passing the mutex lock and
+the condition variable as parameters. Calling pthread_cond_wait() releases
 the mutex lock, thereby allowing another thread to access the shared data and
 possibly update its value so that the condition clause evaluates to true. (To
 protect against program errors, it is important to place the conditional clause
 within a loop so that the condition is rechecked after being signaled.)
 A thread that modifies the shared data can invoke the
-pthread cond signal() function, thereby signaling one thread waiting
+pthread_cond_signal() function, thereby signaling one thread waiting
 on the condition variable. This is illustrated below:
 
 
-pthread mutex lock(&mutex);
+pthread_mutex_lock(&mutex);
 a = b;
-pthread cond signal(&cond var);
-pthread mutex unlock(&mutex);
+pthread_cond_signal(&cond var);
+pthread_mutex_unlock(&mutex);
 
 
-It is important to note that the call to pthread cond signal() does not
-release the mutex lock. It is the subsequent call to pthread mutex unlock()
+It is important to note that the call to pthread_cond_signal() does not
+release the mutex lock. It is the subsequent call to pthread_mutex_unlock()
 that releases the mutex. Once the mutex lock is released, the signaled thread
 becomes the owner of the mutex lock and returns control from the call to
 pthread cond. wait().
