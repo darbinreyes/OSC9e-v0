@@ -110,7 +110,7 @@ pthread cond. wait().
 #include <errno.h> // errno
 #include <assert.h>
 
-#define NUM_THREADS 2
+#define NUM_THREADS 14
 
 // Sync. decls.
 static sem_t entry_gate_sem;
@@ -447,7 +447,7 @@ Each function will return 0 under normal operation and will return
 −1 if an error occurs. A testing harness is provided in the source code
 download to test your implementation of the barrier.
 **/
-static int barrier(int id){
+static int barrier_point(int id){
 
   if (sem_wait(&entry_gate_sem) != 0) { // Exactly N T's make it inside the barrier walls at a time.
     printf("%s\n", strerror(errno));
@@ -460,15 +460,17 @@ static int barrier(int id){
 
   printf("#%d: I'M FREE!\n", id);
 
+#if 0 // If disabled, the only 1 turnstyle iterations occurs. Easy to see bahavior for prints.
   if (sem_post(&entry_gate_sem) != 0) { // Let the next set of P's do the same thing.
     printf("%s\n", strerror(errno));
     assert(0);
   }
+#endif
 
   return 0;
 }
 
-#define MAX_SLEEP_TIME 3
+#define MAX_SLEEP_TIME 13
 
 void *Barrier_thread_func(void *param) {
   int id = get_t_num(NUM_THREADS);
@@ -477,13 +479,14 @@ void *Barrier_thread_func(void *param) {
   do {
 
     printf("#%d: Suk my balls!\n", id);
-
+    // Galvin start
     // do some work for awhile //
-    barrier point();
+    // barrier_point();
     // do some work for awhile //
+    // GAlvin end
     rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something.
     printf("#%d: I'm at the barrier ENTRY.\n", id);
-    barrier(id);
+    barrier_point(id);
     printf("#%d: I'm at the barrier EXIT. Doin' somtin else.\n", id);
     rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something else.
 
