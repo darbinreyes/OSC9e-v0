@@ -1,0 +1,2 @@
+int enter_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int *b_counter, const int thresh);
+int exit_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int *b_counter, const int thresh);

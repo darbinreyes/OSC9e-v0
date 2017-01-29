@@ -109,8 +109,10 @@ pthread cond. wait().
 #include <semaphore.h> // sem_t
 #include <errno.h> // errno
 #include <assert.h>
+#include "barrier.h"
 
-#define NUM_THREADS 14
+#define NUM_THREADS    7
+#define MAX_SLEEP_TIME 13
 
 // Sync. decls.
 static sem_t entry_gate_sem;
@@ -227,6 +229,8 @@ int main(void) {
   }
 
   //TODO: cancel threads here.
+  while(1)
+    ;
 
   /* Now wait for all the threads to exit */
   for(i = 0; i < NUM_THREADS; i++) {
@@ -297,136 +301,23 @@ void rand_sleep(int caller_id, int max, char use_rand) {
 
 }
 
-int barrier_exit(int id) {
-    // main lock // START: Update condition i.e. Inc. the num. T's inside barrier.s
-
-  printf("#%d: At exit entry gate!\n", id);
-
-  if(pthread_mutex_lock(&mutex2) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  printf("#%d: I'm outside bro. outside_barrier_count = %d.\n", id, outside_barrier_count);
-
-  if(outside_barrier_count == barrier_threshold_count) {
-    printf("#%d: Looks like I got here first. I'm resetting the exit barrier.\n", id);
-    outside_barrier_count = 0;
-  }
-
-  outside_barrier_count++;
-
-  // cond. var. signal.
-  if (pthread_cond_signal(&cond_var2) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  // main unlock
-  if(pthread_mutex_unlock(&mutex2) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  } // END: Update condition i.e. Inc. the num. T's inside barrier.s
-
-  // main lock // START: Wait for barrier thresh. to be hit.
-  if(pthread_mutex_lock(&mutex2) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  printf("#%d: I'm at the exit barrier wall.\n", id);
-
-  while (outside_barrier_count < barrier_threshold_count) {
-    printf("#%d: Waiting for exit barrier to open... %d < %d.\n", id, outside_barrier_count, barrier_threshold_count);
-    // self cond. var. wait.
-    if (pthread_cond_wait(&cond_var2, &mutex2) != 0) {
-      printf("%s\n", strerror(errno));
-      assert(0);
-    }
-
-  }
-
-  printf("#%d: THE EXIT BARRIER IS DOWN!\n", id);
-
-  // main unlock
-  if(pthread_mutex_unlock(&mutex2) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  } // START: Update condition i.e. Inc. the num. T's inside barrier.s
-
-}
-
 static int barrier_entry(int id) {
-    /** From Galvin
-
-  pthread_mutex_lock(&mutex);
-  a = b;
-  pthread_cond_signal(&cond var);
-  pthread_mutex_unlock(&mutex);
-
-  **/
-  printf("#%d: At entry gate!\n", id);
-
-
-  // main lock // START: Update condition i.e. Inc. the num. T's inside barrier.s
-  if(pthread_mutex_lock(&mutex) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  printf("#%d: I'm inside bro. inside_barrier_count = %d.\n", id, inside_barrier_count);
-
-  if(inside_barrier_count == barrier_threshold_count) {
-    printf("#%d: Looks like I got here first. I'm resetting the barrier.\n", id);
-    inside_barrier_count = 0;
-  }
-
-  inside_barrier_count++;
-
-  // cond. var. signal.
-  if (pthread_cond_signal(&cond_var) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  // main unlock
-  if(pthread_mutex_unlock(&mutex) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  } // END: Update condition i.e. Inc. the num. T's inside barrier.s
-
-
-  /// WAIT for the barrier to open. ///
-
-  // main lock // START: Wait for barrier thresh. to be hit.
-  if(pthread_mutex_lock(&mutex) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  printf("#%d: I'm at the barrier wall.\n", id);
-
-
-  while (inside_barrier_count < barrier_threshold_count) {
-    printf("#%d: Waiting for barrier to open... %d < %d.\n", id, inside_barrier_count, barrier_threshold_count);
-    // cond. var. wait.
-    if (pthread_cond_wait(&cond_var, &mutex) != 0) {
-      printf("%s\n", strerror(errno));
-      assert(0);
-    }
-
-  }
-
-  printf("#%d: THE BARRIER IS DOWN!\n", id);
-
-  // main unlock
-  if(pthread_mutex_unlock(&mutex) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  } // START: Update condition i.e. Inc. the num. T's inside barrier.s
+  printf("#%d: At entry!\n", id);
+  enter_barrier(id, &mutex, &cond_var, &inside_barrier_count, barrier_threshold_count);
+  exit_barrier(id, &mutex, &cond_var, &inside_barrier_count, barrier_threshold_count);
 
  return 0;
 }
+
+int barrier_exit(int id) {
+  printf("#%d: At exit!\n", id);
+  enter_barrier(id, &mutex2, &cond_var2, &outside_barrier_count, barrier_threshold_count);
+  exit_barrier(id, &mutex2, &cond_var2, &outside_barrier_count, barrier_threshold_count);
+
+  return 0;
+}
+
+
 /**
 Assume that the barrier is initialized to N—the number of threads that
 must wait at the barrier point:
@@ -449,6 +340,8 @@ download to test your implementation of the barrier.
 **/
 static int barrier_point(int id){
 
+  fprintf(stderr, "#%d: CHILLIN at the turnstile!\n", id);
+
   if (sem_wait(&entry_gate_sem) != 0) { // Exactly N T's make it inside the barrier walls at a time.
     printf("%s\n", strerror(errno));
     assert(0);
@@ -459,18 +352,16 @@ static int barrier_point(int id){
   barrier_exit(id);
 
   printf("#%d: I'M FREE!\n", id);
+// If disabled, the only 1 turnstyle iterations occurs. Easy to see bahavior for prints.
 
-#if 0 // If disabled, the only 1 turnstyle iterations occurs. Easy to see bahavior for prints.
-  if (sem_post(&entry_gate_sem) != 0) { // Let the next set of P's do the same thing.
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-#endif
+  // if (sem_post(&entry_gate_sem) != 0) { // Let the next set of P's do the same thing.
+  //   printf("%s\n", strerror(errno));
+  //   assert(0);
+  // }
+
 
   return 0;
 }
-
-#define MAX_SLEEP_TIME 13
 
 void *Barrier_thread_func(void *param) {
   int id = get_t_num(NUM_THREADS);
@@ -478,16 +369,15 @@ void *Barrier_thread_func(void *param) {
 
   do {
 
-    printf("#%d: Suk my balls!\n", id);
-    // Galvin start
+    // // Galvin start
     // do some work for awhile //
     // barrier_point();
     // do some work for awhile //
-    // GAlvin end
+    // /// GAlvin end
+    printf("#%d: Doing some pre-barrier work. Suk my balls!\n", id);
     rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something.
-    printf("#%d: I'm at the barrier ENTRY.\n", id);
     barrier_point(id);
-    printf("#%d: I'm at the barrier EXIT. Doin' somtin else.\n", id);
+    printf("#%d: Doing post barrier work.\n", id);
     rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something else.
 
   } while (1);
