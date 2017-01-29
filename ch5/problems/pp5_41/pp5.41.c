@@ -29,28 +29,6 @@ Each function will return 0 under normal operation and will return
 download to test your implementation of the barrier.
 #####
 
-### PLAN:
-
-0) Add code to create threads.
-1) Add init. and cleanup functions.
-2) Implement barrier().
-
-
-### THOUGHTS:
-
-* When did I use the pthread cond. var? ANS: The DPP solution.
-  * Right, the cond. var was used as a mechanism to wait for their state to be set from HUNGRY to EATING.
-  The P. would loop on until the while condition being waited on was TRUE.
-  * In this problem, I think we can use the same concept, just a diff. condition for the P to wait on.
-  That condition is while(barrier_gate_is_closed) IOW. while(in_barrier_count < NUM_THREADS);
-  * From pproj2: How to use a pthread cond var. see below.
-    * It seems that the pthread cond. var provides a way for use to give up a lock we have already acquired.
-    Why give up the lock after you just acquired it? ANS: The lock is serving 2 purposes here:
-    1. M.ex. access to a shared variable, i.e. prevents race conditions from fuking shit up.
-    2. Via the cond_wait(mx,cnd_v), a P that just got the lock can lend out the lock it has a acquired .
-    Why lend out the lock? Why not do your data update and release the lock? ANS: Because in this scenario the data update should only be done after some event has occured.
-    When this event occurs, the "condition" has become true, and the P's can proceed tot he next sequence of instructions.
-
 **/
 #include <pthread.h>
 #include <stdio.h> // printf
