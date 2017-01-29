@@ -29,7 +29,6 @@ static int available_resources = MAX_RESOURCES;
 
 // sem. to control resource access. Assuming the SW license scenario.
 static sem_t available_resources_sem;
-static sem_t not_available_resources_sem; // Opposite of available_resources_sem. Similar to the producer consumer buffer use case.
 static pthread_mutex_t mutex; // Ensures mutually ex. access to available_resources shared int var.
 // Part c problem implementation.
 static sem_t user_req_pending_sem; // Init. to 1. wait on entry to dec_count(). post/signal() on exit from dec_count(). Threads who could not get their count due to sufficient resources are blocked in this semaphore while waiting for their turn to get resources.
@@ -140,7 +139,7 @@ int decrease_count(int count) {
 
   if (available_resources < count) {
     printf("Insuff. resources for %d. Returning later.\n", count);
-    result = -1; // Silly, you were leaving the mutex lock b/c of this return.
+    result = -1; // Silly, you were leaving the mutex locked b/c of this return.
   } else {
     available_resources -= count;
     result = 0;
@@ -152,11 +151,11 @@ int decrease_count(int count) {
     assert(0);
   }
 
-  if(result == 0) { // Indicate that you successfully got your request. Let the next thread get his chance.
-    if (sem_post(&user_req_pending_sem) != 0) {
-      printf("%s\n", strerror(errno));
-      assert(0);
-    }
+
+// Indicate that you successfully got your request. Let the next thread get his chance.
+  if (sem_post(&user_req_pending_sem) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
   }
 
   return result;
@@ -166,7 +165,7 @@ int decrease_count(int count) {
 int increase_count(int count) {
   int i;
 
-  // main lock // Problem. 1 guy waits for lock to dec. the other waits to inc. = deadlock.
+  // main lock
   if(pthread_mutex_lock(&mutex) != 0) {
     printf("%s\n", strerror(errno));
     assert(0);
