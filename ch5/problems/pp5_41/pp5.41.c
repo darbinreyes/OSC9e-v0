@@ -40,7 +40,8 @@ download to test your implementation of the barrier.
 
 #define NUM_THREADS    7
 #define MAX_SLEEP_TIME 13
-#define NUM_WORKER_ITERS 1
+#define NUM_WORKER_ITERS 2
+#define INFINITE_ITERS 1
 
 // Thread definitions.
 static pthread_t      Barrier_thread_tid[NUM_THREADS];
@@ -141,12 +142,12 @@ void *Worker_thread_func(void *param) {
        3. do some work for awhile.
     */
     printf("#%d: Doing some pre-barrier work. Suk my balls!\n", id);
-    rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something.
+    //rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something.
 
     barrier_point(id);
 
     printf("#%d: Doing post barrier work.\n", id);
-    rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something else.
+    //rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something else.
 
-  } while (iters-- > 0);
+  } while ((--iters > 0) || INFINITE_ITERS);
 }
