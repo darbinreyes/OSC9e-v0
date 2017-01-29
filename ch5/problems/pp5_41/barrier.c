@@ -11,9 +11,7 @@
 #include <errno.h> // errno
 #include <assert.h>
 
-static is_closed = 1;
-
-int enter_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int *b_counter, const int thresh) {
+int enter_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int *b_counter, const int thresh, int *b_is_closed) {
   assert(b_mtx);
   assert(b_cond_var);
   assert(b_counter);
@@ -26,7 +24,7 @@ int enter_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, in
 
   if(*b_counter == 0) {
     printf("#%d: FIRST. I'm closing the barrier. b_counter = %d.\n", id, *b_counter);
-    is_closed = 1;
+    *b_is_closed = 1;
   }
 
   printf("#%d: BEFORE inc. b_counter = %d.\n", id, *b_counter);
@@ -37,7 +35,7 @@ int enter_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, in
 
   if(*b_counter == thresh) {
     printf("#%d: Opening barrier!!! b_counter = %d.\n", id, *b_counter);
-    is_closed = 0;
+    *b_is_closed = 0;
   }
 
   // main unlock
@@ -49,7 +47,7 @@ int enter_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, in
   return 0;
 }
 
-int exit_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int *b_counter, const int thresh) {
+int exit_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int *b_counter, const int thresh, int *b_is_closed) {
   assert(b_mtx);
   assert(b_cond_var);
   assert(b_counter);
@@ -64,7 +62,7 @@ int exit_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int
   printf("#%d: I'm at the barrier wall.\n", id);
 
 
-  while (is_closed) {
+  while (*b_is_closed) {
     printf("#%d: Waiting for barrier to open... %d < %d.\n", id, *b_counter, thresh);
     // cond. var. wait.
     if (pthread_cond_wait(b_cond_var, b_mtx) != 0) {
@@ -90,7 +88,7 @@ int exit_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int
     assert(0);
   }
 
-  if(!is_closed && *b_counter > 0) {
+  if(!*b_is_closed && *b_counter > 0) {
     *b_counter -= 1;
     printf("#%d: No child left behind! signal for that last bro. b_counter = %d.\n", id, *b_counter);
     if(pthread_cond_signal(b_cond_var) != 0) {
@@ -113,9 +111,11 @@ static sem_t entry_gate_sem;
 
 static pthread_mutex_t mutex;
 static pthread_cond_t  cond_var;
+static is_closed;
 
 static pthread_mutex_t mutex2;
 static pthread_cond_t  cond_var2;
+static is_closed2;
 
 static int inside_barrier_count; // Counts num. threads inside the barrier walls.
 static int outside_barrier_count;
@@ -124,8 +124,8 @@ static int barrier_threshold_count; // Num. of threads at which the barrier is r
 static int barrier_entry(int id) {
 
   printf("#%d: At entry!\n", id);
-  enter_barrier(id, &mutex, &cond_var, &inside_barrier_count, barrier_threshold_count);
-  exit_barrier(id, &mutex, &cond_var, &inside_barrier_count, barrier_threshold_count);
+  enter_barrier(id, &mutex, &cond_var, &inside_barrier_count, barrier_threshold_count, &is_closed);
+  exit_barrier(id, &mutex, &cond_var, &inside_barrier_count, barrier_threshold_count, &is_closed);
 
  return 0;
 }
@@ -133,8 +133,8 @@ static int barrier_entry(int id) {
 int barrier_exit(int id) {
 
   printf("#%d: At exit!\n", id);
-  enter_barrier(id, &mutex2, &cond_var2, &outside_barrier_count, barrier_threshold_count);
-  exit_barrier(id, &mutex2, &cond_var2, &outside_barrier_count, barrier_threshold_count);
+  enter_barrier(id, &mutex2, &cond_var2, &outside_barrier_count, barrier_threshold_count, &is_closed2);
+  exit_barrier(id, &mutex2, &cond_var2, &outside_barrier_count, barrier_threshold_count, &is_closed2);
 
   return 0;
 }
@@ -154,7 +154,7 @@ int barrier_point(int id) {
 
   barrier_entry(id);
 
-  // barrier_exit(id);
+  barrier_exit(id);
 
   printf("\n#%d: OUT TURNSTILE!\n", id);
 
@@ -199,6 +199,8 @@ int init(int N) {
 
   assert(N > 0);
 
+  is_closed = 1;
+  is_closed2 = 1;
   inside_barrier_count = 0;
   outside_barrier_count = 0;
   barrier_threshold_count = N;
