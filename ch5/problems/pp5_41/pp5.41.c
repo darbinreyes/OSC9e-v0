@@ -113,104 +113,13 @@ pthread cond. wait().
 
 #define NUM_THREADS    7
 #define MAX_SLEEP_TIME 13
-
-// Sync. decls.
-static sem_t entry_gate_sem;
-static sem_t exit_gate_sem;
-
-static pthread_mutex_t mutex;
-pthread_cond_t  cond_var;
-
-static pthread_mutex_t mutex2;
-pthread_cond_t  cond_var2;
-
-static inside_barrier_count; // Counts num. threads inside the barrier walls.
-static outside_barrier_count;
-
-static const barrier_threshold_count = NUM_THREADS; // Num. of threads at which the barrier is released/opened.
-
+#define NUM_WORKER_ITERS 1
 
 // Thread definitions.
 static pthread_t      Barrier_thread_tid[NUM_THREADS];
 void *Worker_thread_func(void *param);
 
-// Cleanup state before terminating.
-void cleanup_state (void) {
 
-  if(pthread_mutex_destroy(&mutex) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  if(pthread_cond_destroy(&cond_var) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-  if(pthread_mutex_destroy(&mutex2) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  if(pthread_cond_destroy(&cond_var2) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  if (sem_destroy(&entry_gate_sem) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  if (sem_destroy(&exit_gate_sem) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-}
-
-int init(int N) { // void init_state(void) {
-
-  assert(N > 0);
-
-  inside_barrier_count = 0;
-  outside_barrier_count = 0;
-
-  // Init. mutex
-  if(pthread_mutex_init(&mutex, NULL) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  if (pthread_cond_init(&cond_var, NULL) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  // Init. mutex
-  if(pthread_mutex_init(&mutex2, NULL) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  if (pthread_cond_init(&cond_var2, NULL) != 0) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  // Create an "unnamed" semaphore, flags = 0, init. value = NUM_THREADS.
-  if (sem_init(&entry_gate_sem, 0, N) == -1) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  // Create an "unnamed" semaphore, flags = 0, init. value = 0.
-  if (sem_init(&exit_gate_sem, 0, 0) == -1) {
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  return 0;
-}
 
 int main(void) {
   int i;
@@ -221,17 +130,10 @@ int main(void) {
   /* get the default attributes */
   pthread_attr_init(&attr);
 
-
-
   /* Create the P threads */
   for(i = 0; i < NUM_THREADS; i++) {
     pthread_create(&Barrier_thread_tid[i], &attr, Worker_thread_func, NULL);
   }
-
-  //TODO: cancel threads here.
-  while(1)
-    ;
-
 
   /* Now wait for all the threads to exit */
   for(i = 0; i < NUM_THREADS; i++) {
@@ -302,84 +204,24 @@ void rand_sleep(int caller_id, int max, char use_rand) {
 
 }
 
-static int barrier_entry(int id) {
-  printf("#%d: At entry!\n", id);
-  enter_barrier(id, &mutex, &cond_var, &inside_barrier_count, barrier_threshold_count);
-  exit_barrier(id, &mutex, &cond_var, &inside_barrier_count, barrier_threshold_count);
-
- return 0;
-}
-
-int barrier_exit(int id) {
-  printf("#%d: At exit!\n", id);
-  enter_barrier(id, &mutex2, &cond_var2, &outside_barrier_count, barrier_threshold_count);
-  exit_barrier(id, &mutex2, &cond_var2, &outside_barrier_count, barrier_threshold_count);
-
-  return 0;
-}
-
-
-/**
-Assume that the barrier is initialized to N—the number of threads that
-must wait at the barrier point:
-init(N);
-Each thread then performs some work until it reaches the barrier point:
-
-// do some work for awhile //
-barrier point();
-// do some work for awhile //
-Using synchronization tools described in this chapter, construct a barrier
-that implements the following API:
-• int init(int n)—Initializes the barrier to the specified size.
-• int barrier point(void)—Identifies the barrier point. All
-threads are released from the barrier when the last thread reaches
-this point.
-The return value of each function is used to identify error conditions.
-Each function will return 0 under normal operation and will return
-−1 if an error occurs. A testing harness is provided in the source code
-download to test your implementation of the barrier.
-**/
-static int barrier_point(int id){
-
-  fprintf(stderr, "#%d: CHILLIN at the turnstile!\n", id);
-
-  if (sem_wait(&entry_gate_sem) != 0) { // Exactly N T's make it inside the barrier walls at a time.
-    printf("%s\n", strerror(errno));
-    assert(0);
-  }
-
-  barrier_entry(id);
-
-  barrier_exit(id);
-
-  printf("#%d: I'M FREE!\n", id);
-// If disabled, the only 1 turnstyle iterations occurs. Easy to see bahavior for prints.
-
-  // if (sem_post(&entry_gate_sem) != 0) { // Let the next set of P's do the same thing.
-  //   printf("%s\n", strerror(errno));
-  //   assert(0);
-  // }
-
-
-  return 0;
-}
-
 void *Worker_thread_func(void *param) {
   int id = get_t_num(NUM_THREADS);
+  int iters = NUM_WORKER_ITERS;
 
 
   do {
-
-    // // Galvin start
-    // do some work for awhile //
-    // barrier_point();
-    // do some work for awhile //
-    // /// GAlvin end
+    /*
+       1. do some work for awhile.
+       2. barrier_point();
+       3. do some work for awhile.
+    */
     printf("#%d: Doing some pre-barrier work. Suk my balls!\n", id);
     rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something.
+
     barrier_point(id);
+
     printf("#%d: Doing post barrier work.\n", id);
     rand_sleep(id, MAX_SLEEP_TIME, 1); // Do something else.
 
-  } while (1);
+  } while (iters-- > 0);
 }
