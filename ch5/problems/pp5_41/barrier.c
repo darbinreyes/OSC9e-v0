@@ -79,13 +79,30 @@ int exit_barrier(int id, pthread_mutex_t *b_mtx, pthread_cond_t *b_cond_var, int
 
   }
 
-  if(*b_counter == thresh) {
-    printf("#%d: No child left behind! signal for that last bro. b_counter = %d.\n", id, *b_counter);
-    *b_counter += 1;
-    pthread_cond_signal(b_cond_var);
+  printf("#%d: THE BARRIER IS DOWN!\n", id);
+
+  // main unlock
+  if(pthread_mutex_unlock(b_mtx) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
   }
 
-  printf("#%d: THE BARRIER IS DOWN!\n", id);
+  /// The last T does the first signal, then all subsequent signals the guy behind him.
+
+  // main lock
+  if(pthread_mutex_lock(b_mtx) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  if(*b_counter >= thresh) {
+    printf("#%d: No child left behind! signal for that last bro. b_counter = %d.\n", id, *b_counter);
+    *b_counter += 1;
+    if(pthread_cond_signal(b_cond_var) != 0) {
+      printf("%s\n", strerror(errno));
+      assert(0);
+    }
+  }
 
   // main unlock
   if(pthread_mutex_unlock(b_mtx) != 0) {

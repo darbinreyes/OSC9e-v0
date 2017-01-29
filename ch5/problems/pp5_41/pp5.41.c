@@ -132,7 +132,7 @@ static const barrier_threshold_count = NUM_THREADS; // Num. of threads at which 
 
 // Thread definitions.
 static pthread_t      Barrier_thread_tid[NUM_THREADS];
-void *Barrier_thread_func(void *param);
+void *Worker_thread_func(void *param);
 
 // Cleanup state before terminating.
 void cleanup_state (void) {
@@ -225,12 +225,13 @@ int main(void) {
 
   /* Create the P threads */
   for(i = 0; i < NUM_THREADS; i++) {
-    pthread_create(&Barrier_thread_tid[i], &attr, Barrier_thread_func, NULL);
+    pthread_create(&Barrier_thread_tid[i], &attr, Worker_thread_func, NULL);
   }
 
   //TODO: cancel threads here.
   while(1)
     ;
+
 
   /* Now wait for all the threads to exit */
   for(i = 0; i < NUM_THREADS; i++) {
@@ -363,7 +364,7 @@ static int barrier_point(int id){
   return 0;
 }
 
-void *Barrier_thread_func(void *param) {
+void *Worker_thread_func(void *param) {
   int id = get_t_num(NUM_THREADS);
 
 
