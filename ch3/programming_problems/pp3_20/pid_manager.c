@@ -28,7 +28,7 @@ int allocate_map(void) {
 
 int allocate_pid(void) {
   // If a free PID is available, find the first free PID by linear search. Increment the in use cause.
-  int iter_count;
+  int iter_count, ret_pid;
 
   assert(pid_in_use_count >= 0 && pid_in_use_count <= PID_STATE_BUF_SIZE); //  Validate in use range.
 
@@ -47,7 +47,7 @@ int allocate_pid(void) {
     next_free_pid_index %= PID_STATE_BUF_SIZE; // Loop/clock arithmetic
   }
 
-  printf("allocate_pid: FREE next_free_pid_index = %d. iter_count = %d.\n", next_free_pid_index, iter_count++);
+  printf("allocate_pid: FREE next_free_pid_index = %d. iter_count = %d.\n", next_free_pid_index, iter_count);
 
   // Sanity check. The loop should have found a free PID.
   assert(pid_alloc_state[next_free_pid_index] == PID_IS_AVAILABLE);
@@ -59,10 +59,12 @@ int allocate_pid(void) {
   next_free_pid_index++; // Update next free pid index.
   next_free_pid_index %= PID_STATE_BUF_SIZE;
 
-  return next_free_pid_index - 1 + MIN_PID; // Return PID, range adjusted. PID index 0 maps to MIN_PID.
 
+  ret_pid = next_free_pid_index - 1 + MIN_PID; // Return PID, range adjusted. PID index 0 maps to MIN_PID.
 
-  return 0;
+  printf("allocate_pid: ret_pid = %d.\n", ret_pid);
+
+  return ret_pid;
 }
 
 void release_pid(int pid) {
