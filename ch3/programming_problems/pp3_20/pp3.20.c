@@ -54,5 +54,16 @@ int main(void) {
     ;
   release_pid(500);
   pid0 = allocate_pid();
+
+  // TEST: All alloc.ed PID case. 2x(+ 1 release + 1 alloc.)
+  while((pid0 = allocate_pid()) != -1)
+    ;
+  release_pid(500);
+  pid0 = allocate_pid();
+
+  release_pid(400);
+  pid1 = allocate_pid();
+
+
   return 0;
 }
