@@ -21,6 +21,9 @@
             ],
             "follow_symlinks": true,
             "path": "/Users/darbinreyes/dev/private_dev/osc_textbook/OSC9e/"
+        },
+        {
+            "path":"~/dev/private_dev/my_libs/seatest/"
         }
     ],
     "settings": {
