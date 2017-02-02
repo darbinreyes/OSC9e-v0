@@ -22,18 +22,19 @@ static int  pid_in_use_count = 0; // Tracks the number of PIDs currently in use 
 int allocate_map(void) {
 
   // No-op since using static buffer for now.
+  printf("allocate_map() called.\n");
 
   return 0;
 }
 
-int allocate_pid(void) {
+int allocate_pid(unsigned long id) {
   // If a free PID is available, find the first free PID by linear search. Increment the in use cause.
   int iter_count, ret_pid;
 
   assert(pid_in_use_count >= 0 && pid_in_use_count <= PID_STATE_BUF_SIZE); //  Validate in use range.
 
   if(pid_in_use_count >= PID_STATE_BUF_SIZE) {
-    printf("allocate_pid: No free PID's right now, sorry.\n");
+    printf("#%lu: allocate_pid: No free PID's right now, sorry.\n", id);
     return -1;
   }
 
@@ -41,13 +42,13 @@ int allocate_pid(void) {
   iter_count = 0;
 
   while(pid_alloc_state[next_free_pid_index] == PID_IS_IN_USE && iter_count < PID_STATE_BUF_SIZE) {
-    printf("allocate_pid: next_free_pid_index = %d. iter_count = %d.\n", next_free_pid_index, iter_count);
+    printf("#%lu: allocate_pid: next_free_pid_index = %d. iter_count = %d.\n", id, next_free_pid_index, iter_count);
     iter_count++;
     next_free_pid_index++;
     next_free_pid_index %= PID_STATE_BUF_SIZE; // Loop/clock arithmetic
   }
 
-  printf("allocate_pid: Alloc. next_free_pid_index = %d. iter_count = %d.\n", next_free_pid_index, iter_count);
+  printf("#%lu: allocate_pid: Alloc. next_free_pid_index = %d. iter_count = %d.\n", id, next_free_pid_index, iter_count);
 
   // Sanity check. The loop should have found a free PID.
   assert(pid_alloc_state[next_free_pid_index] == PID_IS_AVAILABLE);
@@ -61,15 +62,15 @@ int allocate_pid(void) {
   next_free_pid_index++; // Update next free pid index.
   next_free_pid_index %= PID_STATE_BUF_SIZE;
 
-  printf("allocate_pid: ret_pid = %d.\n", ret_pid);
+  printf("#%lu: allocate_pid: returning pid = %d.\n", id, ret_pid);
 
   return ret_pid;
 }
 
-void release_pid(int pid) {
+void release_pid(unsigned long id, int pid) {
   // Mark the given PID as free. Decrement the in use count.
 
-  printf("release_pid: pid = %d.\n", pid);
+  printf("#%lu: release_pid: pid = %d.\n", id, pid);
 
   assert(pid_in_use_count > 0); // At least 1 PID must be in use.
   assert(pid_in_use_count <= PID_STATE_BUF_SIZE);
@@ -78,7 +79,7 @@ void release_pid(int pid) {
 
   pid -= MIN_PID;
 
-  printf("release_pid: pid_index = %d.\n", pid);
+  printf("#%lu: release_pid: pid_index = %d.\n", id, pid);
 
   assert(pid_alloc_state[pid] == PID_IS_IN_USE); // The PID should be marked as in use if it is being released.
 
