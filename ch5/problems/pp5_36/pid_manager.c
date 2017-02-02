@@ -4,6 +4,9 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <string.h> // strerr()
+#include <errno.h> // errno
+#include <pthread.h> // mutex_t
 
 #include "pid_manager.h"
 
@@ -15,27 +18,52 @@ static char pid_alloc_state[PID_STATE_BUF_SIZE]; // TODO: Save mem. Use bits ins
 static int  next_free_pid_index = 0; // Always points to the next free PID in pid_alloc_state buff. if a free PID available.
 static int  pid_in_use_count = 0; // Tracks the number of PIDs currently in use so we can detect when additional allocs are not possible.
 
+// mutex for m.ex. access to these function.
+static pthread_mutex_t mutex;
+
 // PUBLIC functions
 
+int free_map(void) {
+
+  if(pthread_mutex_destroy(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
+  return 0;
+}
 
 // ret. 0 if successful, -1 on error.
 int allocate_map(void) {
 
+  if(pthread_mutex_init(&mutex, NULL) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
   // No-op since using static buffer for now.
   printf("allocate_map() called.\n");
 
   return 0;
 }
 
+
+
 int allocate_pid(unsigned long id) {
   // If a free PID is available, find the first free PID by linear search. Increment the in use cause.
   int iter_count, ret_pid;
+
+  // main lock
+  if(pthread_mutex_lock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
 
   assert(pid_in_use_count >= 0 && pid_in_use_count <= PID_STATE_BUF_SIZE); //  Validate in use range.
 
   if(pid_in_use_count >= PID_STATE_BUF_SIZE) {
     printf("#%lu: allocate_pid: No free PID's right now, sorry.\n", id);
-    return -1;
+    ret_pid = -1;
+    goto Exit;
   }
 
   // Find the next free PID. Limit the search to the size of the state buff. to be safe.
@@ -64,11 +92,24 @@ int allocate_pid(unsigned long id) {
 
   printf("#%lu: allocate_pid: returning pid = %d.\n", id, ret_pid);
 
+Exit:
+  // main unlock
+  if(pthread_mutex_unlock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
+
   return ret_pid;
 }
 
 void release_pid(unsigned long id, int pid) {
   // Mark the given PID as free. Decrement the in use count.
+
+  // main lock
+  if(pthread_mutex_lock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
 
   printf("#%lu: release_pid: pid = %d.\n", id, pid);
 
@@ -87,5 +128,10 @@ void release_pid(unsigned long id, int pid) {
 
   pid_in_use_count--; // A PID was returned. Update in use count.
 
+  // main unlock
+  if(pthread_mutex_unlock(&mutex) != 0) {
+    printf("%s\n", strerror(errno));
+    assert(0);
+  }
   return;
 }

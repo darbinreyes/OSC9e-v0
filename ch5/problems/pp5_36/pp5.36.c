@@ -31,13 +31,14 @@
 
 // Thread definitions.
 #define MAX_SLEEP_TIME 7
-#define NUM_WORKER_THREADS 100 // asserts with 300+
+#define NUM_WORKER_THREADS 500 // asserts with 300+
 static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void * Worker_thread_func(void *param);
 static int thread_counter;
 
 // Cleanup state before terminating.
 void cleanup_state (void) {
+  free_map();
 }
 
 // Init. program state.
