@@ -9,3 +9,5 @@ a.out
 *.out
 *.mod
 *.o
+*.bin
+*.txt
