@@ -24,7 +24,8 @@
 #include <stdio.h> // printf
 #include <stdlib.h> // rand()
 //#include <semaphore.h> // sem_t
-//#include <errno.h> // errno
+#include <string.h> // strerr()
+#include <errno.h> // errno
 #include <assert.h>
 
 #include "pid_manager.h"
@@ -47,22 +48,28 @@ int main(void) {
   int i;
   pthread_attr_t attr; /* set of attributes for the thread */
 
-  /* get the default attributes */
-  pthread_attr_init(&attr);
-
-  // Init. buffer etc.
   init_state();
+
+  /* get the default attributes */
+  if(pthread_attr_init(&attr) != 0) {
+    printf("%s\n",strerror(errno));
+    assert(0);
+  }
 
   /* Create the P threads */
   for(i = 0; i < NUM_WORKER_THREADS; i++) {
-    pthread_create(&Worker_thread_tid[i], &attr, Worker_thread_func, NULL);
+    if(pthread_create(&Worker_thread_tid[i], &attr, Worker_thread_func, NULL) != 0) {
+      printf("%s\n",strerror(errno));
+      assert(0);
+    }
   }
-
-  //TODO: cancel threads here.
 
   /* Now wait for all the threads to exit */
   for(i = 0; i < NUM_WORKER_THREADS; i++) {
-    pthread_join(Worker_thread_tid[i], NULL);
+    if(pthread_join(Worker_thread_tid[i], NULL) != 0) {
+      printf("%s\n",strerror(errno));
+      assert(0);
+    }
   }
 
   cleanup_state();
