@@ -11,8 +11,8 @@
 // ret. 0 if successful, -1 on error.
 int allocate_map(void);
 
-int allocate_pid(void);
+int allocate_pid(unsigned long id);
 
-void release_pid(int pid);
+void release_pid(unsigned long id, int pid);
 
 #endif

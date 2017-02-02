@@ -23,4 +23,4 @@ run:
 	./$(OUT_EXE)
 
 runpiped:
-	./$(OUT_EXE) > log_stdout.txt 2> log_stderr.txt
+	./$(OUT_EXE) 2>&1 log_stdout.txt

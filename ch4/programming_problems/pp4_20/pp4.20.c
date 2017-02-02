@@ -32,9 +32,10 @@
 
 // Thread definitions.
 #define MAX_SLEEP_TIME 7
-#define NUM_WORKER_THREADS 150
+#define NUM_WORKER_THREADS 200
 static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void * Worker_thread_func(void *param);
+static int thread_counter;
 
 // Cleanup state before terminating.
 void cleanup_state (void) {
@@ -42,6 +43,8 @@ void cleanup_state (void) {
 
 // Init. program state.
 void init_state(void) {
+  allocate_map();
+  thread_counter = 0;
 }
 
 int main(void) {
@@ -64,6 +67,7 @@ int main(void) {
     }
   }
 
+
   /* Now wait for all the threads to exit */
   for(i = 0; i < NUM_WORKER_THREADS; i++) {
     if(pthread_join(Worker_thread_tid[i], NULL) != 0) {
@@ -73,6 +77,9 @@ int main(void) {
   }
 
   cleanup_state();
+
+  printf("Main. peace out.\n");
+
   return 0;
 }
 
@@ -81,10 +88,10 @@ int main(void) {
   Sleep for a random amount of time.
 
 **/
-void rand_sleep(int caller_id, int max, char use_rand) {
+void rand_sleep(unsigned long caller_id, int max, char use_rand) {
   int t;
 
-  assert(caller_id >= -1 && max > 0);
+  assert(max > 0);
 
 #ifndef SLEEP_TIME_DISABLED
 
@@ -95,20 +102,20 @@ void rand_sleep(int caller_id, int max, char use_rand) {
     t = max;
 
   #ifdef MICRO_SECONDS_TIME_UNITS
-    printf("#%d: sleeping %d usecs.\n", caller_id, t);
+    printf("#%lu: sleeping %d usecs.\n", caller_id, t);
     usleep(t);
   #else
-    printf("#%d: sleeping %d secs.\n", caller_id, t);
+    printf("#%lu: sleeping %d secs.\n", caller_id, t);
     sleep(t); // default
   #endif
-  printf("#%d: Done sleeping.\n", caller_id);
+  printf("#%lu: Done sleeping.\n", caller_id);
 
 #else // sleep calls disabled.
 
   static char no_sleep;
   if(!no_sleep) {
     no_sleep = 1;
-    printf("#%d: Sleeping disabled.\n", caller_id);
+    printf("#%lu: Sleeping disabled.\n", caller_id);
   }
 
 #endif
@@ -116,46 +123,37 @@ void rand_sleep(int caller_id, int max, char use_rand) {
 }
 
 /**
-
-  Assign a unique integer to each thread in the range of 0 to N-1,
-
-**/
-static int get_t_num(void) {
-  int i = 0;
-  pthread_t tid;
-
-  tid = pthread_self();
-
-  for(i = 0; i < NUM_WORKER_THREADS; i++) {
-    if(Worker_thread_tid[i] == tid) {
-      return i;
-    }
-  }
-
-  assert(0);
-}
-
-/**
  * The thread will begin control in this function
  */
 void *Worker_thread_func(void *param)
 {
-  int id = -1;//get_t_num();
+  unsigned long id = 0; // get_t_num();
   int my_pid;
+  pthread_t tid;
 
-  rand_sleep(id, MAX_SLEEP_TIME, 1);
+  thread_counter++;
 
-  my_pid = allocate_pid();
+  tid = pthread_self();
+
+  id = (unsigned long) &tid; // !!! TODO: go fix this in all previous code. i.e. Rm. get_t_num().s
+
+  my_pid = allocate_pid(id);
 
   if(my_pid == -1) {
-    printf("#%d: No PID available for me. Goodbye.\n", id);
-    pthread_exit(0);
+    printf("#%lu: No PID available for me. Goodbye.\n", id);
+    goto Done;
   }
 
-  printf("#%d: Alloc.ed my_pid = %d.\n", id, my_pid);
+  printf("#%lu: Alloc.ed my_pid = %d.\n", id, my_pid);
+
   rand_sleep(id, MAX_SLEEP_TIME, 1);
-  printf("#%d: Releasing my_pid = %d.\n", id, my_pid);
-  release_pid(my_pid);
+
+  printf("#%lu: Releasing my_pid = %d.\n", id, my_pid);
+
+  release_pid(id, my_pid);
+
+Done:
+  printf("#%lu: I'm done.\n", id);
 
   pthread_exit(0);
 }
