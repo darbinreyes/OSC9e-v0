@@ -1,5 +1,5 @@
 CC = gcc
-PROB_NAME = pp3.20
+PROB_NAME = pp5.36
 SOURCE_FILES = $(PROB_NAME).c pid_manager.c
 OUT_EXE = $(PROB_NAME).bin
 
