@@ -1,6 +1,6 @@
 CC = gcc
-PROB_NAME = pp4.20
-SOURCE_FILES = $(PROB_NAME).c pid_manager.c
+PROB_NAME = pp4.22
+SOURCE_FILES = $(PROB_NAME).c
 OUT_EXE = $(PROB_NAME).bin
 
 all:

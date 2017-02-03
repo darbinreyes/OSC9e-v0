@@ -1,19 +1,29 @@
 /**
 
-# Programming Problem 4.20.
+# Programming Problem 4.22.
 
 ## Start: From the Book
 
-> 4.20 Modify programming problem Exercise 3.20 from Chapter 3, which asks you to
-> design a pid manager. This modification will consist of writing a multithreaded
-> program that tests your solution to Exercise 3.20. You will create a number of
-> threads — for example, 100 — and each thread will request a pid, sleep for a
-> random period of time, and then release the pid. (Sleeping for a random period
-> of time approximates the typical pid usage in which a pid is assigned to a new
-> process, the process executes and then terminates, and the pid is released on
-> the process’s termination.) On UNIX and Linux systems, sleeping is accomplished
-> through the sleep() function, which is passed an integer value representing the
-> number of seconds to sleep. This problem will be modified in Chapter 5.
+An interesting way of calculating   is to use a technique known as Monte Carlo,
+which involves randomization. This technique works as follows: Suppose you have
+a circle inscribed within a square, as shown in Figure 4.18. (Assume that the
+radius of this circle is 1.) First, generate a series of random points as simple
+(x, y) coordinates. These points must fall within the Cartesian coordinates that
+bound the square. Of the total number of random points that are generated, some
+will occur within the circle. Next, estimate by performing the following
+calculation:   = 4× (number of points in circle) / (total number of points)
+Write a multithreaded version of this algorithm that creates a separate thread
+to generate a number of random points. The thread will count the number of
+points that occur within the circle and store that result in a global variable.
+When this thread has exited, the parent thread will calculate and output the
+estimated value of  . It is worth experimenting with the number of random points
+generated. As a general rule, the greater the number of points, the closer the
+approximation to  . In the source-code download for this text, we provide a
+sample program that provides a technique for generating random numbers, as well
+as determining if the random (x, y) point occurs within the circle. Readers
+interested in the details of the Monte Carlo method for esti- mating   should
+consult the bibliography at the end of this chapter. In Chapter 5, we modify
+this exercise using relevant material from that chapter.
 
 ## End
 
@@ -28,8 +38,6 @@
 #include <errno.h> // errno
 #include <assert.h>
 
-#include "pid_manager.h"
-
 // Thread definitions.
 #define MAX_SLEEP_TIME 7
 #define NUM_WORKER_THREADS 100 // asserts with 300+
@@ -43,7 +51,6 @@ void cleanup_state (void) {
 
 // Init. program state.
 void init_state(void) {
-  allocate_map();
   thread_counter = 0;
 }
 
@@ -127,8 +134,7 @@ void rand_sleep(unsigned long caller_id, int max, char use_rand) {
  */
 void *Worker_thread_func(void *param)
 {
-  unsigned long id = 0; // get_t_num();
-  int my_pid;
+  unsigned long id = 0;
   pthread_t tid;
 
   thread_counter++;
@@ -137,23 +143,11 @@ void *Worker_thread_func(void *param)
 
   id = (unsigned long) &tid; // !!! TODO: go fix this in all previous code. i.e. Rm. get_t_num().s
 
-  my_pid = allocate_pid(id);
-
-  if(my_pid == -1) {
-    printf("#%lu: No PID available for me. Goodbye.\n", id);
-    goto Done;
-  }
-
-  printf("#%lu: Alloc.ed my_pid = %d.\n", id, my_pid);
+  printf("#%lu: Hello bro.\n", id);
 
   rand_sleep(id, MAX_SLEEP_TIME, 1);
 
-  printf("#%lu: Releasing my_pid = %d.\n", id, my_pid);
-
-  release_pid(id, my_pid);
-
-Done:
-  printf("#%lu: I'm done.\n", id);
+  printf("#%lu: Goodbye bro.\n", id);
 
   pthread_exit(0);
 }
