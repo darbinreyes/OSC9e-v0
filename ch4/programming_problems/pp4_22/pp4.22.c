@@ -48,8 +48,8 @@
 #include <assert.h>
 
 // Thread definitions.
-#define NUM_RAND_POINTS 8192
-#define NUM_WORKER_THREADS 2
+#define NUM_RAND_POINTS 16
+#define NUM_WORKER_THREADS 1
 static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void * Worker_thread_func(void *param);
 static int inside_circle_count[NUM_RAND_POINTS];
@@ -59,7 +59,30 @@ void cleanup_state (void) {
 }
 
 // Init. program state.
-void init_state(void) {
+int init_state(void) {
+  FILE *fh;
+  long my_seed = 0;
+
+  fh = fopen("/dev/random", "r");
+
+  if(fh == NULL) {
+    assert(0);
+    return -1;
+  }
+
+  if(fread((void*)&my_seed, sizeof(my_seed), 1, fh) != 1) {
+    assert(0);
+  }
+
+  printf("Seed = %ld.\n", my_seed);
+
+  srand48(my_seed);
+  if(fclose(fh) != 0) {
+    assert(0);
+    return -1;
+  }
+
+  return 0;
 }
 
 int main(void) {
@@ -67,7 +90,9 @@ int main(void) {
   const double total_points = (double) NUM_RAND_POINTS;
   pthread_attr_t attr; /* set of attributes for the thread */
 
-  init_state();
+  if(init_state() != 0) {
+    return -1;
+  }
 
   /* get the default attributes */
   if(pthread_attr_init(&attr) != 0) {
