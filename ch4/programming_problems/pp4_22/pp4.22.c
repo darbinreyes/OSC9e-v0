@@ -49,12 +49,10 @@
 
 // Thread definitions.
 #define NUM_RAND_POINTS 8192
-#define MAX_SLEEP_TIME 7
-#define NUM_WORKER_THREADS 7 // asserts with 300+
+#define NUM_WORKER_THREADS 2
 static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void * Worker_thread_func(void *param);
-static int thread_counter;
-static double inside_circle_count[NUM_RAND_POINTS];
+static int inside_circle_count[NUM_RAND_POINTS];
 
 // Cleanup state before terminating.
 void cleanup_state (void) {
@@ -62,7 +60,6 @@ void cleanup_state (void) {
 
 // Init. program state.
 void init_state(void) {
-  thread_counter = 0;
 }
 
 int main(void) {
@@ -97,8 +94,7 @@ int main(void) {
 
   // Print result
   for(i = 0; i < NUM_WORKER_THREADS; i++) {
-    printf("Index %d: Inside/Total = %f/%f. Pi estimate= %f. peace out.\n", i, inside_circle_count[i], total_points, (4.0*inside_circle_count[i]/total_points));
-    //inside_circle_count[i]
+    printf("Index %d: Inside/Total = %d/%f. Pi estimate= %f. peace out.\n", i, inside_circle_count[i], total_points, (4.0*((double)inside_circle_count[i])/total_points));
   }
 
   cleanup_state();
@@ -106,45 +102,6 @@ int main(void) {
   printf("Main. peace out.\n");
 
   return 0;
-}
-
-/**
-
-  Sleep for a random amount of time.
-
-**/
-void rand_sleep(unsigned long caller_id, int max, char use_rand) {
-  int t;
-
-  assert(max > 0);
-
-#ifndef SLEEP_TIME_DISABLED
-
-  // sleep rand. amnt. of time.
-  if(use_rand)
-    t = rand() % max + 1;
-  else
-    t = max;
-
-  #ifdef MICRO_SECONDS_TIME_UNITS
-    printf("#%lu: sleeping %d usecs.\n", caller_id, t);
-    usleep(t);
-  #else
-    printf("#%lu: sleeping %d secs.\n", caller_id, t);
-    sleep(t); // default
-  #endif
-  printf("#%lu: Done sleeping.\n", caller_id);
-
-#else // sleep calls disabled.
-
-  static char no_sleep;
-  if(!no_sleep) {
-    no_sleep = 1;
-    printf("#%lu: Sleeping disabled.\n", caller_id);
-  }
-
-#endif
-
 }
 
 static void monte_carlo_get_rand_point(double *x, double *y) {
@@ -183,41 +140,43 @@ static int monte_carlo_is_point_in_circle(double x, double y) { // returns 1 if 
  */
 void *Worker_thread_func(void *param)
 {
-  unsigned long id = 0;
   pthread_t tid;
-  double my_inside_count, x, y;
-  int i;
+  unsigned long id = 0;
+  double x, y;
+  int i, my_inside_count;
 
   /*
+
+  "Write a multithreaded version of this algorithm that creates a separate
+  thread to generate a number of random points. "
+
    "The thread will count the number of points that occur within the circle
    and store that result in a global variable."
 
   */
 
-  thread_counter++;
-
+  // Use the tid address to uniquely identify a thread's prints.
   tid = pthread_self();
-
   id = (unsigned long) &tid; // !!! TODO: go fix this in all previous code. i.e. Rm. get_t_num().s
 
-  printf("#%lu: Hello bro.\n", id);
+  printf("#%lu: Hello bro, monte carlo.\n", id);
 
-  my_inside_count = 0.0;
+  my_inside_count = 0;
 
   for(i = 0; i < NUM_RAND_POINTS; i++) {
-    monte_carlo_get_rand_point(&x, &y);
-    //printf("#%lu: Point = (%f,%f)\n", id, x, y);
+
+    monte_carlo_get_rand_point(&x, &y); // Generate a random point inside the unit square.
+
     if(monte_carlo_is_point_in_circle(x, y)) {
-      my_inside_count += 1.0;
-      printf("#%lu: INSIDE. (%f,%f). Count = %f.\n", id, x, y, my_inside_count);
+      my_inside_count += 1;
+      printf("#%lu: INSIDE. (%f,%f). Count = %d.\n", id, x, y, my_inside_count);
     } else {
-      printf("#%lu: OUTSIDE. (%f,%f). Count = %f.\n", id, x, y, my_inside_count);
+      printf("#%lu: OUTSIDE. (%f,%f). Count = %d.\n", id, x, y, my_inside_count);
     }
+
   }
 
-  *((double *)param) = my_inside_count;
-
-  //rand_sleep(id, MAX_SLEEP_TIME, 1);
+  *((int *)param) = my_inside_count;
 
   printf("#%lu: Goodbye bro.\n", id);
 
