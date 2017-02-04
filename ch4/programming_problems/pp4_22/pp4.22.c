@@ -48,7 +48,7 @@
 #include <assert.h>
 
 // Thread definitions.
-#define NUM_RAND_POINTS 8196
+#define NUM_RAND_POINTS (1 << 16)
 #define NUM_WORKER_THREADS 1
 static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void * Worker_thread_func(void *param);
@@ -89,6 +89,12 @@ int init_state(void) {
   return 0;
 }
 
+static double monte_carlo_estimate_pi(double num_inside, double num_total) {
+  assert(num_inside >= 0.0 && num_total >= 0.0);
+
+  return (4.0*num_inside/num_total);
+}
+
 int main(void) {
   int i;
   const double total_points = (double) NUM_RAND_POINTS;
@@ -121,9 +127,15 @@ int main(void) {
     }
   }
 
+  /**
+
+  "When this thread has exited, the parent thread will calculate and output the estimated value of Pi."
+
+  **/
+
   // Print result
   for(i = 0; i < NUM_WORKER_THREADS; i++) {
-    printf("Index %d: Inside/Total = %d/%f. Pi estimate= %f. peace out.\n", i, inside_circle_count[i], total_points, (4.0*((double)inside_circle_count[i])/total_points));
+    printf("Index %d: Inside/Total = %d/%f. Pi estimate= %f. peace out.\n", i, inside_circle_count[i], total_points, monte_carlo_estimate_pi((double)inside_circle_count[i], total_points));
   }
 
   cleanup_state();
