@@ -48,7 +48,7 @@
 #include <assert.h>
 
 // Thread definitions.
-#define NUM_RAND_POINTS 16
+#define NUM_RAND_POINTS 8196
 #define NUM_WORKER_THREADS 1
 static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void * Worker_thread_func(void *param);
@@ -63,6 +63,9 @@ int init_state(void) {
   FILE *fh;
   long my_seed = 0;
 
+  //
+  // Init. the random num. generator with a fresh seed.
+  //
   fh = fopen("/dev/random", "r");
 
   if(fh == NULL) {
@@ -77,6 +80,7 @@ int init_state(void) {
   printf("Seed = %ld.\n", my_seed);
 
   srand48(my_seed);
+
   if(fclose(fh) != 0) {
     assert(0);
     return -1;
@@ -130,22 +134,11 @@ int main(void) {
 }
 
 static void monte_carlo_get_rand_point(double *x, double *y) {
-  double dt;
 
-  dt = drand48(); // Rand. number in [0.0-1.0)
+  // drand48() Rand. number in [0.0-1.0)
 
-  if(dt < 0.5)
-    *x = drand48() * -1.0;
-  else
-    *x = drand48() * 1.0;
-
-  dt = drand48(); // Rand. number in [0.0-1.0)
-
-  if(dt < 0.5)
-    *y = drand48() * -1.0;
-  else
-    *y = drand48() * 1.0;
-
+  *x = (drand48() - 0.5) * 2.0;
+  *y = (drand48() - 0.5) * 2.0;
 }
 
 static int monte_carlo_is_point_in_circle(double x, double y) { // returns 1 if the given point is inside the unit circle, 0 otherwise.
