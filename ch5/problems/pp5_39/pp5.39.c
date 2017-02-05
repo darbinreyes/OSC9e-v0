@@ -100,7 +100,7 @@ int init_state(void) {
   return 0;
 }
 
-static double monte_carlo_estimate_pi(double num_inside, double num_total) {
+static long double monte_carlo_estimate_pi(long double num_inside, long double num_total) {
   assert(num_inside >= 0.0 && num_total >= 0.0);
 
   return (4.0*num_inside/num_total);
@@ -108,7 +108,7 @@ static double monte_carlo_estimate_pi(double num_inside, double num_total) {
 
 int main(void) {
   int i;
-  const double total_points = (double) (NUM_RAND_POINTS*NUM_WORKER_THREADS);
+  const long double total_points = (long double) (NUM_RAND_POINTS*NUM_WORKER_THREADS);
   pthread_attr_t attr; /* set of attributes for the thread */
 
   if(init_state() != 0) {
@@ -145,7 +145,7 @@ int main(void) {
   **/
 
   // Print result
-  printf("Main: Inside/Total = %lld/%f. Pi estimate= %f. peace out.\n", inside_circle_count, total_points, monte_carlo_estimate_pi((double)inside_circle_count, total_points));
+  printf("Main: Inside/Total = %lld/%lf. Pi estimate= %lf. peace out.\n", inside_circle_count, total_points, monte_carlo_estimate_pi((long double)inside_circle_count, total_points));
 
 
   cleanup_state();
@@ -169,7 +169,7 @@ static int monte_carlo_is_point_in_circle(double x, double y) { // returns 1 if 
 
   distance = x * x + y * y;
 
-  if(distance < 1)
+  if(distance < 1.0)
     return 1;
 
   return 0;
