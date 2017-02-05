@@ -43,7 +43,7 @@
 
 // Thread definitions.
 #define NUM_RAND_POINTS (1 << 16)
-#define NUM_WORKER_THREADS 1
+#define NUM_WORKER_THREADS 16
 static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void * Worker_thread_func(void *param);
 static long long inside_circle_count;
