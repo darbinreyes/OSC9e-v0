@@ -1,41 +1,35 @@
 /**
 
-# Programming Problem 4.22.
+# Programming Problem 5.39.
 
 ## Start: From the Book
 
-> An interesting way of calculating   is to use a technique known as Monte Carlo,
-> which involves randomization. This technique works as follows: Suppose you have
-> a circle inscribed within a square, as shown in Figure 4.18. (Assume that the
-> radius of this circle is 1.) First, generate a series of random points as simple
-> (x, y) coordinates. These points must fall within the Cartesian coordinates that
-> bound the square. Of the total number of random points that are generated, some
-> will occur within the circle. Next, estimate by performing the following
-> calculation:   = 4× (number of points in circle) / (total number of points)
-> Write a multithreaded version of this algorithm that creates a separate thread
-> to generate a number of random points. The thread will count the number of
-> points that occur within the circle and store that result in a global variable.
-> When this thread has exited, the parent thread will calculate and output the
-> estimated value of  . It is worth experimenting with the number of random points
-> generated. As a general rule, the greater the number of points, the closer the
-> approximation to  . In the source-code download for this text, we provide a
-> sample program that provides a technique for generating random numbers, as well
-> as determining if the random (x, y) point occurs within the circle. Readers
-> interested in the details of the Monte Carlo method for esti- mating   should
-> consult the bibliography at the end of this chapter. In Chapter 5, we modify
-> this exercise using relevant material from that chapter.
-
-> First, generate a series of random points as simple (x, y) coordinates. These
-> points must fall within the Cartesian coordinates that bound the square.
+> Exercise 4.22 asked you to design a multithreaded program that esti- mated
+> using the Monte Carlo technique. In that exercise, you were asked to create a
+> single thread that generated random points, storing the result in a global
+> variable. Once that thread exited, the parent thread performed the calcuation
+> that estimated the value of  . Modify that program so that you create several
+> threads, each of which generates random points and determines if the points fall
+> within the circle. Each thread will have to update the global count of all
+> points that fall within the circle. Protect against race conditions on updates
+> to the shared global variable by using mutex locks.
 
 ## End
 
 
 * Plan:
-  * 1. Implement void monte_carlo_get_rand_point(double *x, double *y); // x y in square
-  * 2. Implement int monte_carlo_is_in_circle(double x, double y); // ret. 1 if in circle, else 0;
-  * 3. In thread, use for loop and the set the global result array before terminating.
-  * 4. In main, once all threads have terminated, compute the estimate for Pi.
+  * 1. Change to use a single buffer to hold the count for inside the unit circle.
+  This creates a race condition.
+  * Each thread will compute its inside count in a local variable. Once he has
+  check each random point for intersection with the unit circle he will update the global
+  count shared by all withs by simply incrementing the count with his private count.
+  * Since the global count update is a += operation, each thread must read the global count
+  first, then increment, and finally write the updated count. This is where the race condition lies.
+  * Interleaved updates of the global count will be fucked up unless we use a mutex
+  to ensure all updates occur 1 thread at a time.
+  * Note that my original solution to pp4.22.c worked around the race condition by
+  having each thread update a his own external variable, and having parent thread
+  do the final computation.
 **/
 
 #include <pthread.h>
