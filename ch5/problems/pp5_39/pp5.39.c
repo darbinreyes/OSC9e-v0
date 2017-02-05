@@ -37,7 +37,7 @@
 #include <stdio.h> // printf
 #include <stdlib.h> // rand()
 //#include <semaphore.h> // sem_t
-#include <string.h> // strerr()
+#include <string.h> // strerror()
 #include <errno.h> // errno
 #include <assert.h>
 
@@ -54,7 +54,7 @@ void cleanup_state (void) {
   inside_circle_count = 0;
 
   if(pthread_mutex_destroy(&mutex) != 0) {
-    printf("%s\n", strerr(errno));
+    printf("%s\n", strerror(errno));
     assert(0);
     return;
   }
@@ -91,8 +91,8 @@ int init_state(void) {
   //
   // Init. mutex.
   //
-  if(pthread_mutex_init(&mutex) != 0) {
-    printf("%s\n", strerr(errno));
+  if(pthread_mutex_init(&mutex, NULL) != 0) {
+    printf("%s\n", strerror(errno));
     assert(0);
     return -1;
   }
@@ -145,7 +145,7 @@ int main(void) {
   **/
 
   // Print result
-  printf("Main: Inside/Total = %lld/%lf. Pi estimate= %lf. peace out.\n", inside_circle_count, total_points, monte_carlo_estimate_pi((long double)inside_circle_count, total_points));
+  printf("Main: Inside/Total = %lld/%Lf. Pi estimate= %Lf. peace out.\n", inside_circle_count, total_points, monte_carlo_estimate_pi((long double)inside_circle_count, total_points));
 
 
   cleanup_state();
@@ -210,9 +210,9 @@ void *Worker_thread_func(void *param)
 
     if(monte_carlo_is_point_in_circle(x, y)) {
       my_inside_count += 1;
-      printf("#%lu: INSIDE. (%f,%f). Count = %lld.\n", id, x, y, my_inside_count);
+      //printf("#%lu: INSIDE. (%f,%f). Count = %lld.\n", id, x, y, my_inside_count);
     } else {
-      printf("#%lu: OUTSIDE. (%f,%f). Count = %lld.\n", id, x, y, my_inside_count);
+      //printf("#%lu: OUTSIDE. (%f,%f). Count = %lld.\n", id, x, y, my_inside_count);
     }
 
   }
@@ -220,21 +220,21 @@ void *Worker_thread_func(void *param)
   printf("#%lu: Done bro. Count = %lld.\n", id, my_inside_count);
   // lock
   if(pthread_mutex_lock(&mutex) != 0) {
-    printf("%s\n", strerr(errno));
+    printf("%s\n", strerror(errno));
     assert(0);
-    pthread_exit(-1);
+    pthread_exit(NULL);
   }
 
   inside_circle_count += my_inside_count; // Update global count.
 
   //unlock
   if(pthread_mutex_unlock(&mutex) != 0) {
-    printf("%s\n", strerr(errno));
+    printf("%s\n", strerror(errno));
     assert(0);
-    pthread_exit(-1);
+    pthread_exit(NULL);
   }
 
   printf("#%lu: Goodbye bro.\n", id);
 
-  pthread_exit(0);
+  pthread_exit(NULL);
 }
