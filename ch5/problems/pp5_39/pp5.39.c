@@ -46,10 +46,18 @@
 #define NUM_WORKER_THREADS 1
 static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void * Worker_thread_func(void *param);
-static int inside_circle_count[NUM_RAND_POINTS];
+static long long inside_circle_count;
+static pthread_mutex_t mutex;
 
 // Cleanup state before terminating.
 void cleanup_state (void) {
+  inside_circle_count = 0;
+
+  if(pthread_mutex_destroy(&mutex) != 0) {
+    printf("%s\n", strerr(errno));
+    assert(0);
+    return;
+  }
 }
 
 // Init. program state.
@@ -80,6 +88,15 @@ int init_state(void) {
     return -1;
   }
 
+  //
+  // Init. mutex.
+  //
+  if(pthread_mutex_init(&mutex) != 0) {
+    printf("%s\n", strerr(errno));
+    assert(0);
+    return -1;
+  }
+
   return 0;
 }
 
@@ -91,7 +108,7 @@ static double monte_carlo_estimate_pi(double num_inside, double num_total) {
 
 int main(void) {
   int i;
-  const double total_points = (double) NUM_RAND_POINTS;
+  const double total_points = (double) (NUM_RAND_POINTS*NUM_WORKER_THREADS);
   pthread_attr_t attr; /* set of attributes for the thread */
 
   if(init_state() != 0) {
@@ -106,7 +123,7 @@ int main(void) {
 
   /* Create the P threads */
   for(i = 0; i < NUM_WORKER_THREADS; i++) {
-    if(pthread_create(&Worker_thread_tid[i], &attr, Worker_thread_func, &inside_circle_count[i]) != 0) {
+    if(pthread_create(&Worker_thread_tid[i], &attr, Worker_thread_func, NULL) != 0) {
       printf("%s\n",strerror(errno));
       assert(0);
     }
@@ -128,13 +145,12 @@ int main(void) {
   **/
 
   // Print result
-  for(i = 0; i < NUM_WORKER_THREADS; i++) {
-    printf("Index %d: Inside/Total = %d/%f. Pi estimate= %f. peace out.\n", i, inside_circle_count[i], total_points, monte_carlo_estimate_pi((double)inside_circle_count[i], total_points));
-  }
+  printf("Main: Inside/Total = %lld/%f. Pi estimate= %f. peace out.\n", inside_circle_count, total_points, monte_carlo_estimate_pi((double)inside_circle_count, total_points));
+
 
   cleanup_state();
 
-  printf("Main. peace out.\n");
+  printf("Main: peace out.\n");
 
   return 0;
 }
@@ -167,11 +183,12 @@ void *Worker_thread_func(void *param)
   pthread_t tid;
   unsigned long id = 0;
   double x, y;
-  int i, my_inside_count;
+  int i;
+  long long my_inside_count;
 
   /*
 
-  "Write a multithreaded version of this algorithm that creates a separate
+  "Write a multi-threaded version of this algorithm that creates a separate
   thread to generate a number of random points. "
 
    "The thread will count the number of points that occur within the circle
@@ -193,14 +210,29 @@ void *Worker_thread_func(void *param)
 
     if(monte_carlo_is_point_in_circle(x, y)) {
       my_inside_count += 1;
-      printf("#%lu: INSIDE. (%f,%f). Count = %d.\n", id, x, y, my_inside_count);
+      printf("#%lu: INSIDE. (%f,%f). Count = %lld.\n", id, x, y, my_inside_count);
     } else {
-      printf("#%lu: OUTSIDE. (%f,%f). Count = %d.\n", id, x, y, my_inside_count);
+      printf("#%lu: OUTSIDE. (%f,%f). Count = %lld.\n", id, x, y, my_inside_count);
     }
 
   }
 
-  *((int *)param) = my_inside_count;
+  printf("#%lu: Done bro. Count = %lld.\n", id, my_inside_count);
+  // lock
+  if(pthread_mutex_lock(&mutex) != 0) {
+    printf("%s\n", strerr(errno));
+    assert(0);
+    pthread_exit(-1);
+  }
+
+  inside_circle_count += my_inside_count; // Update global count.
+
+  //unlock
+  if(pthread_mutex_unlock(&mutex) != 0) {
+    printf("%s\n", strerr(errno));
+    assert(0);
+    pthread_exit(-1);
+  }
 
   printf("#%lu: Goodbye bro.\n", id);
 
