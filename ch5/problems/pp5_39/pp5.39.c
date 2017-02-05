@@ -144,7 +144,7 @@ int main(void) {
 
   **/
 
-  // Print result
+  // Print result // FYI: Pi from python math.pi == 3.141592653589793
   printf("Main: Inside/Total = %lld/%Lf. Pi estimate= %Lf. peace out.\n", inside_circle_count, total_points, monte_carlo_estimate_pi((long double)inside_circle_count, total_points));
 
 
