@@ -1,41 +1,20 @@
 /**
 
-# Programming Problem 4.22.
+# Programming Problem 4.23.
 
 ## Start: From the Book
 
-> An interesting way of calculating   is to use a technique known as Monte Carlo,
-> which involves randomization. This technique works as follows: Suppose you have
-> a circle inscribed within a square, as shown in Figure 4.18. (Assume that the
-> radius of this circle is 1.) First, generate a series of random points as simple
-> (x, y) coordinates. These points must fall within the Cartesian coordinates that
-> bound the square. Of the total number of random points that are generated, some
-> will occur within the circle. Next, estimate by performing the following
-> calculation:   = 4× (number of points in circle) / (total number of points)
-> Write a multithreaded version of this algorithm that creates a separate thread
-> to generate a number of random points. The thread will count the number of
-> points that occur within the circle and store that result in a global variable.
-> When this thread has exited, the parent thread will calculate and output the
-> estimated value of  . It is worth experimenting with the number of random points
-> generated. As a general rule, the greater the number of points, the closer the
-> approximation to  . In the source-code download for this text, we provide a
-> sample program that provides a technique for generating random numbers, as well
-> as determining if the random (x, y) point occurs within the circle. Readers
-> interested in the details of the Monte Carlo method for esti- mating   should
-> consult the bibliography at the end of this chapter. In Chapter 5, we modify
-> this exercise using relevant material from that chapter.
-
-> First, generate a series of random points as simple (x, y) coordinates. These
-> points must fall within the Cartesian coordinates that bound the square.
+> Repeat Exercise 4.22, but instead of using a separate thread to generate random
+> points, use OpenMP to parallelize the generation of points. Be careful not to
+> place the calculcation of   in the parallel region, since you want to calculcate
+> only once.
 
 ## End
 
 
 * Plan:
-  * 1. Implement void monte_carlo_get_rand_point(double *x, double *y); // x y in square
-  * 2. Implement int monte_carlo_is_in_circle(double x, double y); // ret. 1 if in circle, else 0;
-  * 3. In thread, use for loop and the set the global result array before terminating.
-  * 4. In main, once all threads have terminated, compute the estimate for Pi.
+  * Use /Users/darbinreyes/dev/private_dev/osc_textbook/OSC9e/ch4/openmp.c as guide for using openmp.
+
 **/
 
 #include <pthread.h>

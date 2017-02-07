@@ -1,5 +1,5 @@
 CC = gcc
-PROB_NAME = pp4.22
+PROB_NAME = pp4.23
 SOURCE_FILES = $(PROB_NAME).c
 OUT_EXE = $(PROB_NAME).bin
 
