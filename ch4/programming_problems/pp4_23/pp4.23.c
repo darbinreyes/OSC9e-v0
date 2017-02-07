@@ -32,7 +32,8 @@
 //#define NUM_WORKER_THREADS 1
 //static pthread_t      Worker_thread_tid[NUM_WORKER_THREADS];
 void Worker_thread_func(void);
-static int inside_circle_count[NUM_RAND_POINTS];
+static int inside_circle_count;
+static double total_points = (double) 0.0;
 
 // Cleanup state before terminating.
 void cleanup_state (void) {
@@ -66,6 +67,8 @@ int init_state(void) {
     return -1;
   }
 
+  inside_circle_count = 0;
+
   return 0;
 }
 
@@ -77,7 +80,6 @@ static double monte_carlo_estimate_pi(double num_inside, double num_total) {
 
 int main(void) {
   int i;
-  const double total_points = (double) NUM_RAND_POINTS;
   //pthread_attr_t attr; /* set of attributes for the thread */
 
   if(init_state() != 0) {
@@ -120,6 +122,7 @@ int main(void) {
   //   printf("Index %d: Inside/Total = %d/%f. Pi estimate= %f. peace out.\n", i, inside_circle_count[i], total_points, monte_carlo_estimate_pi((double)inside_circle_count[i], total_points));
   // }
 
+  printf("Main: Inside/Total = %d/%f. Pi estimate= %f. peace out.\n", inside_circle_count, total_points, monte_carlo_estimate_pi((double)inside_circle_count, total_points));
   cleanup_state();
 
   printf("Main. peace out.\n");
@@ -193,6 +196,8 @@ void Worker_thread_func(void)
   }
 
  // *((int *)param) = my_inside_count;
+  inside_circle_count += my_inside_count;
+  total_points += NUM_RAND_POINTS;
 
   printf("#%lu: Goodbye bro. my_inside_count = %d.\n", id, my_inside_count);
   }
