@@ -42,7 +42,7 @@ if (atoi(argv[1]) < 0) {
 }
 
 /* get the default attributes */
-pthread_attr_init(&attr);
+pthread_attr_init(&attr); // FYI: Missing call to pthread_attr_destroy()? Ref: chegg.com + man page.
 
 /* create the thread */
 pthread_create(&tid,&attr,runner,argv[1]);
