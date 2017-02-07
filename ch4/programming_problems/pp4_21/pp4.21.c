@@ -19,6 +19,7 @@
 
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h> // atoi()
 
 int sum; /* this data is shared by the thread(s) */
 
