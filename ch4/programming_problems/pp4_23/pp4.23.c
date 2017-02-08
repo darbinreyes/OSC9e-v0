@@ -127,7 +127,7 @@ void Worker_thread_func(void)
   #pragma omp parallel
   {
   //pthread_t tid;
-  unsigned long id = -1;
+  unsigned long id = 0;
   double x, y;
   int i, my_inside_count;
 
