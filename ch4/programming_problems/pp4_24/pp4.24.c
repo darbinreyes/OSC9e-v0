@@ -1,21 +1,26 @@
 /**
- * A pthread program illustrating how to
- * create a simple thread and some of the pthread API
- * This program implements the summation function where
- * the summation operation is run as a separate thread.
- *
- * Most Unix/Linux/OS X users
- * gcc thrd.c -lpthread
- *
- * Solaris users must enter
- * gcc thrd.c -lpthreads
- *
- * Figure 4.9
- *
- * @author Gagne, Galvin, Silberschatz
- * Operating System Concepts  - Ninth Edition
- * Copyright John Wiley & Sons - 2013
- */
+
+# Programming Problem 4.24.
+
+## Start: From the Book
+
+> Write a multithreaded program that outputs prime numbers. This program should
+> work as follows: The user will run the program and will enter a number on the
+> command line. The program will then create a separate thread that outputs all
+> the prime numbers less than or equal to the number entered by the user.
+
+## End
+
+
+# Plan:
+1. Implement int is_prime(int n); // return 1 if n is prime. 0 otherwise.
+2. Add code fetch first int arg. prime_upper_bound. convert to int using atoi()
+3. Create empty worker thread. Pass arg. int to thread.
+4. implement void print_primes(int upper_bound); // for(i=2; i <= prime_upper_bound; i++) // recall even ints are never prime. + to implement is_prime(n); we only need to test for clean division from 2 to sqrt(n)
+5. In worker thread call print_primes.
+
+
+**/
 
 #include <pthread.h>
 #include <stdio.h>
