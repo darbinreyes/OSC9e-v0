@@ -25,15 +25,15 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <math.h>
-
-int sum; /* this data is shared by the thread(s) */
+#include <stdlib.h>
 
 void *runner(void *param); /* the thread */
 
 int main(int argc, char *argv[])
 {
-pthread_t tid; /* the thread identifier */
-pthread_attr_t attr; /* set of attributes for the thread */
+ pthread_t tid; /* the thread identifier */
+ pthread_attr_t attr; /* set of attributes for the thread */
+ int upper_bound;
 
 if (argc != 2) {
   fprintf(stderr,"usage: a.out <integer value>\n");
@@ -41,22 +41,22 @@ if (argc != 2) {
   return -1;
 }
 
-if (atoi(argv[1]) < 0) {
-  fprintf(stderr,"Argument %d must be non-negative\n",atoi(argv[1]));
+if ((upper_bound = atoi(argv[1])) < 0) {
+  fprintf(stderr,"Argument %d must be non-negative\n", upper_bound);
   /*exit(1);*/
   return -1;
 }
 
-/* get the default attributes */
-pthread_attr_init(&attr); // FYI: Missing call to pthread_attr_destroy()? Ref: chegg.com + man page.
+  /* get the default attributes */
+  pthread_attr_init(&attr); // FYI: Missing call to pthread_attr_destroy()? Ref: chegg.com + man page.
 
-/* create the thread */
-pthread_create(&tid,&attr,runner,argv[1]);
+  /* create the thread */
+  pthread_create(&tid, &attr, runner, &upper_bound);
 
-/* now wait for the thread to exit */
-pthread_join(tid,NULL);
+  /* now wait for the thread to exit */
+  pthread_join(tid,NULL);
 
-printf("sum = %d\n",sum);
+  pthread_attr_destroy(&attr);
 }
 
 static int is_prime(int n) { // returns 1 if n is prime, 0 otherwise.
@@ -86,13 +86,21 @@ static int is_prime(int n) { // returns 1 if n is prime, 0 otherwise.
  */
 void *runner(void *param) 
 {
-int i, upper = atoi(param);
-sum = 0;
+  int upper_bound;
+  int i, count;
 
-  if (upper > 0) {
-    for (i = 1; i <= upper; i++)
-      sum += i;
+  upper_bound = *((int *)param);
+
+  count = 0;
+
+  for(i = 2; i <= upper_bound; i++) {
+    if(is_prime(i)) {
+      printf("%d\n", i);
+      count++;
+    }
   }
+
+  printf("Prime Count = %d.\n", count);
 
   pthread_exit(0);
 }
