@@ -24,6 +24,7 @@
 
 #include <pthread.h>
 #include <stdio.h>
+#include <math.h>
 
 int sum; /* this data is shared by the thread(s) */
 
@@ -35,15 +36,15 @@ pthread_t tid; /* the thread identifier */
 pthread_attr_t attr; /* set of attributes for the thread */
 
 if (argc != 2) {
-	fprintf(stderr,"usage: a.out <integer value>\n");
-	/*exit(1);*/
-	return -1;
+  fprintf(stderr,"usage: a.out <integer value>\n");
+  /*exit(1);*/
+  return -1;
 }
 
 if (atoi(argv[1]) < 0) {
-	fprintf(stderr,"Argument %d must be non-negative\n",atoi(argv[1]));
-	/*exit(1);*/
-	return -1;
+  fprintf(stderr,"Argument %d must be non-negative\n",atoi(argv[1]));
+  /*exit(1);*/
+  return -1;
 }
 
 /* get the default attributes */
@@ -58,6 +59,28 @@ pthread_join(tid,NULL);
 printf("sum = %d\n",sum);
 }
 
+static int is_prime(int n) { // returns 1 if n is prime, 0 otherwise.
+  // A line of prime length = A line whose length can be measure by unit alone. - Euclid.
+  // my-Recall: Multiplication is just a short hand for repeated additions e.g. 3*3=3+3+3 = 9... 3*4 = 3+3+3+3 = 4+4+4 = 12.
+  int i;
+  int max_factor;
+
+  if(n < 2)
+    return 0;
+
+  if(n == 2)
+    return 1;
+
+
+  max_factor = (int) sqrt((double) n); // No need to check for division up to n since a factor can never be greater the square root. TODO: Limit of double vs. int?
+
+  for(i = 2; i <= max_factor; i++)
+    if(n % i == 0)
+      return 0;
+
+  return 1;
+}
+
 /**
  * The thread will begin control in this function
  */
@@ -66,10 +89,10 @@ void *runner(void *param)
 int i, upper = atoi(param);
 sum = 0;
 
-	if (upper > 0) {
-		for (i = 1; i <= upper; i++)
-			sum += i;
-	}
+  if (upper > 0) {
+    for (i = 1; i <= upper; i++)
+      sum += i;
+  }
 
-	pthread_exit(0);
+  pthread_exit(0);
 }
