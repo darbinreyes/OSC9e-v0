@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     return -1;
   }
 
-  if ((n_fib = atoi(argv[1])) <= 0 || n_fib > N_FIB_MAX) {
+  if ((n_fib = atoi(argv[1])) <= 0 || n_fib > N_FIB_MAX) { // der-ERROR-HANDLING-IMPROVEMENT: atoi() doesn't tell you if input was a valid int.
     fprintf(stderr,"Argument %d must greater than 0 and less than or equal to %d.\n", n_fib, N_FIB_MAX);
     /*exit(1);*/
     return -1;
