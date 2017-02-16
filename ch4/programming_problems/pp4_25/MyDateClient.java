@@ -10,7 +10,7 @@
 import java.net.*;
 import java.io.*;
 
-public class DateClient
+public class MyDateClient
 {
   public static void main(String[] args)  {
     try {
