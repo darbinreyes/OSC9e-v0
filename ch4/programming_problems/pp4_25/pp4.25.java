@@ -23,11 +23,36 @@
 
 
 # Plan:
+1. Use Driver.java example to create a class that extends Runnable.
+This class will print the data to the socket then close the connection.
 
 */
 
 import java.net.*;
 import java.io.*;
+
+class Summation implements Runnable // Note runnable.
+{
+  private int upper;
+  private Sum sumValue; // Sum class defined above. Just a get/set int.
+
+  public Summation(int upper, Sum sumValue) {
+    if (upper < 0)
+      throw new IllegalArgumentException();
+
+    this.upper = upper;
+    this.sumValue = sumValue;
+  }
+
+  public void run() { // Do a cumulative sum from 0->upper. Save sum in sumValue.
+    int sum = 0;
+
+    for (int i = 0; i <= upper; i++)
+      sum += i;
+
+    sumValue.set(sum);
+  }
+}
 
 public class DateServer
 {
