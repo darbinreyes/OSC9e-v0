@@ -8,7 +8,24 @@
  * Operating System Concepts  - Ninth Edition
  * Copyright John Wiley & Sons - 2013.
  */
- 
+
+/*
+
+
+# Programming Problem 4.25.
+
+## Start: From the Book
+
+> Modify the socket-based date server (Figure 3.21) in Chapter 3 so that the
+> server services each client request in a separate thread.
+
+## End
+
+
+# Plan:
+
+*/
+
 import java.net.*;
 import java.io.*;
 
