@@ -31,26 +31,24 @@ This class will print the data to the socket then close the connection.
 import java.net.*;
 import java.io.*;
 
-class Summation implements Runnable // Note runnable.
+class MyDateSocketPrinter implements Runnable // Note runnable.
 {
-  private int upper;
-  private Sum sumValue; // Sum class defined above. Just a get/set int.
+  private Socket client;
 
-  public Summation(int upper, Sum sumValue) {
-    if (upper < 0)
+  public MyDateSocketPrinter(Socket client) { // Constructor.
+    if (client == NULL)
       throw new IllegalArgumentException();
 
-    this.upper = upper;
-    this.sumValue = sumValue;
+    this.client = client;
   }
 
-  public void run() { // Do a cumulative sum from 0->upper. Save sum in sumValue.
-    int sum = 0;
+  public void run() { // Get date. Print to socket. Close socket. Exit.
+    PrintWriter pout = new PrintWriter(client.getOutputStream(), true);
+    // write the Date to the socket
+    pout.println(new java.util.Date().toString());
 
-    for (int i = 0; i <= upper; i++)
-      sum += i;
-
-    sumValue.set(sum);
+    // close the socket and resume listening for more connections
+    this.client.close();
   }
 }
 
@@ -65,12 +63,7 @@ public class DateServer
         Socket client = sock.accept();
         // we have a connection
         
-        PrintWriter pout = new PrintWriter(client.getOutputStream(), true);
-        // write the Date to the socket
-        pout.println(new java.util.Date().toString());
 
-        // close the socket and resume listening for more connections
-        client.close();
       }
     }
     catch (IOException ioe) {
