@@ -25,7 +25,7 @@
 # Plan:
 1. Use Driver.java example to create a class that extends Runnable.
 This class will print the data to the socket then close the connection.
-
+// FYI: Galvin says service client in a seperate thread. Which is not the same as having more than one thread actively listening for clients.
 */
 
 import java.net.*;
@@ -36,23 +36,35 @@ class MyDateSocketPrinter implements Runnable // Note runnable.
   private Socket client;
 
   public MyDateSocketPrinter(Socket client) { // Constructor.
-    if (client == NULL)
+    if (client == null)
       throw new IllegalArgumentException();
 
     this.client = client;
   }
 
   public void run() { // Get date. Print to socket. Close socket. Exit.
-    PrintWriter pout = new PrintWriter(client.getOutputStream(), true);
-    // write the Date to the socket
-    pout.println(new java.util.Date().toString());
+    try {
+      System.out.println("I am a Java thread. Client = " + client.toString());
+      PrintWriter pout = new PrintWriter(client.getOutputStream(), true);
+      // Write the Date to the socket.
+      pout.println(new java.util.Date().toString());
+    }
+    catch (IOException ioe) {
+      System.err.println(ioe);
+    }
 
-    // close the socket and resume listening for more connections
-    this.client.close();
+
+    // Close the socket and resume listening for more connections.
+    try {
+      this.client.close();
+    }
+    catch (IOException ioe) {
+      System.err.println(ioe);
+    }
   }
 }
 
-public class DateServer
+public class MyDateServer
 {
   public static void main(String[] args)  {
     try {
@@ -62,9 +74,20 @@ public class DateServer
       while (true) {
         Socket client = sock.accept();
         // we have a connection
-        
 
-      }
+        // Create thread.
+        Thread worker = new Thread(new MyDateSocketPrinter(client));
+        worker.start();
+
+        // Wait for thread to exit. Then go back to listening.
+        try {
+          worker.join();
+        }
+        catch (InterruptedException ie) {
+
+        }
+
+        }
     }
     catch (IOException ioe) {
         System.err.println(ioe);
